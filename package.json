@@ -1,24 +1,19 @@
 {
-  "name": "12-burgerhandlebars",
+  "name": "mvc_design",
   "version": "1.0.0",
-  "description": "node, MYSQL, handlebars, express; educational app",
-  "main": "index.js",
+  "description": "",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/MaxL999/12-burgerHandlebars.git"
-  },
-  "author": "maxL",
+  "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/MaxL999/12-burgerHandlebars/issues"
-  },
-  "homepage": "https://github.com/MaxL999/12-burgerHandlebars#readme",
   "dependencies": {
-    "express": "^4.17.1",
-    "express-handlebars": "^4.0.4",
-    "mysql": "^2.18.1"
+    "express": "^4.16.3",
+    "express-handlebars": "^3.0.0",
+    "mysql": "^2.16.0"
+  },
+  "devDependencies": {
+    "handlebars-helper-css": "^0.1.0"
   }
 }

@@ -1,0 +1,38 @@
+<h1>Night-time break-in</h1>
+
+<h2>Someone has broken into a generic chain fast food store and is cooking free food!</h2>
+
+<ul>
+  {{#each burger}}
+    {{#unless eaten}}
+      {{> burger/burger-block eaten=true}}
+    {{/unless}}
+  {{/each}}
+</ul>
+
+<h2>Leftover wrappers........</h2>
+
+<ul>
+  {{#each burger}}
+    {{#if eaten}}
+      {{> burger/burger-block eaten=false}}
+    {{/if}}
+  {{/each}}
+</ul>
+
+<h2>Add a Cat</h2>
+<form class="create-form">
+
+  <div class="form-group">
+    <label for="ca">Cat Name:</label>
+    <input type="text" id="ca" name="name">
+  </div>
+
+  <div class="form-group">
+    <label for="sleepy">Sleepy?</label><br>
+    <input type="radio" name="sleepy" value="1" checked> Sleepy!<br>
+    <input type="radio" name="sleepy" value="0"> Awake
+  </div>
+
+  <button type="submit">Add Cat</button>
+</form>
