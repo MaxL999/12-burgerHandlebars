@@ -14,7 +14,16 @@ var burger = {
     });
   },
   update: function(objColVals, condition, cb) {
+    console.log("orm")
+    console.log(objColVals)
+    console.log(condition)
+    console.log(cb)
     orm.update("burger", objColVals, condition, function(res) {
+      cb(res);
+    });
+  },
+  delete: function(condition, cb) {
+    orm.delete("burger", condition, function(res) {
       cb(res);
     });
   }
