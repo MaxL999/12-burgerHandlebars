@@ -1,6 +1,7 @@
 // Set up MySQL connection.
 var mysql = require("mysql");
-var config = require("./config.json")
+var env = process.env.NODE_ENV || "development";
+var config = require("./config.json")[env];
 
 var connectionObject = {};
 
