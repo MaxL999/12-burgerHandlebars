@@ -1,13 +1,19 @@
 // Set up MySQL connection.
 var mysql = require("mysql");
+var config = require("./config.json")
 
-var connection = mysql.createConnection({
-  host: "localhost",
-  port: 3306,
-  user: "root",
-  password: "root",
-  database: "burger_db"
-});
+var connectionObject = {};
+
+console.log(config)
+if (config.use_env_variable) {
+  console.log("production")
+  connectionObject = config.production
+} else {
+  console.log("developement")
+  connectionObject = config.development
+}
+
+var connection = mysql.createConnection(connectionObject);
 
 // Make connection.
 connection.connect(function(err) {
