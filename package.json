@@ -1,0 +1,28 @@
+{
+  "name": "12-handlebars",
+  "version": "1.0.0",
+  "description": "simple mysql handlebars app",
+  "main": "server.js",
+  "scripts": {
+    "test": "node server.js",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MaxL999/12-handlebars.git"
+  },
+  "keywords": [
+    "education"
+  ],
+  "author": "max",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MaxL999/12-handlebars/issues"
+  },
+  "homepage": "https://github.com/MaxL999/12-handlebars#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "express-handlebars": "^4.0.4",
+    "mysql": "^2.18.1"
+  }
+}
