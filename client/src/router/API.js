@@ -59,3 +59,43 @@
 //         );
 //     });
 // });
+
+// import React from 'react';
+// import ReactDOM from 'react-dom';
+import axios from 'axios';
+
+
+// axios.get(`http://www.reddit.com/r/${this.props.subreddit}.json`)
+//     .then(res => {
+//         const posts = res.data.data.children.map(obj => obj.data);
+//         this.setState({ posts });
+//     });
+
+const API = {
+    all: function () {
+        console.log("frontend call")
+        axios.get("/api/food/")
+            .then(function (data) {
+                console.log("frontend data recieved")
+                console.log(data)
+            })
+    },
+
+    // eat: function (id) {
+
+
+    //     // Send the PUT request.
+    //     $.ajax("/api/food/" + id, {
+    //         type: "PUT",
+    //         data: newLunch
+    //     }).then(
+    //         function () {
+    //             console.log("changed eaten state to", newLunch);
+    //             // // Reload the page to get the updated list
+    //             // location.reload();
+    //         }
+    //     );
+    // }
+}
+
+export default API;
