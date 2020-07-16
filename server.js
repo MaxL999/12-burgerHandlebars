@@ -8,6 +8,10 @@ const PORT = process.env.PORT || 3001;
 // var history = require('connect-history-api-fallback');
 // app.use(history())
 
+var routes = require("./controllers/burger_controller");
+
+app.use(routes);
+
 // Serve up static assets on heroku
 if (process.env.NODE_ENV === "production") {
     // app.use(express.static("client/build"));
@@ -19,6 +23,7 @@ app.get("/*", (req, res) => {
         if (err) res.status(500).send(err)
     })
 })
+
 
 // Start the API server
 app.listen(PORT, () => {
