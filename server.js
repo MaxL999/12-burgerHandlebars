@@ -8,7 +8,7 @@ const PORT = process.env.PORT || 3001;
 // var history = require('connect-history-api-fallback');
 // app.use(history())
 
-var routes = require("./controllers/burger_controller");
+var routes = require("./router/route");
 
 app.use(routes);
 
