@@ -4,6 +4,11 @@ var router = express.Router();
 
 var burger = require("../orm/burgerModel");
 
+router.get("/api/hello", (req, res, next) => {
+  console.log("return")
+  res.json("HELLO!")
+})
+
 router.get("/api/food/", function(req, res) {
   burger.all(function(data) {
     // var hbsObject = { burger: data };

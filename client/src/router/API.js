@@ -79,7 +79,17 @@ const API = {
                 console.log("frontend data recieved")
                 console.log(data)
             })
+        console.log("send")
     },
+
+    test: function () {
+        console.log("click")
+        axios.get("/api/hello")
+        .then(function (data) {
+            console.log(data)
+        })
+        console.log("send")
+    }
 
     // eat: function (id) {
 
