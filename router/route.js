@@ -7,10 +7,13 @@ var orm = require("../orm/orm");
 router.get("/api/hello", (req, res, next) => {
 
   console.log("Call recieved")
-  res.json("HELLO!")
+  res.json("hello")
   console.log("response")
-  
+
 })
+
+// router.route("/api/hello")
+//   .get(res.json("HELLO!"))
 
 // router.get("/api/food/", function(req, res) {
 //   burger.all(function(data) {

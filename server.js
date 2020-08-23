@@ -4,12 +4,14 @@ const path = require("path")
 const app = express();
 const PORT = process.env.PORT || 3001;
 
+const cors = require('cors')
+app.use(cors())
+
 // backend routing middleware fix
 // var history = require('connect-history-api-fallback');
 // app.use(history())
 
-var routes = require("./router/route");
-
+const routes = require("./router/route");
 app.use(routes);
 
 // Serve up static assets on heroku

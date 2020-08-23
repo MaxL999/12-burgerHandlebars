@@ -69,30 +69,37 @@ import axios from 'axios';
 //         this.setState({ posts });
 //     });
 
+const config = {
+    headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS"
+    }
+};
+
 const API = {
-    all: function () {
-        console.log("frontend call")
-        axios.get("/api/food/")
-            .then(function (data) {
-                console.log("frontend data recieved")
-                console.log(data)
-            })
-            .catch(function (err) {
-                console.log("error")
-            })
-        console.log("send")
-    },
+    // all: function () {
+    //     console.log("frontend call")
+    //     axios.get("/api/food/")
+    //         .then(function (data) {
+    //             console.log("frontend data recieved")
+    //             console.log(data)
+    //         })
+    //         .catch(function (err) {
+    //             console.log("error")
+    //         })
+    //     console.log("send")
+    // },
 
     test: function () {
         console.log("click")
 
-        axios.get("/api/hello")
-        .then(function (data) {
-            console.log(data)
-        })
-        .catch(function (err) {
-            console.log(err)
-        })
+        axios.get("http://localhost:3001/api/hello", config)
+            .then(function (data) {
+                console.log(data)
+            })
+            .catch(function (err) {
+                console.log(err)
+            })
 
         console.log("send")
     }
