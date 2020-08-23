@@ -60,10 +60,8 @@
 //     });
 // });
 
-// import React from 'react';
-// import ReactDOM from 'react-dom';
-import axios from 'axios';
 
+import axios from 'axios';
 
 // axios.get(`http://www.reddit.com/r/${this.props.subreddit}.json`)
 //     .then(res => {
@@ -79,15 +77,23 @@ const API = {
                 console.log("frontend data recieved")
                 console.log(data)
             })
+            .catch(function (err) {
+                console.log("error")
+            })
         console.log("send")
     },
 
     test: function () {
         console.log("click")
+
         axios.get("/api/hello")
         .then(function (data) {
             console.log(data)
         })
+        .catch(function (err) {
+            console.log(err)
+        })
+
         console.log("send")
     }
 
