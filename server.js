@@ -7,7 +7,7 @@ const PORT = process.env.PORT || 3001;
 const cors = require('cors')
 app.use(cors())
 
-// backend routing middleware fix
+// backend middleware fix for page routing, if needed
 // var history = require('connect-history-api-fallback');
 // app.use(history())
 
@@ -25,7 +25,6 @@ app.get("/", (req, res) => {
         if (err) res.status(500).send(err)
     })
 })
-
 
 // Start the API server
 app.listen(PORT, () => {

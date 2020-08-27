@@ -12,6 +12,22 @@ router.get("/api/hello", (req, res, next) => {
 
 })
 
+router.get("/api/test", async (req, res, next) => {
+
+  console.log("Call recieved")
+
+  try {
+    let data = await orm.allData();
+    res.json(data)
+  } catch(err){
+    console.log(err)
+    res.sendStatus(500)
+  }
+
+  console.log("response")
+
+})
+
 // router.route("/api/hello")
 //   .get(res.json("HELLO!"))
 
