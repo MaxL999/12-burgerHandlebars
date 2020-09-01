@@ -53,12 +53,12 @@ function objToSql(ob) {
 // }
 
 // Object for all our SQL statement functions.
-export default orm = {
+const orm = {
     test: async () => {
         return new Promise((resolve, reject) => {
             connection.query("SELECT * FROM burger", function (err, result) {
                 if (err) return reject(err);
-                resolve(results)
+                resolve(result)
             });
         })
     },
@@ -117,3 +117,4 @@ export default orm = {
 };
 
 // Export the orm object for the model
+module.exports = orm;

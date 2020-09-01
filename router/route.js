@@ -4,10 +4,12 @@ var router = express.Router();
 
 var orm = require("../orm/orm");
 
-router.get("/api/hello", (req, res, next) => {
+router.get("/api/hello", async (req, res, next) => {
 
   console.log("Call recieved")
-  res.json("hello")
+  // res.json("hello")
+  let data = await orm.test()
+  res.json(data)
   console.log("response")
 
 })
