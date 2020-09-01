@@ -39,21 +39,29 @@ function objToSql(ob) {
     return arr.toString();
 }
 
-// async function so data is present on initial load
-const allData = async () => {
-    return new Promise((resolve, reject) => {
+// // async function so data is present on initial load
+// const allData = async () => {
+//     return new Promise((resolve, reject) => {
 
-        var queryString = "SELECT * FROM " + tableInput + ";";
-        connection.query(queryString, function (err, result) {
-            if (err) return reject(err);
-            resolve(result);
-        });
+//         var queryString = "SELECT * FROM " + tableInput + ";";
+//         connection.query(queryString, function (err, result) {
+//             if (err) return reject(err);
+//             resolve(result);
+//         });
 
-    })
-}
+//     })
+// }
 
 // Object for all our SQL statement functions.
-const orm = {
+export default orm = {
+    test: async () => {
+        return new Promise((resolve, reject) => {
+            connection.query("SELECT * FROM burger", function (err, result) {
+                if (err) return reject(err);
+                resolve(results)
+            });
+        })
+    },
     all: function (tableInput, cb) {
         var queryString = "SELECT * FROM " + tableInput + ";";
         connection.query(queryString, function (err, result) {
@@ -109,7 +117,3 @@ const orm = {
 };
 
 // Export the orm object for the model
-export default {
-    allData,
-    orm
-}

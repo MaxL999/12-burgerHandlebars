@@ -17,7 +17,7 @@ router.get("/api/test", async (req, res, next) => {
   console.log("Call recieved")
 
   try {
-    let data = await orm.allData();
+    let data = await orm.test();
     res.json(data)
   } catch(err){
     console.log(err)
