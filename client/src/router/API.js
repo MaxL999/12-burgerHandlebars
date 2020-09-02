@@ -90,18 +90,12 @@ const API = {
     //     console.log("send")
     // },
 
-    test: function () {
-        console.log("click")
-
-        axios.get("http://localhost:3001/api/hello", config)
-            .then(function (data) {
-                console.log(data)
-            })
-            .catch(function (err) {
-                console.log(err)
-            })
-
-        console.log("send")
+    test: () => {
+        return new Promise((resolve, reject) => {
+            axios.get("http://localhost:3001/api/hello", config)
+                .catch((err) => reject(err))
+                .then((data) => resolve(data))
+        })
     }
 
     // eat: function (id) {

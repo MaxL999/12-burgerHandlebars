@@ -10,14 +10,14 @@ class App extends Component {
     posts: []
   }
 
-  componentDidMount() {
-    API.test()
-  }
+  // needs to be moved to constructor??
+  async componentDidMount() {
+    let data = await API.test()
+    console.log(data)
+  };
 
 
   render() {
-
-
     return (
       <div className="App">
         <header className="App-header">

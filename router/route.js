@@ -5,29 +5,12 @@ var router = express.Router();
 var orm = require("../orm/orm");
 
 router.get("/api/hello", async (req, res, next) => {
-
-  console.log("Call recieved")
-  // res.json("hello")
-  let data = await orm.test()
-  res.json(data)
-  console.log("response")
-
-})
-
-router.get("/api/test", async (req, res, next) => {
-
-  console.log("Call recieved")
-
   try {
-    let data = await orm.test();
+    let data = await orm.test()
     res.json(data)
-  } catch(err){
-    console.log(err)
+  } catch (err) {
     res.sendStatus(500)
   }
-
-  console.log("response")
-
 })
 
 // router.route("/api/hello")
