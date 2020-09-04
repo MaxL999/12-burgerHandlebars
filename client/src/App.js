@@ -7,13 +7,13 @@ import API from './router/API';
 class App extends Component {
 
   state = {
-    posts: []
+    table: []
   }
 
-  // needs to be moved to constructor??
+  // needs to be moved to constructor?
   async componentDidMount() {
     let data = await API.table("burger")
-    console.log(data)
+    this.setState({ table: data.data })
   };
 
 
@@ -29,6 +29,9 @@ class App extends Component {
             API.table("burger").then((res) => console.log(res))
           }}>Click</button>
         </header>
+        <ul>
+          {this.state.table.map((item) => <li>Name:{item.name} Eaten:{item.eaten ? "True" : "False"}</li>)}
+        </ul>
       </div>
     );
   }
