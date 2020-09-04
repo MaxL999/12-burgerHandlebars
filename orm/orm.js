@@ -62,12 +62,14 @@ const orm = {
             });
         })
     },
-    all: function (tableInput, cb) {
-        var queryString = "SELECT * FROM " + tableInput + ";";
-        connection.query(queryString, function (err, result) {
-            if (err) return reject(err);
-            cb(result);
-        });
+    all: async (tableInput) => {
+        return new Promise((resolve, reject) => {
+            var queryString = "SELECT * FROM " + tableInput + ";";
+            connection.query(queryString, function (err, result) {
+                if (err) return reject(err);
+                resolve(result)
+            });
+        })
     },
     create: function (table, cols, vals, cb) {
         var queryString = "INSERT INTO " + table;

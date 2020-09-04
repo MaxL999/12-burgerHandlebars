@@ -12,7 +12,7 @@ class App extends Component {
 
   // needs to be moved to constructor??
   async componentDidMount() {
-    let data = await API.test()
+    let data = await API.table("burger")
     console.log(data)
   };
 
@@ -25,7 +25,9 @@ class App extends Component {
           <p>
             Edit <code>src/App.js</code> and save to reload.
           </p>
-          <button onClick={API.test}>Click</button>
+          <button onClick={() => {
+            API.table("burger").then((res) => console.log(res))
+          }}>Click</button>
         </header>
       </div>
     );

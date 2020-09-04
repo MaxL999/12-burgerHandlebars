@@ -96,6 +96,15 @@ const API = {
                 .catch((err) => reject(err))
                 .then((data) => resolve(data))
         })
+    },
+
+    table: (table) => {
+        return new Promise((resolve, reject) => {
+            let axiosString = "http://localhost:3001/api/all/"+table
+            axios.get(axiosString, config)
+                .catch((err) => reject(err))
+                .then((data) => resolve(data))
+        })
     }
 
     // eat: function (id) {

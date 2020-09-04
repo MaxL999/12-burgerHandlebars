@@ -13,6 +13,16 @@ router.get("/api/hello", async (req, res, next) => {
   }
 })
 
+router.get("/api/all/:table", async (req, res, next) => {
+  // console.log(req.params.table)
+  try {
+    let data = await orm.all(req.params.table)
+    res.json(data)
+  } catch (err) {
+    res.sendStatus(500)
+  }
+})
+
 // router.route("/api/hello")
 //   .get(res.json("HELLO!"))
 
