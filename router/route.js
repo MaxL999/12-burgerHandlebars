@@ -14,7 +14,6 @@ router.get("/api/hello", async (req, res, next) => {
 })
 
 router.get("/api/all/:table", async (req, res, next) => {
-  // console.log(req.params.table)
   try {
     let data = await orm.all(req.params.table)
     res.json(data)
@@ -22,17 +21,6 @@ router.get("/api/all/:table", async (req, res, next) => {
     res.sendStatus(500)
   }
 })
-
-// router.route("/api/hello")
-//   .get(res.json("HELLO!"))
-
-// router.get("/api/food/", function(req, res) {
-//   burger.all(function(data) {
-//     // var hbsObject = { burger: data };
-//     // console.log(hbsObject);
-//     res.json(data);
-//   });
-// });
 
 // router.post("/api/food", function(req, res) {
 //   console.log(req.body)

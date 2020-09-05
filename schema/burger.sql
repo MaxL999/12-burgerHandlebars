@@ -5,16 +5,22 @@ USE burger_db;
 CREATE TABLE burger (
     id INT NOT NULL AUTO_INCREMENT,
     name VARCHAR(35),
-    eaten BOOLEAN DEFAULT false,
+    bun VARCHAR(35),
+    ing1 VARCHAR(35),
+    ing2 VARCHAR(35),
+    ing3 VARCHAR(35),
+    ing4 VARCHAR(35),
+    ing5 VARCHAR(35),
+    ing6 VARCHAR(35),
+    ing7 VARCHAR(35),
+    ing8 VARCHAR(35),
+    ing9 VARCHAR(35),
     PRIMARY KEY (id)
 );
 
-SELECT * FROM burger
-
-
 CREATE TABLE bun (
     id INT NOT NULL AUTO_INCREMENT,
-    name VARCHAR(100),
+    name VARCHAR(35),
     Calories INT,
     Carbs INT,
     Protien INT,
@@ -27,4 +33,4 @@ CREATE TABLE cheese LIKE bun;
 CREATE TABLE condiment LIKE bun;
 CREATE TABLE vegetable LIKE bun;
 
-SELECT * FROM vegetable
+SELECT * FROM burger

@@ -11,11 +11,14 @@ class App extends Component {
   }
 
   // needs to be moved to constructor?
-  async componentDidMount() {
-    let data = await API.table("burger")
-    this.setState({ table: data.data })
+  componentDidMount() {
+    this.callTable("burger")
   };
 
+  async callTable(tableName) {
+    let table = await API.table(tableName)
+    this.setState({table: table.data})
+  }
 
   render() {
     return (
@@ -29,8 +32,9 @@ class App extends Component {
             API.table("burger").then((res) => console.log(res))
           }}>Click</button>
         </header>
+        
         <ul>
-          {this.state.table.map((item) => <li>Name:{item.name} Eaten:{item.eaten ? "True" : "False"}</li>)}
+          {this.state.table.map((item) => <li key={item.id}>Name:{item.name} Eaten:{item.eaten ? "True" : "False"}</li>)}
         </ul>
       </div>
     );
