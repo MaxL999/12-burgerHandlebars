@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
 import './App.css';
 
+import BurgerTable from './BurgerTable';
+import ExtrasTable from './ExtrasTable';
+
 import API from './router/API';
 
 class App extends Component {
 
   state = {
-    burgers: [],
+    tableType: 1,
     table: [],
   }
 
@@ -17,12 +20,18 @@ class App extends Component {
 
   async callTable(tableName) {
     let sql = await API.table(tableName)
-    if (tableName === "burger") {
-      this.setState({ burgers: sql.data })
-    } else {
-      this.setState({ table: sql.data })
+    this.setState({ table: sql.data, tableType: tableName })
+  }
+
+  renderTable(table) {
+    switch (table) {
+      case 'burger':
+        return <BurgerTable table={this.state.table} />;
+
+      default:
+        return <ExtrasTable table={this.state.table} />
+
     }
-    console.log(this.state)
   }
 
   render() {
@@ -35,18 +44,14 @@ class App extends Component {
             <button onClick={() => this.callTable("cheese")}>Cheeses</button>
             <button onClick={() => this.callTable("condiment")}>Condiments</button>
             <button onClick={() => this.callTable("vegetable")}>Vegetables</button>
+            {/* button to reseed MYSQL if someone edits incorrectly */}
+            {/* <button onClick={() => this.callTable("vegetable")}>Vegetables</button> */}
           </div>
 
-          <ul className="list-group">
-            {this.state.burgers.map((item) =>
-              <li className="list-group-item list-group-item-action d-flex bd-highlight"
-               key={item.id}>
-                <span className="flex-grow-1 text-dark">Name:{item.name}</span>
-                <button type="button" class="btn btn-primary">Edit</button>
-                <button type="button" class="btn btn-danger">Delete</button>
-              </li>
-            )}
-          </ul>
+          <div>
+            {this.renderTable(this.state.tableType)}
+          </div>
+
         </header>
 
       </div>
