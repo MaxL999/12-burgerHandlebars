@@ -1,13 +1,15 @@
 use burger_db;
 
-insert into ingredients (name, type, bun, ing1, ing2, ing3, ing4, ing5, ing6, ing7)
-VALUES ("Big Kahuna", "Burger", "Sesame", "BBQ", "Lettuce", "Tomato", "American", "Beef", "American", "Beef");
 
-insert into ingredients (name, type, bun, ing1, ing2, ing3)
-VALUES("Plain Burger", "Burger", "Whole Wheat", "Ketchup", "Cheddar", "Beef");
+insert into burger (name, bun, ing1, ing2, ing3, ing4, ing5, ing6, ing7)
+VALUES ("Big Kahuna", "Sesame", "BBQ", "Lettuce", "Tomato", "American", "Beef", "American", "Beef");
 
-insert into ingredients (name, type, bun, ing1, ing2, ing3, ing4, ing5)
-VALUES("Double Cheeseburger", "Burger" ,"Sesame", "Ketchup", "Cheddar", "Beef", "Cheddar", "Beef");
+insert into burger (name, bun, ing1, ing2, ing3)
+VALUES("Plain Burger", "Whole Wheat", "Ketchup", "Cheddar", "Beef");
+
+insert into burger (name, bun, ing1, ing2, ing3, ing4, ing5)
+VALUES("Double Cheeseburger", "Sesame", "Ketchup", "Cheddar", "Beef", "Cheddar", "Beef");
+
 
 insert into ingredients (name, type, Calories, Carbs, Protien, Fats)
 VALUES ("Sesame", "Bun", 190, 34, 5, 3);
