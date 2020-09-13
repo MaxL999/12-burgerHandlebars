@@ -11,6 +11,7 @@ function ExtrasTable(props) {
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">Name</th>
+                        <th scope="col">Type</th>
                         <th scope="col">Calories</th>
                         <th scope="col">Carbs</th>
                         <th scope="col">Fats</th>
@@ -24,6 +25,7 @@ function ExtrasTable(props) {
                         <tr key={item.id}>
                             <th scope="row">{item.id}</th>
                             <td><span>{item.name}</span></td>
+                            <td><span>{item.type}</span></td>
                             <td><span>{item.Calories}</span></td>
                             <td><span>{item.Carbs}</span></td>
                             <td><span>{item.Fats}</span></td>

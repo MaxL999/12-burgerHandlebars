@@ -9,28 +9,25 @@ import API from './router/API';
 class App extends Component {
 
   state = {
-    tableType: 1,
-    table: [],
+    burgers: [],
+    ingredients: []
   }
 
   // needs to be moved to constructor?
-  componentDidMount() {
-    this.callTable("burger")
+  async componentDidMount() {
+    let burger = await API.table("burger")
+    let ingredient = await API.table("ingredients")
+    this.setState({ burgers: burger.data, ingredients: ingredient.data })
   };
-
-  async callTable(tableName) {
-    let sql = await API.table(tableName)
-    this.setState({ table: sql.data, tableType: tableName })
-  }
 
   // will expand
   renderTable(table) {
     switch (table) {
       case 'burger':
-        return <BurgerTable table={this.state.table} />;
+        return <BurgerTable table={this.state.burgers} />;
 
       default:
-        return <ExtrasTable table={this.state.table} />
+        return <ExtrasTable table={this.state.ingredients} />
 
     }
   }
