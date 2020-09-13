@@ -54,7 +54,7 @@ function objToSql(ob) {
 
 // Object for all our SQL statement functions.
 const orm = {
-    all: async (tableInput) => {
+    all: (tableInput) => {
         return new Promise((resolve, reject) => {
             var queryString = "SELECT * FROM " + tableInput + ";";
             connection.query(queryString, (err, result) => {

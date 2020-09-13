@@ -23,6 +23,7 @@ class App extends Component {
     this.setState({ table: sql.data, tableType: tableName })
   }
 
+  // will expand
   renderTable(table) {
     switch (table) {
       case 'burger':
@@ -45,7 +46,7 @@ class App extends Component {
             <button onClick={() => this.callTable("condiment")}>Condiments</button>
             <button onClick={() => this.callTable("vegetable")}>Vegetables</button>
             {/* button to reseed MYSQL if someone edits incorrectly */}
-            {/* <button onClick={() => this.callTable("vegetable")}>Vegetables</button> */}
+            {/* <button onClick={}>Reset Database</button> */}
           </div>
 
           <div>

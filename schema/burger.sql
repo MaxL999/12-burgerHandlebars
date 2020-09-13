@@ -18,9 +18,10 @@ CREATE TABLE burger (
     PRIMARY KEY (id)
 );
 
-CREATE TABLE bun (
+CREATE TABLE ingredients (
     id INT NOT NULL AUTO_INCREMENT,
     name VARCHAR(35),
+    type VARCHAR(35),
     Calories INT,
     Carbs INT,
     Protien INT,
@@ -28,9 +29,5 @@ CREATE TABLE bun (
     PRIMARY KEY (id)
 );
 
-CREATE TABLE meat LIKE bun;
-CREATE TABLE cheese LIKE bun;
-CREATE TABLE condiment LIKE bun;
-CREATE TABLE vegetable LIKE bun;
-
 SELECT * FROM burger
+SELECT * FROM ingredients
