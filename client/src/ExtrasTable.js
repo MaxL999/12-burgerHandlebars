@@ -31,7 +31,8 @@ function ExtrasTable(props) {
                             <td><span>{item.Fats}</span></td>
                             <td><span>{item.Protien}</span></td>
                             <td><button type="button" className="btn btn-primary">Edit</button></td>
-                            <td><button type="button" className="btn btn-danger">Delete</button></td>
+                            <td><button type="button" className="btn btn-danger"
+                                onClick={() => props.deleteItem("ingredients", item.id)}>Delete</button></td>
                         </tr>
                     )}
                 </tbody>

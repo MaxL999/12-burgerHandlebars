@@ -71,36 +71,24 @@ const config = {
 };
 
 const API = {
-    // all: function () {
-    //     console.log("frontend call")
-    //     axios.get("/api/food/")
-    //         .then(function (data) {
-    //             console.log("frontend data recieved")
-    //             console.log(data)
-    //         })
-    //         .catch(function (err) {
-    //             console.log("error")
-    //         })
-    //     console.log("send")
-    // },
 
-    test: () => {
+    table: (tableName) => {
         return new Promise((resolve, reject) => {
-            axios.get("http://localhost:3001/api/hello", config)
+            let axiosString = "http://localhost:3001/api/all/" + tableName
+            axios.get(axiosString, config)
                 .catch((err) => reject(err))
                 .then((data) => resolve(data))
         })
     },
 
-    table: (tableName) => {
+    delete: (table, id) => {
         return new Promise((resolve, reject) => {
-            let axiosString = "http://localhost:3001/api/all/"+tableName
+            let axiosString = "http://localhost:3001/api/delete/" + table + "/" + id
             axios.get(axiosString, config)
                 .catch((err) => reject(err))
                 .then((data) => resolve(data))
         })
-    }
-
+    },
     // eat: function (id) {
 
 

@@ -22,6 +22,18 @@ router.get("/api/all/:table", async (req, res, next) => {
   }
 })
 
+router.get("/api/delete/:table/:id", async (req, res, next) => {
+  try {
+    await orm.delete(req.params.table, req.params.id)
+    let data = await orm.all(req.params.table)
+    res.json(data)
+  } catch (err) {
+    console.log(err)
+    res.sendStatus(500)
+  }
+
+})
+
 // router.post("/api/food", function(req, res) {
 //   console.log(req.body)
 //   burger.create([

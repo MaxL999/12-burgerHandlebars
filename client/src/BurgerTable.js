@@ -1,7 +1,6 @@
 import React from 'react';
 
 function BurgerTable(props) {
-
     return (
         <table className="table table-dark">
             <thead>
@@ -20,7 +19,7 @@ function BurgerTable(props) {
                         <td><span className="flex-grow-1">{item.name}</span></td>
                         <td><button type="button" className="btn btn-primary">View</button></td>
                         <td><button type="button" className="btn btn-primary">Edit</button></td>
-                        <td><button type="button" className="btn btn-danger">Delete</button></td>
+                        <td><button type="button" className="btn btn-danger" onClick={() => props.deleteItem("burger", item.id)}>Delete</button></td>
                     </tr>
                 )}
             </tbody>

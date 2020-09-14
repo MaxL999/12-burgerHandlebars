@@ -7,6 +7,12 @@ import ExtrasTable from './ExtrasTable';
 import API from './router/API';
 
 class App extends Component {
+  constructor(){
+    super()
+
+    this.searchMYSQL = this.searchMYSQL.bind(this)
+    this.deleteItem = this.deleteItem.bind(this)
+  }
 
   state = {
     table: 'burger',
@@ -15,16 +21,29 @@ class App extends Component {
   }
 
   // needs to be moved to constructor?
-  async componentDidMount() {
+  componentDidMount() {
+    this.searchMYSQL()
+  };
+
+  async searchMYSQL() {
     let burger = await API.table("burger")
     let ingredient = await API.table("ingredients")
     this.setState({ burgers: burger.data, ingredients: ingredient.data })
-  };
+  }
+
+  async deleteItem(table, id) {
+    let newTable = await API.delete(table, id)
+    if (table === 'burger') {
+      this.setState({ burger: newTable.data })
+    } else {
+      this.setState({ ingredients: newTable.data})
+    }
+  }
 
   // spawn burger table, or filter ingredients list for specific type
   renderTable(table) {
     if (table === "burger") {
-      return <BurgerTable table={this.state.burgers} />
+      return <BurgerTable table={this.state.burgers} deleteItem={this.deleteItem} />
     } else {
       let i = 0
       let list = []
@@ -33,7 +52,7 @@ class App extends Component {
           list.push(this.state.ingredients[i])
         }
       }
-      return <ExtrasTable table={list} />;
+      return <ExtrasTable table={list} deleteItem={this.deleteItem} />;
     }
   }
 
@@ -43,11 +62,6 @@ class App extends Component {
         <header className="App-header">
 
           <div className="d-flex justify-content-around p-2">
-            {/* <button onClick={() => this.callTable("burger")}>Burgers</button>
-            <button onClick={() => this.callTable("meat")}>Meats</button>
-            <button onClick={() => this.callTable("cheese")}>Cheeses</button>
-            <button onClick={() => this.callTable("condiment")}>Condiments</button>
-            <button onClick={() => this.callTable("vegetable")}>Vegetables</button> */}
             <button onClick={() => this.setState({ table: 'burger' })} >Burger</button>
             <button onClick={() => this.setState({ table: 'Meat' })} >Meat</button>
             <button onClick={() => this.setState({ table: 'Cheese' })} >Cheese</button>

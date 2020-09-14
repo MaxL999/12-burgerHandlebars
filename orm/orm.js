@@ -63,6 +63,15 @@ const orm = {
             });
         })
     },
+    delete: (table, id) => {
+        return new Promise((resolve, reject) => {
+            var queryString = "DELETE FROM " + table + " WHERE ID = " + id
+            connection.query(queryString, (err, result) => {
+                if (err) return reject(err);
+                resolve(result)
+            });
+        })
+    },
     // will reintroduce
     // create: function (table, cols, vals, cb) {
     //     var queryString = "INSERT INTO " + table;
@@ -98,18 +107,7 @@ const orm = {
     //         cb(result);
     //     });
     // },
-    // delete: function (table, condition, cb) {
-    //     var queryString = "DELETE FROM " + table;
-    //     queryString += " WHERE ";
-    //     queryString += condition;
 
-    //     connection.query(queryString, function (err, result) {
-    //         if (err) throw err;
-
-    //         cb(result);
-    //     });
-    // }
 };
 
-// Export the orm object for the model
 module.exports = orm;
