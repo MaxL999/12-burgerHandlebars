@@ -22,6 +22,11 @@ function BurgerTable(props) {
                         <td><button type="button" className="btn btn-danger" onClick={() => props.deleteItem("burger", item.id)}>Delete</button></td>
                     </tr>
                 )}
+                <tr>
+                    <td scope="row" colspan="9">
+                        <button type="button" className="btn btn-secondary">Create New Ingredient</button>
+                    </td>
+                </tr>
             </tbody>
         </table>
     )
