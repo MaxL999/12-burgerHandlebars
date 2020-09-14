@@ -23,9 +23,9 @@ function BurgerTable(props) {
                     </tr>
                 )}
                 <tr>
-                    <td scope="row" colspan="9">
+                    <th scope="row" colSpan="9">
                         <button type="button" className="btn btn-secondary">Create New Ingredient</button>
-                    </td>
+                    </th>
                 </tr>
             </tbody>
         </table>

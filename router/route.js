@@ -28,7 +28,6 @@ router.get("/api/delete/:table/:id", async (req, res, next) => {
     let data = await orm.all(req.params.table)
     res.json(data)
   } catch (err) {
-    console.log(err)
     res.sendStatus(500)
   }
 

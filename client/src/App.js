@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import './App.css';
 
 import BurgerTable from './BurgerTable';
-import ExtrasTable from './ExtrasTable';
+import IngredientTable from './IngredientTable';
 
 import API from './router/API';
 
 class App extends Component {
-  constructor(){
+  constructor() {
     super()
 
     this.searchMYSQL = this.searchMYSQL.bind(this)
@@ -20,7 +20,6 @@ class App extends Component {
     ingredients: []
   }
 
-  // needs to be moved to constructor?
   componentDidMount() {
     this.searchMYSQL()
   };
@@ -32,12 +31,8 @@ class App extends Component {
   }
 
   async deleteItem(table, id) {
-    let newTable = await API.delete(table, id)
-    if (table === 'burger') {
-      this.setState({ burger: newTable.data })
-    } else {
-      this.setState({ ingredients: newTable.data})
-    }
+    await API.delete(table, id)
+    this.searchMYSQL()
   }
 
   // spawn burger table, or filter ingredients list for specific type
@@ -52,7 +47,7 @@ class App extends Component {
           list.push(this.state.ingredients[i])
         }
       }
-      return <ExtrasTable table={list} deleteItem={this.deleteItem} />;
+      return <IngredientTable table={list} deleteItem={this.deleteItem} />;
     }
   }
 
@@ -60,6 +55,8 @@ class App extends Component {
     return (
       <div className="App">
         <header className="App-header">
+
+          <button onClick={() => { }}>Click</button>
 
           <div className="d-flex justify-content-around p-2">
             <button onClick={() => this.setState({ table: 'burger' })} >Burger</button>
