@@ -4,6 +4,8 @@ import './App.css';
 import BurgerTable from './BurgerTable';
 import IngredientTable from './IngredientTable';
 
+import ViewBurgerModal from './ViewBurgerModal';
+
 import API from './router/API';
 
 class App extends Component {
@@ -17,7 +19,8 @@ class App extends Component {
   state = {
     table: 'burger',
     burgers: [],
-    ingredients: []
+    ingredients: [],
+    showModal: false,
   }
 
   componentDidMount() {
@@ -56,7 +59,7 @@ class App extends Component {
       <div className="App">
         <header className="App-header">
 
-          <button onClick={() => { }}>Click</button>
+          <button onClick={() => this.setState({ showModal: true })}>Click</button>
 
           <div className="d-flex justify-content-around p-2">
             <button onClick={() => this.setState({ table: 'burger' })} >Burger</button>
@@ -71,6 +74,13 @@ class App extends Component {
 
           <div>
             {this.renderTable(this.state.table)}
+          </div>
+
+          <div>
+            <ViewBurgerModal
+              show={this.state.showModal}
+              onHide={() => this.setState({ showModal: false })}
+            />
           </div>
 
         </header>
