@@ -5,6 +5,10 @@ import BurgerTable from './BurgerTable';
 import IngredientTable from './IngredientTable';
 
 import ViewBurgerModal from './ViewBurgerModal';
+import EditBurgerModal from './EditBurgerModal';
+import CreateBurgerModal from './CreateBurgerModal';
+import EditIngredientModal from './EditIngredientsModal';
+import CreateIngredientModal from './CreateIngredientModal';
 
 import API from './router/API';
 
@@ -14,13 +18,19 @@ class App extends Component {
 
     this.searchMYSQL = this.searchMYSQL.bind(this)
     this.deleteItem = this.deleteItem.bind(this)
+    this.viewNutrition = this.viewNutrition.bind(this)
   }
 
   state = {
     table: 'burger',
     burgers: [],
     ingredients: [],
-    showModal: false,
+    objectValues: {},
+    ViewNutrition: false,
+    EditBurger: false,
+    CreateBurger: false,
+    EditIngredient: false,
+    CreateIngredient: false
   }
 
   componentDidMount() {
@@ -38,10 +48,19 @@ class App extends Component {
     this.searchMYSQL()
   }
 
+  viewNutrition(props) {
+    this.setState({ ViewNutrition: true, objectValues: props })
+    console.log(this.state)
+  }
+
   // spawn burger table, or filter ingredients list for specific type
   renderTable(table) {
     if (table === "burger") {
-      return <BurgerTable table={this.state.burgers} deleteItem={this.deleteItem} />
+      return <BurgerTable
+        table={this.state.burgers}
+        deleteItem={this.deleteItem}
+        viewNutrition={this.viewNutrition}
+      />
     } else {
       let i = 0
       let list = []
@@ -59,7 +78,7 @@ class App extends Component {
       <div className="App">
         <header className="App-header">
 
-          <button onClick={() => this.setState({ showModal: true })}>Click</button>
+          <button onClick={() => this.setState({ ViewNutrition: true })}>Click</button>
 
           <div className="d-flex justify-content-around p-2">
             <button onClick={() => this.setState({ table: 'burger' })} >Burger</button>
@@ -72,16 +91,34 @@ class App extends Component {
             {/* <button onClick={}>Reset Database</button> */}
           </div>
 
-          <div>
-            {this.renderTable(this.state.table)}
-          </div>
+          {/* the tables themselves */}
+          {this.renderTable(this.state.table)}
 
-          <div>
-            <ViewBurgerModal
-              show={this.state.showModal}
-              onHide={() => this.setState({ showModal: false })}
-            />
-          </div>
+          {/* each individual model */}
+          <ViewBurgerModal
+            show={this.state.ViewNutrition}
+            onHide={() => this.setState({ ViewNutrition: false })}
+          />
+
+          {/* <EditBurgerModal
+            show={this.state.EditBurger}
+            onHide={() => this.setState({ EditBurger: false })}
+          />
+
+          <CreateBurgerModal
+            show={this.state.CreateBurger}
+            onHide={() => this.setState({ CreateBurger: false })}
+          />
+
+          <EditIngredientModal
+            show={this.state.EditBurger}
+            onHide={() => this.setState({ EditBurger: false })}
+          />
+
+          <CreateIngredientModal
+            show={this.state.CreateIngredient}
+            onHide={() => this.setState({ CreateIngredient: false })}
+          /> */}
 
         </header>
       </div>
