@@ -18,6 +18,7 @@ class App extends Component {
 
     this.searchMYSQL = this.searchMYSQL.bind(this)
     this.deleteItem = this.deleteItem.bind(this)
+    this.editItem = this.editItem.bind(this)
     this.viewModals = this.viewModals.bind(this)
   }
 
@@ -48,23 +49,34 @@ class App extends Component {
     this.searchMYSQL()
   }
 
-  async viewModals(modal, props) {
+  async editItem(values) {
+    console.log(values)
+  }
+
+  // async nutritionValue() {
+
+  // }
+
+  viewModals(modal, props) {
+    console.log(props)
+    console.log(this.state)
     switch (modal) {
       case "Nutrition":
-        await this.setState({ ViewNutrition: true, objectValues: props })
+        this.setState({ ViewNutrition: true, objectValues: props })
         break;
       case "CreateBurger":
-        await this.setState({ CreateBurger: true })
+        this.setState({ CreateBurger: true })
         break;
       case "EditBurger":
-        await this.setState({ EditBurger: true, objectValues: props })
+        this.setState({ EditBurger: true, objectValues: props })
         break;
       case "CreateIngredient":
-        await this.setState({ CreateIngredient: true })
+        this.setState({ CreateIngredient: true })
         break;
       case "EditIngredient":
-        await this.setState({ EditBurger: true, objectValues: props })
+        this.setState({ EditIngredient: true, objectValues: props })
         break;
+      default:
     }
   }
 
@@ -74,6 +86,7 @@ class App extends Component {
       return <BurgerTable
         table={this.state.burgers}
         deleteItem={this.deleteItem}
+        editItem={this.editItem}
         viewModals={this.viewModals}
       />
     } else {
@@ -84,7 +97,11 @@ class App extends Component {
           list.push(this.state.ingredients[i])
         }
       }
-      return <IngredientTable table={list} deleteItem={this.deleteItem} viewModals={this.viewModals} />;
+      return <IngredientTable
+        table={list}
+        deleteItem={this.deleteItem}
+        viewModals={this.viewModals}
+      />;
     }
   }
 
@@ -126,9 +143,10 @@ class App extends Component {
           />
 
           <EditIngredientModal
+            editItem={this.editItem}
             data={this.state.objectValues}
-            show={this.state.EditBurger}
-            onHide={() => this.setState({ EditBurger: false })}
+            show={this.state.EditIngredient}
+            onHide={() => this.setState({ EditIngredient: false })}
           />
 
           <CreateIngredientModal

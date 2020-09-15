@@ -4,14 +4,6 @@ var router = express.Router();
 
 var orm = require("../orm/orm");
 
-router.get("/api/hello", async (req, res, next) => {
-  try {
-    let data = await orm.test()
-    res.json(data)
-  } catch (err) {
-    res.sendStatus(500)
-  }
-})
 
 router.get("/api/all/:table", async (req, res, next) => {
   try {
