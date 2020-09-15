@@ -10,7 +10,6 @@ function IngredientTable(props) {
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">Name</th>
-                        <th scope="col">Type</th>
                         <th scope="col">Calories</th>
                         <th scope="col">Carbs</th>
                         <th scope="col">Fats</th>
@@ -24,19 +23,17 @@ function IngredientTable(props) {
                         <tr key={item.id}>
                             <th scope="row">{item.id}</th>
                             <td><span>{item.name}</span></td>
-                            <td><span>{item.type}</span></td>
                             <td><span>{item.Calories}</span></td>
                             <td><span>{item.Carbs}</span></td>
                             <td><span>{item.Fats}</span></td>
                             <td><span>{item.Protien}</span></td>
-                            <td><button type="button" className="btn btn-primary">Edit</button></td>
-                            <td><button type="button" className="btn btn-danger"
-                                onClick={() => props.deleteItem("ingredients", item.id)}>Delete</button></td>
+                            <td><button type="button" className="btn btn-primary" onClick={() => props.viewModals("EditIngredient", item)}>Edit</button></td>
+                            <td><button type="button" className="btn btn-danger" onClick={() => props.deleteItem("ingredients", item.id)}>X</button></td>
                         </tr>
                     )}
                     <tr>
                         <th scope="row" colSpan="9">
-                            <button type="button" className="btn btn-secondary">Create New Ingredient</button>
+                            <button type="button" className="btn btn-secondary" onClick={() => props.viewModals("CreateIngredient", null)}> Create New Ingredient</button>
                         </th>
                     </tr>
                 </tbody>

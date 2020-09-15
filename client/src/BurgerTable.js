@@ -17,14 +17,14 @@ function BurgerTable(props) {
                     <tr key={item.id}>
                         <th scope="row">{item.id}</th>
                         <td><span className="flex-grow-1">{item.name}</span></td>
-                        <td><button type="button" className="btn btn-primary" onClick={() => props.viewNutrition(item)} >View</button></td>
-                        <td><button type="button" className="btn btn-primary">Edit</button></td>
-                        <td><button type="button" className="btn btn-danger" onClick={() => props.deleteItem("burger", item.id)}>Delete</button></td>
+                        <td><button type="button" className="btn btn-primary" onClick={() => props.viewModals("Nutrition", item)} >View</button></td>
+                        <td><button type="button" className="btn btn-primary" onClick={() => props.viewModals("EditBurger", item)}>Edit</button></td>
+                        <td><button type="button" className="btn btn-danger" onClick={() => props.deleteItem("burger", item.id)}>X</button></td>
                     </tr>
                 )}
                 <tr>
                     <th scope="row" colSpan="9">
-                        <button type="button" className="btn btn-secondary">Create New Burger</button>
+                        <button type="button" className="btn btn-secondary" onClick={() => props.viewModals("CreateBurger", null)}>Create New Burger</button>
                     </th>
                 </tr>
             </tbody>

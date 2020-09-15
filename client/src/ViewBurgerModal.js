@@ -16,11 +16,9 @@ function ViewBurgerModal(props) {
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                <h4>Centered Modal</h4>
+                <h4>{props.data.name}</h4>
                 <p>
-                    Cras mattis consectetur purus sit amet fermentum. Cras justo odio,
-                    dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac
-                    consectetur ac, vestibulum at eros.
+                    view nutrition
                 </p>
             </Modal.Body>
             <Modal.Footer>

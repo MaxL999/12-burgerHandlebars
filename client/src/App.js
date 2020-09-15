@@ -18,7 +18,7 @@ class App extends Component {
 
     this.searchMYSQL = this.searchMYSQL.bind(this)
     this.deleteItem = this.deleteItem.bind(this)
-    this.viewNutrition = this.viewNutrition.bind(this)
+    this.viewModals = this.viewModals.bind(this)
   }
 
   state = {
@@ -48,9 +48,24 @@ class App extends Component {
     this.searchMYSQL()
   }
 
-  viewNutrition(props) {
-    this.setState({ ViewNutrition: true, objectValues: props })
-    console.log(this.state)
+  async viewModals(modal, props) {
+    switch (modal) {
+      case "Nutrition":
+        await this.setState({ ViewNutrition: true, objectValues: props })
+        break;
+      case "CreateBurger":
+        await this.setState({ CreateBurger: true })
+        break;
+      case "EditBurger":
+        await this.setState({ EditBurger: true, objectValues: props })
+        break;
+      case "CreateIngredient":
+        await this.setState({ CreateIngredient: true })
+        break;
+      case "EditIngredient":
+        await this.setState({ EditBurger: true, objectValues: props })
+        break;
+    }
   }
 
   // spawn burger table, or filter ingredients list for specific type
@@ -59,7 +74,7 @@ class App extends Component {
       return <BurgerTable
         table={this.state.burgers}
         deleteItem={this.deleteItem}
-        viewNutrition={this.viewNutrition}
+        viewModals={this.viewModals}
       />
     } else {
       let i = 0
@@ -69,7 +84,7 @@ class App extends Component {
           list.push(this.state.ingredients[i])
         }
       }
-      return <IngredientTable table={list} deleteItem={this.deleteItem} />;
+      return <IngredientTable table={list} deleteItem={this.deleteItem} viewModals={this.viewModals} />;
     }
   }
 
@@ -77,8 +92,6 @@ class App extends Component {
     return (
       <div className="App">
         <header className="App-header">
-
-          <button onClick={() => this.setState({ ViewNutrition: true })}>Click</button>
 
           <div className="d-flex justify-content-around p-2">
             <button onClick={() => this.setState({ table: 'burger' })} >Burger</button>
@@ -96,11 +109,13 @@ class App extends Component {
 
           {/* each individual model */}
           <ViewBurgerModal
+            data={this.state.objectValues}
             show={this.state.ViewNutrition}
             onHide={() => this.setState({ ViewNutrition: false })}
           />
 
-          {/* <EditBurgerModal
+          <EditBurgerModal
+            data={this.state.objectValues}
             show={this.state.EditBurger}
             onHide={() => this.setState({ EditBurger: false })}
           />
@@ -111,6 +126,7 @@ class App extends Component {
           />
 
           <EditIngredientModal
+            data={this.state.objectValues}
             show={this.state.EditBurger}
             onHide={() => this.setState({ EditBurger: false })}
           />
@@ -118,7 +134,7 @@ class App extends Component {
           <CreateIngredientModal
             show={this.state.CreateIngredient}
             onHide={() => this.setState({ CreateIngredient: false })}
-          /> */}
+          />
 
         </header>
       </div>
