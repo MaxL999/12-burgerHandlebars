@@ -26,13 +26,13 @@ router.delete("/api/:table/:id", async (req, res, next) => {
 
 
 router.post("/api/update", async (req, res, next) => {
-  try {
-    await orm.update(req.body)
-    let data = await orm.all(req.params.table)
-    res.json(data)
-  } catch (err) {
-    res.sendStatus(500)
-  }
+  // try {
+  //   await orm.update(req.body)
+  //   let data = await orm.all(req.params.table)
+  //   res.json(data)
+  // } catch (err) {
+  //   res.sendStatus(500)
+  // }
 })
 
 // router.post("/api/food", function(req, res) {

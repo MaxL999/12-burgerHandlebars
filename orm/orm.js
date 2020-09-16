@@ -74,12 +74,32 @@ const orm = {
     },
     update: (data) => {
         return new Promise((resolve, reject) => {
+            // needs to pass object type somehow perhaps burger table needs a type?
             var queryString = "UPDATE FROM " + data.table
-                + "SET "
-                + " WHERE ID = " + data.id
-                
+            if (data.table === "burger") {
+
+            } else {
+                var values = {
+                    name: data.Name,
+                    type: data.Type,
+                    calories: data.Calories,
+                    fats: data.Fats,
+                    protein: data.Protein,
+                    carbs: data.Carbs
+                }
+
+            }
+            console.log(values)
+            queryString += "WHERE ID = " + data.id
+            connection.query(queryString, (err, result) => {
+                if (err) return reject(err);
+                resolve(result)
+            })
+
+
         })
     }
+
     // will reintroduce
     // create: function (table, cols, vals, cb) {
     //     var queryString = "INSERT INTO " + table;

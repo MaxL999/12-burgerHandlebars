@@ -24,7 +24,7 @@ CREATE TABLE ingredients (
     type VARCHAR(35),
     Calories INT,
     Carbs INT,
-    Protien INT,
+    Protein INT,
     Fats Int,
     PRIMARY KEY (id)
 );

@@ -13,7 +13,7 @@ function IngredientTable(props) {
                         <th scope="col">Calories</th>
                         <th scope="col">Carbs</th>
                         <th scope="col">Fats</th>
-                        <th scope="col">Protien</th>
+                        <th scope="col">Protein</th>
                         <th scope="col">Edit</th>
                         <th scope="col">Delete</th>
                     </tr>
@@ -26,7 +26,7 @@ function IngredientTable(props) {
                             <td><span>{item.Calories}</span></td>
                             <td><span>{item.Carbs}</span></td>
                             <td><span>{item.Fats}</span></td>
-                            <td><span>{item.Protien}</span></td>
+                            <td><span>{item.Protein}</span></td>
                             <td><button type="button" className="btn btn-primary" onClick={() => props.viewModals("EditIngredient", item)}>Edit</button></td>
                             <td><button type="button" className="btn btn-danger" onClick={() => props.deleteItem("ingredients", item.id)}>X</button></td>
                         </tr>

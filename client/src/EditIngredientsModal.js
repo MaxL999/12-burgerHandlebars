@@ -28,7 +28,7 @@ function EditIngredientModal(props) {
                             <label>Calories:<input ref={calories} type="number" defaultValue={props.data.Calories}></input></label>
                         </div>
                         <div className="col-6 d-flex justify-content-center p-2">
-                            <label>Protein:<input ref={protein} type="number" defaultValue={props.data.Protien}></input></label>
+                            <label>Protein:<input ref={protein} type="number" defaultValue={props.data.Protein}></input></label>
                         </div>
                     </div>
                     <div className="row">
@@ -42,12 +42,12 @@ function EditIngredientModal(props) {
                 </div>
             </Modal.Body>
             <Modal.Footer>
-                {/* <button onClick={() => console.log(props)}>Click</button> */}
                 <button onClick={props.onHide}>Close</button>
                 <button onClick={() => props.editItem(
                     {
                         table: "ingredients",
                         id: props.data.id,
+                        Type: props.data.type,
                         Name: name.current.value,
                         Calories: Number(calories.current.value),
                         Protein: Number(protein.current.value),
