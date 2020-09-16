@@ -42,6 +42,7 @@ class App extends Component {
     let burger = await API.table("burger")
     let ingredient = await API.table("ingredients")
     this.setState({ burgers: burger.data, ingredients: ingredient.data })
+    console.log(this.state)
   }
 
   async deleteItem(table, id) {
@@ -51,13 +52,13 @@ class App extends Component {
 
   editItem(values) {
     console.log(values)
-    API.update(values)
-    if (values.table === "burger") {
-      this.setState({ EditBurger: false })
-    } else {
-      this.setState({ EditIngredient: false })
-    }
-    this.searchMYSQL()
+    // API.update(values)
+    // if (values.table === "burger") {
+    //   this.setState({ EditBurger: false })
+    // } else {
+    //   this.setState({ EditIngredient: false })
+    // }
+    // this.searchMYSQL()
   }
 
   // async nutritionValue() {
@@ -137,7 +138,9 @@ class App extends Component {
           />
 
           <EditBurgerModal
-            data={this.state.objectValues}
+            editItem={this.editItem}
+            burger={this.state.objectValues}
+            ingredients={this.state.ingredients}
             show={this.state.EditBurger}
             onHide={() => this.setState({ EditBurger: false })}
           />
