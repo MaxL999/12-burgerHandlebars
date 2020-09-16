@@ -26,7 +26,9 @@ function objToSql(ob) {
         // check to skip hidden properties
         if (Object.hasOwnProperty.call(ob, key)) {
             // if string with spaces, add quotations (Lana Del Grey => 'Lana Del Grey')
-            if (typeof value === "string" && value.indexOf(" ") >= 0) {
+            // cut out of the if statement to make it work 
+            // || value.indexOf(" ") >= 0
+            if (typeof value === "string" ) {
                 value = "'" + value + "'";
             }
             // e.g. {name: 'Lana Del Grey'} => ["name='Lana Del Grey'"]
@@ -39,18 +41,6 @@ function objToSql(ob) {
     return arr.toString();
 }
 
-// // async function so data is present on initial load
-// const allData = async () => {
-//     return new Promise((resolve, reject) => {
-
-//         var queryString = "SELECT * FROM " + tableInput + ";";
-//         connection.query(queryString, function (err, result) {
-//             if (err) return reject(err);
-//             resolve(result);
-//         });
-
-//     })
-// }
 
 // Object for all our SQL statement functions.
 const orm = {
@@ -75,11 +65,24 @@ const orm = {
     update: (data) => {
         return new Promise((resolve, reject) => {
             // needs to pass object type somehow perhaps burger table needs a type?
-            var queryString = "UPDATE FROM " + data.table
+            var queryString = "UPDATE " + data.table + " SET "
             if (data.table === "burger") {
-
+                let values = {
+                    name: data.Name,
+                    bun: data.Bun,
+                    ing1: ((data.Ing1) ? data.Ing1 : null),
+                    ing2: ((data.Ing1) ? data.Ing2 : null),
+                    ing3: ((data.Ing1) ? data.Ing3 : null),
+                    ing4: ((data.Ing1) ? data.Ing4 : null),
+                    ing5: ((data.Ing1) ? data.Ing5 : null),
+                    ing6: ((data.Ing1) ? data.Ing6 : null),
+                    ing7: ((data.Ing1) ? data.Ing7 : null),
+                    ing8: ((data.Ing1) ? data.Ing8 : null),
+                    ing9: ((data.Ing1) ? data.Ing9 : null),
+                }
+                queryString += objToSql(values)
             } else {
-                var values = {
+                let values = {
                     name: data.Name,
                     type: data.Type,
                     calories: data.Calories,
@@ -87,16 +90,16 @@ const orm = {
                     protein: data.Protein,
                     carbs: data.Carbs
                 }
-
+                queryString += objToSql(values)
             }
-            console.log(values)
-            queryString += "WHERE ID = " + data.id
+            queryString += " WHERE ID = " + data.id
+
+            console.log(queryString)
+
             connection.query(queryString, (err, result) => {
                 if (err) return reject(err);
                 resolve(result)
             })
-
-
         })
     }
 
