@@ -49,8 +49,10 @@ class App extends Component {
     this.searchMYSQL()
   }
 
-  async editItem(values) {
+  editItem(values) {
     console.log(values)
+    API.update(values)
+    // this.searchMYSQL()
   }
 
   // async nutritionValue() {

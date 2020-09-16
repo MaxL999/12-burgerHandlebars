@@ -18,25 +18,25 @@ function EditIngredientModal(props) {
         >
             <Modal.Header>
                 <Modal.Title>
-                    <span className="p-2">Name: <input defaultValue={props.data.name}></input></span>
+                    <label className="p-2">Name: <input ref={name} type="text" defaultValue={props.data.name}></input></label>
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <div className="container-fluid">
                     <div className="row">
                         <div className="col-6 d-flex justify-content-center p-2">
-                            <span>Calories:<input ref={calories} defaultValue={props.data.Calories}></input></span>
+                            <label>Calories:<input ref={calories} type="number" defaultValue={props.data.Calories}></input></label>
                         </div>
                         <div className="col-6 d-flex justify-content-center p-2">
-                            <span>Protein:<input ref={protein} defaultValue={props.data.Protien}></input></span>
+                            <label>Protein:<input ref={protein} type="number" defaultValue={props.data.Protien}></input></label>
                         </div>
                     </div>
                     <div className="row">
                         <div className="col-6 d-flex justify-content-center p-2">
-                            <span>Carbs:<input ref={carbs} defaultValue={props.data.Carbs}></input></span>
+                            <label>Carbs:<input ref={carbs} type="number" defaultValue={props.data.Carbs}></input></label>
                         </div>
                         <div className="col-6 d-flex justify-content-center p-2">
-                            <span>Fats:<input ref={fats} defaultValue={props.data.Fats}></input></span>
+                            <label>Fats:<input ref={fats} type="number" defaultValue={props.data.Fats}></input></label>
                         </div>
                     </div>
                 </div>
@@ -47,11 +47,11 @@ function EditIngredientModal(props) {
                 <button onClick={() => props.editItem(
                     {
                         id: props.data.id,
-                        Name: name,
-                        Calories: calories,
-                        Protein: protein,
-                        Carbs: carbs,
-                        Fats: fats
+                        Name: name.current.value,
+                        Calories: Number(calories.current.value),
+                        Protein: Number(protein.current.value),
+                        Carbs: Number(carbs.current.value),
+                        Fats: Number(fats.current.value)
                     }
                 )}>Edit</button>
             </Modal.Footer>

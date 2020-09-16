@@ -83,12 +83,22 @@ const API = {
 
     delete: (table, id) => {
         return new Promise((resolve, reject) => {
-            let axiosString = "http://localhost:3001/api/delete/" + table + "/" + id
-            axios.get(axiosString, config)
+            let axiosString = "http://localhost:3001/api/" + table + "/" + id
+            axios.delete(axiosString, config)
                 .catch((err) => reject(err))
                 .then((data) => resolve(data))
         })
     },
+
+    update: (values) => {
+        return new Promise((resolve, reject) => {
+            let axiosString = "http://localhost:3001/api/update"
+            axios.post(axiosString, values, config)
+                .catch((err) => reject(err))
+                .then((data) => resolve(data))
+
+        })
+    }
     // eat: function (id) {
 
 
