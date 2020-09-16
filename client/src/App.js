@@ -50,9 +50,8 @@ class App extends Component {
   }
 
   editItem(values) {
-    console.log(values)
     API.update(values)
-    // this.searchMYSQL()
+    this.searchMYSQL()
   }
 
   // async nutritionValue() {
@@ -60,8 +59,6 @@ class App extends Component {
   // }
 
   viewModals(modal, props) {
-    console.log(props)
-    console.log(this.state)
     switch (modal) {
       case "Nutrition":
         this.setState({ ViewNutrition: true, objectValues: props })

@@ -46,6 +46,7 @@ function EditIngredientModal(props) {
                 <button onClick={props.onHide}>Close</button>
                 <button onClick={() => props.editItem(
                     {
+                        table: "ingredients",
                         id: props.data.id,
                         Name: name.current.value,
                         Calories: Number(calories.current.value),

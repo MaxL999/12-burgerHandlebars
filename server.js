@@ -12,6 +12,11 @@ app.use(cors())
 // app.use(history())
 
 const routes = require("./router/route");
+
+// middleware so routes can pass objects
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
 app.use(routes);
 
 // Serve up static assets on heroku

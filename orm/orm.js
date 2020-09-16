@@ -72,6 +72,14 @@ const orm = {
             });
         })
     },
+    update: (data) => {
+        return new Promise((resolve, reject) => {
+            var queryString = "UPDATE FROM " + data.table
+                + "SET "
+                + " WHERE ID = " + data.id
+                
+        })
+    }
     // will reintroduce
     // create: function (table, cols, vals, cb) {
     //     var queryString = "INSERT INTO " + table;
