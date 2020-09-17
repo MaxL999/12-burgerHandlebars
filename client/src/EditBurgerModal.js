@@ -4,6 +4,7 @@ import Modal from 'react-bootstrap/modal'
 
 function EditBurgerModal(props) {
     const name = useRef(null)
+    const bun = useRef(null)
     const ing1 = useRef(null)
     const ing2 = useRef(null)
     const ing3 = useRef(null)
@@ -14,12 +15,20 @@ function EditBurgerModal(props) {
     const ing8 = useRef(null)
     const ing9 = useRef(null)
 
-    const options = (option) => <datalist id="ingredients">
-        <option value="none" />
-        {props.ingredients.map((ingredient) => {
-            return <option value={ingredient.name} />
+    const bunOptions = (entry, refName) => <select defaultValue={entry} ref={refName}>
+        {props.ingredients.map((ingredient, i) => {
+            if (ingredient.type !== "Bun") return null
+            else return <option key={i} value={ingredient.name}>{ingredient.name}</option>
         })}
-    </datalist>
+    </select>
+
+    const ingredientOptions = (entry, refName) => <select defaultValue={entry} ref={refName}>
+        <option value={null}>None</option>
+        {props.ingredients.map((ingredient, i) => {
+            if (ingredient.type === "Bun") return null
+            else return <option key={i} value={ingredient.name}>{ingredient.name}</option>
+        })}
+    </select>
 
     return (
         <Modal
@@ -30,55 +39,52 @@ function EditBurgerModal(props) {
         >
             <Modal.Header>
                 <Modal.Title>
-                    <label>Name: <input ref={name} defaultValue={props.burger.name}></input></label>
+                    <label>Name: <input ref={name} type="text" defaultValue={props.burger.name}></input></label>
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <div className="container-fluid">
                     <div className="row">
                         <div className="col-6">
-                            <label>Bun:<input type="text" defaultValue={props.burger.bun}></input></label>
+                            <label>Bun:{bunOptions(props.burger.bun, bun)}</label>
                         </div>
                         <div className="col-6">
-                            <label>Layer 1:<input ref={ing1} list="ingredients" defaultValue={props.burger.ing1}></input></label>
-                        </div>
-                    </div>
-                    <div className="row">
-                        <div className="col-6">
-                            <label>Layer 2:<input ref={ing2} list="ingredients" defaultValue={props.burger.ing2}></input></label>
-                        </div>
-                        <div className="col-6">
-                            <label>Layer 3:<input ref={ing3} list="ingredients" defaultValue={props.burger.ing3}></input></label>
+                            <label>Layer 1:{ingredientOptions(props.burger.ing1, ing1)}</label>
                         </div>
                     </div>
                     <div className="row">
                         <div className="col-6">
-                            <label>Layer 4:<input ref={ing4} list="ingredients" defaultValue={props.burger.ing4}></input></label>
+                            <label>Layer 2:{ingredientOptions(props.burger.ing2, ing2)}</label>
                         </div>
                         <div className="col-6">
-                            <label>Layer 5:<input ref={ing5} list="ingredients" defaultValue={props.burger.ing5}></input></label>
-                        </div>
-                    </div>
-                    <div className="row">
-                        <div className="col-6">
-                            <label>Layer 6:<input ref={ing6} list="ingredients" defaultValue={props.burger.ing6}></input></label>
-                        </div>
-                        <div className="col-6">
-                            <label>Layer 7:<input ref={ing7} list="ingredients" defaultValue={props.burger.ing7}></input></label>
+                            <label>Layer 3:{ingredientOptions(props.burger.ing3, ing3)}</label>
                         </div>
                     </div>
                     <div className="row">
                         <div className="col-6">
-                            <label>Layer 8:<input ref={ing8} list="ingredients" defaultValue={props.burger.ing8}></input></label>
+                            <label>Layer 4:{ingredientOptions(props.burger.ing4, ing4)}</label>
                         </div>
                         <div className="col-6">
-                            <label>Layer 9:<input ref={ing9} list="ingredients" defaultValue={props.burger.ing9}></input></label>
+                            <label>Layer 5:{ingredientOptions(props.burger.ing5, ing5)}</label>
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="col-6">
+                            <label>Layer 6:{ingredientOptions(props.burger.ing6, ing6)}</label>
+                        </div>
+                        <div className="col-6">
+                            <label>Layer 7:{ingredientOptions(props.burger.ing7, ing7)}</label>
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="col-6">
+                            <label>Layer 8:{ingredientOptions(props.burger.ing8, ing8)}</label>
+                        </div>
+                        <div className="col-6">
+                            <label>Layer 9:{ingredientOptions(props.burger.ing9, ing9)}</label>
                         </div>
                     </div>
                 </div>
-
-
-
             </Modal.Body>
             <Modal.Footer>
                 <button onClick={props.onHide}>Close</button>
@@ -86,8 +92,9 @@ function EditBurgerModal(props) {
                     table: "burger",
                     id: props.burger.id,
                     Name: name.current.value,
+                    Bun: bun.current.value,
                     Ing1: ing1.current.value,
-                    Ing2: ing3.current.value,
+                    Ing2: ing2.current.value,
                     Ing3: ing3.current.value,
                     Ing4: ing4.current.value,
                     Ing5: ing5.current.value,

@@ -51,14 +51,13 @@ class App extends Component {
   }
 
   editItem(values) {
-    console.log(values)
-    // API.update(values)
-    // if (values.table === "burger") {
-    //   this.setState({ EditBurger: false })
-    // } else {
-    //   this.setState({ EditIngredient: false })
-    // }
-    // this.searchMYSQL()
+    API.update(values)
+    if (values.table === "burger") {
+      this.setState({ EditBurger: false })
+    } else {
+      this.setState({ EditIngredient: false })
+    }
+    this.searchMYSQL()
   }
 
   // async nutritionValue() {
