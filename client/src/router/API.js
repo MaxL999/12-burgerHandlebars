@@ -1,11 +1,12 @@
 import axios from 'axios';
 
-const config = {
-    headers: {
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS"
-    }
-};
+// might need to fix cross origin reference bug
+// const config = {
+//     headers: {
+//         "Access-Control-Allow-Origin": "*",
+//         "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS"
+//     }
+// };
 
 const API = {
 
@@ -35,22 +36,16 @@ const API = {
                 .then((data) => resolve(data))
 
         })
-    }
-    // eat: function (id) {
+    },
 
-
-    //     // Send the PUT request.
-    //     $.ajax("/api/food/" + id, {
-    //         type: "PUT",
-    //         data: newLunch
-    //     }).then(
-    //         function () {
-    //             console.log("changed eaten state to", newLunch);
-    //             // // Reload the page to get the updated list
-    //             // location.reload();
-    //         }
-    //     );
-    // }
+    create: (values) => {
+        return new Promise((resolve, reject) => {
+            let axiosString = "http://localhost:3001/api/create"
+            axios.post(axiosString, values)
+                .catch((err) => reject(err))
+                .then((data) => resolve(data))
+        })
+    },
 }
 
 export default API;

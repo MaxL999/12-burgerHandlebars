@@ -1,6 +1,8 @@
 // Import MySQL connection.
 var connection = require("../config/connection.js");
 
+// const { query } = require("express");
+
 // Helper function for SQL syntax.
 // Let's say we want to pass 3 values into the mySQL query.
 // In order to write the query, we need 3 question marks.
@@ -28,7 +30,7 @@ function objToSql(ob) {
             // if string with spaces, add quotations (Lana Del Grey => 'Lana Del Grey')
             // cut out of the if statement to make it work 
             // || value.indexOf(" ") >= 0
-            if (typeof value === "string" ) {
+            if (typeof value === "string") {
                 value = "'" + value + "'";
             }
             // e.g. {name: 'Lana Del Grey'} => ["name='Lana Del Grey'"]
@@ -64,21 +66,20 @@ const orm = {
     },
     update: (data) => {
         return new Promise((resolve, reject) => {
-            // needs to pass object type somehow perhaps burger table needs a type?
             var queryString = "UPDATE " + data.table + " SET "
             if (data.table === "burger") {
                 let values = {
                     name: data.Name,
                     bun: data.Bun,
                     ing1: ((data.Ing1) ? data.Ing1 : null),
-                    ing2: ((data.Ing1) ? data.Ing2 : null),
-                    ing3: ((data.Ing1) ? data.Ing3 : null),
-                    ing4: ((data.Ing1) ? data.Ing4 : null),
-                    ing5: ((data.Ing1) ? data.Ing5 : null),
-                    ing6: ((data.Ing1) ? data.Ing6 : null),
-                    ing7: ((data.Ing1) ? data.Ing7 : null),
-                    ing8: ((data.Ing1) ? data.Ing8 : null),
-                    ing9: ((data.Ing1) ? data.Ing9 : null),
+                    ing2: ((data.Ing2) ? data.Ing2 : null),
+                    ing3: ((data.Ing3) ? data.Ing3 : null),
+                    ing4: ((data.Ing4) ? data.Ing4 : null),
+                    ing5: ((data.Ing5) ? data.Ing5 : null),
+                    ing6: ((data.Ing6) ? data.Ing6 : null),
+                    ing7: ((data.Ing7) ? data.Ing7 : null),
+                    ing8: ((data.Ing8) ? data.Ing8 : null),
+                    ing9: ((data.Ing9) ? data.Ing9 : null),
                 }
                 queryString += objToSql(values)
             } else {
@@ -94,13 +95,35 @@ const orm = {
             }
             queryString += " WHERE ID = " + data.id
 
-            console.log(queryString)
-
             connection.query(queryString, (err, result) => {
                 if (err) return reject(err);
                 resolve(result)
             })
         })
+    },
+
+    create: (data) => {
+        return new Promise((resolve, reject) => {
+            var queryString = "INSERT INTO " + data.table
+            if (data.table = "burger") {
+                queryString += " (name, bun, ing1, ing2, ing3, ing4, ing5, ing6, ing7, ing8, ing9)"
+                queryString += " VALUES ('" + data.Name + "','" + data.Bun
+                queryString += "','" + data.Ing1 + "','" + data.Ing2 + "','" + data.Ing3
+                queryString += "','" + data.Ing4 + "','" + data.Ing5 + "','" + data.Ing6
+                queryString += "','" + data.Ing7 + "','" + data.Ing8 + "','" + data.Ing9 + "')"
+            } else {
+                queryString += " (name, type, Calories, Carbs, Protein, Fats) VALUES ('"
+                queryString += data.Name + "','" + data.type + "','" + data.Calories + ",'"
+                queryString += data.Carbs + "','" + data.Protein + "','" + data.Fats + "')"
+            }
+
+            console.log(queryString)
+            connection.query(queryString, (err, result) => {
+                if (err) throw reject(err)
+                resolve(result)
+            })
+        })
+
     }
 
     // will reintroduce
@@ -118,22 +141,6 @@ const orm = {
 
     //     connection.query(queryString, vals, function (err, result) {
     //         if (err) throw err
-
-    //         cb(result);
-    //     });
-    // },
-    // // An example of objColVals would be {name: panther, sleepy: true}
-    // update: function (table, objColVals, condition, cb) {
-    //     var queryString = "UPDATE " + table;
-
-    //     queryString += " SET ";
-    //     queryString += objToSql(objColVals);
-    //     queryString += " WHERE ";
-    //     queryString += condition;
-
-    //     console.log(queryString);
-    //     connection.query(queryString, function (err, result) {
-    //         if (err) throw err;
 
     //         cb(result);
     //     });

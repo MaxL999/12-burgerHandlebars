@@ -3,6 +3,8 @@ import React from 'react';
 import Modal from 'react-bootstrap/modal'
 
 function CreateIngredientModal(props) {
+    
+
     return (
         <Modal
             {...props}

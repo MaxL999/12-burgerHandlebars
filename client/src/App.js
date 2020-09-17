@@ -19,6 +19,7 @@ class App extends Component {
     this.searchMYSQL = this.searchMYSQL.bind(this)
     this.deleteItem = this.deleteItem.bind(this)
     this.editItem = this.editItem.bind(this)
+    this.createItem = this.createItem.bind(this)
     this.viewModals = this.viewModals.bind(this)
   }
 
@@ -42,7 +43,6 @@ class App extends Component {
     let burger = await API.table("burger")
     let ingredient = await API.table("ingredients")
     this.setState({ burgers: burger.data, ingredients: ingredient.data })
-    console.log(this.state)
   }
 
   async deleteItem(table, id) {
@@ -50,12 +50,24 @@ class App extends Component {
     this.searchMYSQL()
   }
 
-  editItem(values) {
-    API.update(values)
+  async editItem(values) {
+    console.log(values)
+    await API.update(values)
     if (values.table === "burger") {
       this.setState({ EditBurger: false })
     } else {
       this.setState({ EditIngredient: false })
+    }
+    this.searchMYSQL()
+  }
+
+  createItem(values) {
+    console.log(values)
+    API.create(values)
+    if (values.table === "burger") {
+      this.setState({ CreateBurger: false })
+    } else {
+      this.setState({ CreateIngredient: false })
     }
     this.searchMYSQL()
   }
@@ -145,6 +157,8 @@ class App extends Component {
           />
 
           <CreateBurgerModal
+            createItem={this.createItem}
+            ingredients={this.state.ingredients}
             show={this.state.CreateBurger}
             onHide={() => this.setState({ CreateBurger: false })}
           />
