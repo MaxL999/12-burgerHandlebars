@@ -101,7 +101,7 @@ function CreateBurgerModal(props) {
                     Ing7: ing7.current.value !== "None" ? ing7.current.value : null,
                     Ing8: ing8.current.value !== "None" ? ing8.current.value : null,
                     Ing9: ing9.current.value !== "None" ? ing9.current.value : null,
-                })}>Edit</button>
+                })}>Create</button>
             </Modal.Footer>
         </Modal>
     );

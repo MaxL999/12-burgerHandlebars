@@ -1,22 +1,6 @@
 // Import MySQL connection.
 var connection = require("../config/connection.js");
 
-// const { query } = require("express");
-
-// Helper function for SQL syntax.
-// Let's say we want to pass 3 values into the mySQL query.
-// In order to write the query, we need 3 question marks.
-// The above helper function loops through and creates an array of question marks - ["?", "?", "?"] - and turns it into a string.
-// ["?", "?", "?"].toString() => "?,?,?";
-function printQuestionMarks(num) {
-    var arr = [];
-
-    for (var i = 0; i < num; i++) {
-        arr.push("?");
-    }
-
-    return arr.toString();
-}
 
 // Helper function to convert object key/value pairs to SQL syntax
 function objToSql(ob) {
@@ -41,6 +25,16 @@ function objToSql(ob) {
 
     // translate array of strings to a single comma-separated string
     return arr.toString();
+}
+
+function dataToNull(data) {
+    if (data !== null) {
+        var word = ", '" + data + "'"
+        return word
+    } else {
+        var word = ", NULL"
+        return word
+    }
 }
 
 
@@ -101,51 +95,34 @@ const orm = {
             })
         })
     },
-
     create: (data) => {
         return new Promise((resolve, reject) => {
             var queryString = "INSERT INTO " + data.table
-            if (data.table = "burger") {
+            if (data.table === "burger") {
                 queryString += " (name, bun, ing1, ing2, ing3, ing4, ing5, ing6, ing7, ing8, ing9)"
-                queryString += " VALUES ('" + data.Name + "','" + data.Bun
-                queryString += "','" + data.Ing1 + "','" + data.Ing2 + "','" + data.Ing3
-                queryString += "','" + data.Ing4 + "','" + data.Ing5 + "','" + data.Ing6
-                queryString += "','" + data.Ing7 + "','" + data.Ing8 + "','" + data.Ing9 + "')"
+                queryString += " VALUES ('" + data.Name + "','" + data.Bun + "'"
+                queryString += dataToNull(data.Ing1) + dataToNull(data.Ing2)
+                queryString += dataToNull(data.Ing3) + dataToNull(data.Ing4)
+                queryString += dataToNull(data.Ing5) + dataToNull(data.Ing6)
+                queryString += dataToNull(data.Ing7) + dataToNull(data.Ing8)
+                queryString += dataToNull(data.Ing9) + ")"
+
+                // queryString += "','" + data.Ing1 + "','" + data.Ing2 + "','" + data.Ing3
+                // queryString += "','" + data.Ing4 + "','" + data.Ing5 + "','" + data.Ing6
+                // queryString += "','" + data.Ing7 + "','" + data.Ing8 + "','" + data.Ing9 + "')"
             } else {
                 queryString += " (name, type, Calories, Carbs, Protein, Fats) VALUES ('"
-                queryString += data.Name + "','" + data.type + "','" + data.Calories + ",'"
-                queryString += data.Carbs + "','" + data.Protein + "','" + data.Fats + "')"
+                queryString += data.Name + "','" + data.Type + "'," + data.Calories + ","
+                queryString += data.Carbs + "," + data.Protein + "," + data.Fats + ")"
             }
-
             console.log(queryString)
+            // resolve()
             connection.query(queryString, (err, result) => {
-                if (err) throw reject(err)
+                if (err) { console.log(err), reject(err) }
                 resolve(result)
             })
         })
-
     }
-
-    // will reintroduce
-    // create: function (table, cols, vals, cb) {
-    //     var queryString = "INSERT INTO " + table;
-
-    //     queryString += " (";
-    //     queryString += cols.toString();
-    //     queryString += ") ";
-    //     queryString += "VALUES (";
-    //     queryString += printQuestionMarks(vals.length);
-    //     queryString += ") ";
-
-    //     console.log(queryString);
-
-    //     connection.query(queryString, vals, function (err, result) {
-    //         if (err) throw err
-
-    //         cb(result);
-    //     });
-    // },
-
 };
 
 module.exports = orm;

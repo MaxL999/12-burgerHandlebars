@@ -1,9 +1,14 @@
-import React from 'react';
+import React, { useRef } from 'react';
 
 import Modal from 'react-bootstrap/modal'
 
 function CreateIngredientModal(props) {
-    
+    const name = useRef(null)
+    const type = useRef(null)
+    const calories = useRef(null)
+    const protein = useRef(null)
+    const fats = useRef(null)
+    const carbs = useRef(null)
 
     return (
         <Modal
@@ -14,16 +19,54 @@ function CreateIngredientModal(props) {
         >
             <Modal.Header>
                 <Modal.Title>
-                    Modal heading
+                    <label className="p-2">Name: <input ref={name} type="text"></input></label>
+
+
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                <p>
-                    create ingredient
-                </p>
+                <div className="container-fluid">
+                    <div className="row">
+                        <div className="col-12">
+                            <label>Type: <select ref={type} defaultValue={props.type}>
+                                <option>Bun</option>
+                                <option>Meat</option>
+                                <option>Cheese</option>
+                                <option>Vegetable</option>
+                                <option>Condiment</option>
+                            </select>
+                            </label>
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="col-6 d-flex justify-content-center p-2">
+                            <label>Calories:<input ref={calories} defaultValue={0} type="number"></input></label>
+                        </div>
+                        <div className="col-6 d-flex justify-content-center p-2">
+                            <label>Protein:<input ref={protein} defaultValue={0} type="number"></input></label>
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="col-6 d-flex justify-content-center p-2">
+                            <label>Carbs:<input ref={carbs} defaultValue={0} type="number"></input></label>
+                        </div>
+                        <div className="col-6 d-flex justify-content-center p-2">
+                            <label>Fats:<input ref={fats} defaultValue={0} type="number"></input></label>
+                        </div>
+                    </div>
+                </div>
             </Modal.Body>
             <Modal.Footer>
                 <button onClick={props.onHide}>Close</button>
+                <button onClick={() => props.createItem({
+                    table: "ingredients",
+                    Type: type.current.value,
+                    Name: name.current.value ? name.current.value : "Placeholder Ingredient",
+                    Calories: calories.current.value,
+                    Protein: protein.current.value,
+                    Carbs: carbs.current.value,
+                    Fats: fats.current.value
+                })}>Create</button>
             </Modal.Footer>
         </Modal>
     );

@@ -1,8 +1,8 @@
 use burger_db;
 
 
-insert into burger (name, bun, ing1, ing2, ing3, ing4, ing5, ing6, ing7)
-VALUES ("Big Kahuna", "Sesame", "BBQ", "Lettuce", "Tomato", "American", "Beef", "American", "Beef");
+insert into burger (name, bun, ing1, ing2, ing3, ing4, ing5, ing6, ing7, ing8)
+VALUES ("Big Kahuna", "Sesame", "BBQ", "Lettuce", "Tomato", "American", "Beef", "American", "Beef", null);
 
 insert into burger (name, bun, ing1, ing2, ing3)
 VALUES("Plain Burger", "Whole Wheat", "Ketchup", "Cheddar", "Beef");

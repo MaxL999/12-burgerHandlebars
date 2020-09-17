@@ -171,6 +171,8 @@ class App extends Component {
           />
 
           <CreateIngredientModal
+            createItem={this.createItem}
+            type={this.state.table}
             show={this.state.CreateIngredient}
             onHide={() => this.setState({ CreateIngredient: false })}
           />

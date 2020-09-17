@@ -43,18 +43,16 @@ function EditIngredientModal(props) {
             </Modal.Body>
             <Modal.Footer>
                 <button onClick={props.onHide}>Close</button>
-                <button onClick={() => {
-                    props.editItem({
-                        table: "ingredients",
-                        id: Number(props.data.id),
-                        Type: String(props.data.type),
-                        Name: String(name.current.value),
-                        Calories: Number(calories.current.value),
-                        Protein: Number(protein.current.value),
-                        Carbs: Number(carbs.current.value),
-                        Fats: Number(fats.current.value)
-                    })
-                }}>Edit</button>
+                <button onClick={() => props.editItem({
+                    table: "ingredients",
+                    id: props.data.id,
+                    Type: props.data.type,
+                    Name: name.current.value,
+                    Calories: calories.current.value,
+                    Protein: protein.current.value,
+                    Carbs: carbs.current.value,
+                    Fats: fats.current.value
+                })}>Edit</button>
             </Modal.Footer>
         </Modal >
     );
