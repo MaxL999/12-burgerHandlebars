@@ -61,8 +61,7 @@ class App extends Component {
     this.searchMYSQL()
   }
 
-  createItem(values) {
-    console.log(values)
+  async createItem(values) {
     API.create(values)
     if (values.table === "burger") {
       this.setState({ CreateBurger: false })
@@ -72,9 +71,11 @@ class App extends Component {
     this.searchMYSQL()
   }
 
-  // async nutritionValue() {
-
-  // }
+  async nutritionValue(id) {
+    console.log(id)
+    let data = await API.nutrition(id)
+    console.log(data)
+  }
 
   viewModals(modal, props) {
     switch (modal) {
@@ -127,6 +128,8 @@ class App extends Component {
       <div className="App">
         <header className="App-header">
 
+          <button onClick={() => this.nutritionValue(1)}>Click</button>
+
           <div className="d-flex justify-content-around p-2">
             <button onClick={() => this.setState({ table: 'burger' })} >Burger</button>
             <button onClick={() => this.setState({ table: 'Meat' })} >Meat</button>
@@ -143,6 +146,7 @@ class App extends Component {
 
           {/* each individual model */}
           <ViewBurgerModal
+            viewNutrition={this.nutritionValue}
             data={this.state.objectValues}
             show={this.state.ViewNutrition}
             onHide={() => this.setState({ ViewNutrition: false })}

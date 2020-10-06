@@ -46,6 +46,15 @@ const API = {
                 .then((data) => resolve(data))
         })
     },
+
+    nutrition: (id) => {
+        return new Promise((resolve, reject) => {
+            let axiosString = "http://localhost:3001/api/nutrition/" + id  
+            axios.get(axiosString)
+                .catch((err) => reject(err))
+                .then((data) => resolve(data))
+        })
+    }
 }
 
 export default API;

@@ -58,6 +58,7 @@ const orm = {
             });
         })
     },
+
     update: (data) => {
         return new Promise((resolve, reject) => {
             var queryString = "UPDATE " + data.table + " SET "
@@ -106,21 +107,46 @@ const orm = {
                 queryString += dataToNull(data.Ing5) + dataToNull(data.Ing6)
                 queryString += dataToNull(data.Ing7) + dataToNull(data.Ing8)
                 queryString += dataToNull(data.Ing9) + ")"
-
-                // queryString += "','" + data.Ing1 + "','" + data.Ing2 + "','" + data.Ing3
-                // queryString += "','" + data.Ing4 + "','" + data.Ing5 + "','" + data.Ing6
-                // queryString += "','" + data.Ing7 + "','" + data.Ing8 + "','" + data.Ing9 + "')"
             } else {
                 queryString += " (name, type, Calories, Carbs, Protein, Fats) VALUES ('"
                 queryString += data.Name + "','" + data.Type + "'," + data.Calories + ","
                 queryString += data.Carbs + "," + data.Protein + "," + data.Fats + ")"
             }
-            console.log(queryString)
-            // resolve()
             connection.query(queryString, (err, result) => {
-                if (err) { console.log(err), reject(err) }
+                if (err) reject(err)
                 resolve(result)
             })
+        })
+    },
+    join: (id) => {
+        return new Promise((resolve, reject) => {
+            var burgerString = "SELECT * "
+            burgerString += "FROM burger "
+            burgerString += "WHERE burger.id = " + id + " "
+
+            connection.query(burgerString, (err, result) => {
+                if (err) throw console.log(err)
+                // if (err) throw reject(err)
+                console.log(result)
+                var burgerItems =[
+                    bun, ing1,
+                    ing2, ing3,
+                    ing4, ing5,
+                    ing6, ing7,
+                    ing8, ing9
+                ]
+
+                var itemString = "SELECT * FROM ingredients "
+                itemString += "WHERE NUMBER IN (" + objToSql(burgerItems) + ")" 
+
+                connection.query(itemString, (err, result) => {
+                    if (err) throw console.log(err)
+                    // if (err) throw reject(err)
+                    console.log(result)
+                    resolve()
+                })
+            })
+
         })
     }
 };
