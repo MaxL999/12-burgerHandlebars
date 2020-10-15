@@ -30,21 +30,18 @@ function objToSql(ob) {
     return arr.toString();
 }
 
+
 function arrToSql(arr) {
     var stringVal = [];
 
     for (var key in arr) {
         var sqlVal = arr[key]
 
-        if (typeof arr[key] === "string") {
-            sqlVal = "'" + sqlVal + "'"
-            console.log(sqlVal)
-        }
+        if (typeof arr[key] === "string") sqlVal = "'" + sqlVal + "'";
         if (arr[key] === null) break;
 
         stringVal.push(sqlVal)
     }
-    console.log("final string = " + stringVal.toString())
     return stringVal.toString()
 }
 
@@ -141,21 +138,12 @@ const orm = {
     },
     join: (id) => {
         return new Promise((resolve, reject) => {
-            var burgerString = "SELECT * "
-            burgerString += "FROM burger "
+            var burgerString = "SELECT * FROM burger "
             burgerString += "WHERE burger.id = " + id + " "
 
             connection.query(burgerString, (err, burger) => {
                 if (err) throw console.log(err)
                 // if (err) throw reject(err)
-
-                // var burgerItems = {
-                //     bun: burger[0].bun, ing1: burger[0].ing1,
-                //     ing2: burger[0].ing2, ing3: burger[0].ing3,
-                //     ing4: burger[0].ing4, ing5: burger[0].ing5,
-                //     ing6: burger[0].ing6, ing7: burger[0].ing7,
-                //     ing8: burger[0].ing8, ing9: burger[0].ing9
-                // }
 
                 var burgerItems = [
                     burger[0].bun, burger[0].ing1,
@@ -176,13 +164,12 @@ const orm = {
                 console.log(itemString)
 
                 connection.query(itemString, (err, result) => {
-                    if (err) throw console.log(err)
-                    // if (err) throw reject(err)
+                    // if (err) throw console.log(err)
+                    if (err) throw reject(err)
 
                     console.log(result)
                     resolve()
                 })
-                // resolve()
             })
 
         })
