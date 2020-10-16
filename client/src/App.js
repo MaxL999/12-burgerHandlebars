@@ -129,7 +129,7 @@ class App extends Component {
       <div className="App">
         <header className="App-header">
 
-          {/* <button onClick={() => this.nutritionValue(1)}>Click</button> */}
+          <button onClick={() => this.nutritionValue(1)}>Click</button>
           <button onClick={() => this.createItem({
             table: "burger",
             Name: "Placeholder Name",

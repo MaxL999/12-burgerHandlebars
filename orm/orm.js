@@ -55,6 +55,18 @@ function dataToNull(data) {
     }
 }
 
+function sortArray(array, pattern) {
+    var newArray = []
+
+    for (var i = 0; i < pattern.length; i++) {
+        for (var t = 0; t < array.length; t++) {
+            if (pattern[i] === array[t].id) newArray.push(array[t]);
+        }
+    }
+
+    return newArray
+}
+
 
 // Object for all our SQL statement functions.
 const orm = {
@@ -119,22 +131,15 @@ const orm = {
         return new Promise((resolve, reject) => {
             var queryString = "INSERT INTO " + data.table
             if (data.table === "burger") {
-                queryString += " (name, ingArr) VALUES ('" + data.Name + "', [" + data.ingArr + "] );"
-                // queryString += " (name, bun, ing1, ing2, ing3, ing4, ing5, ing6, ing7, ing8, ing9)"
-                // queryString += " VALUES ('" + data.Name + "','" + data.Bun + "'"
-                // queryString += dataToNull(data.Ing1) + dataToNull(data.Ing2)
-                // queryString += dataToNull(data.Ing3) + dataToNull(data.Ing4)
-                // queryString += dataToNull(data.Ing5) + dataToNull(data.Ing6)
-                // queryString += dataToNull(data.Ing7) + dataToNull(data.Ing8)
-                // queryString += dataToNull(data.Ing9) + ")"
+                queryString += " (name, ingArr) VALUES ('" + data.Name + "', JSON_ARRAY(" + data.ingArr + "));"
             } else {
                 queryString += " (name, type, Calories, Carbs, Protein, Fats) VALUES ('"
                 queryString += data.Name + "','" + data.Type + "'," + data.Calories + ","
                 queryString += data.Carbs + "," + data.Protein + "," + data.Fats + ")"
             }
             connection.query(queryString, (err, result) => {
-                // if (err) reject(err)
-                if (err) console.log(err)
+                if (err) reject(err)
+                // if (err) console.log(err)
                 resolve(result)
             })
         })
@@ -148,31 +153,19 @@ const orm = {
                 if (err) throw console.log(err)
                 // if (err) throw reject(err)
 
-                var burgerItems = [
-                    burger[0].bun, burger[0].ing1,
-                    burger[0].ing2, burger[0].ing3,
-                    burger[0].ing4, burger[0].ing5,
-                    burger[0].ing6, burger[0].ing7,
-                    burger[0].ing8, burger[0].ing9
-                ]
-                console.log(burger)
+                var ingredientArr = JSON.parse(burger[0].ingArr)
 
-                console.log(burgerItems)
+                var itemString = "SELECT * FROM ingredients WHERE id IN ("
+                itemString += ingredientArr.toString().replace(/[\[\]']+/g, '') + ")"
 
-                // console.log(objToSql(burgerItems))
-                console.log(arrToSql(burgerItems))
-
-                var itemString = "SELECT * FROM ingredients "
-                itemString += "WHERE name IN (" + arrToSql(burgerItems) + ")"
-
-                console.log(itemString)
-
-                connection.query(itemString, (err, result) => {
+                connection.query(itemString, (err, ingredients) => {
                     // if (err) throw console.log(err)
                     if (err) throw reject(err)
 
+                    var result = sortArray(ingredients, ingredientArr)
                     console.log(result)
-                    resolve()
+
+                    resolve(result)
                 })
             })
 
