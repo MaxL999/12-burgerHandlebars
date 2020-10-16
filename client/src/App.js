@@ -62,7 +62,8 @@ class App extends Component {
   }
 
   async createItem(values) {
-    API.create(values)
+    console.log(values)
+    await API.create(values)
     if (values.table === "burger") {
       this.setState({ CreateBurger: false })
     } else {
@@ -128,7 +129,12 @@ class App extends Component {
       <div className="App">
         <header className="App-header">
 
-          <button onClick={() => this.nutritionValue(1)}>Click</button>
+          {/* <button onClick={() => this.nutritionValue(1)}>Click</button> */}
+          <button onClick={() => this.createItem({
+            table: "burger",
+            Name: "Placeholder Name",
+            ingArr: [1,3,5,3,2]
+          })}>Click</button>
 
           <div className="d-flex justify-content-around p-2">
             <button onClick={() => this.setState({ table: 'burger' })} >Burger</button>

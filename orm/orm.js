@@ -115,23 +115,26 @@ const orm = {
         })
     },
     create: (data) => {
+        console.log(data)
         return new Promise((resolve, reject) => {
             var queryString = "INSERT INTO " + data.table
             if (data.table === "burger") {
-                queryString += " (name, bun, ing1, ing2, ing3, ing4, ing5, ing6, ing7, ing8, ing9)"
-                queryString += " VALUES ('" + data.Name + "','" + data.Bun + "'"
-                queryString += dataToNull(data.Ing1) + dataToNull(data.Ing2)
-                queryString += dataToNull(data.Ing3) + dataToNull(data.Ing4)
-                queryString += dataToNull(data.Ing5) + dataToNull(data.Ing6)
-                queryString += dataToNull(data.Ing7) + dataToNull(data.Ing8)
-                queryString += dataToNull(data.Ing9) + ")"
+                queryString += " (name, ingArr) VALUES ('" + data.Name + "', [" + data.ingArr + "] );"
+                // queryString += " (name, bun, ing1, ing2, ing3, ing4, ing5, ing6, ing7, ing8, ing9)"
+                // queryString += " VALUES ('" + data.Name + "','" + data.Bun + "'"
+                // queryString += dataToNull(data.Ing1) + dataToNull(data.Ing2)
+                // queryString += dataToNull(data.Ing3) + dataToNull(data.Ing4)
+                // queryString += dataToNull(data.Ing5) + dataToNull(data.Ing6)
+                // queryString += dataToNull(data.Ing7) + dataToNull(data.Ing8)
+                // queryString += dataToNull(data.Ing9) + ")"
             } else {
                 queryString += " (name, type, Calories, Carbs, Protein, Fats) VALUES ('"
                 queryString += data.Name + "','" + data.Type + "'," + data.Calories + ","
                 queryString += data.Carbs + "," + data.Protein + "," + data.Fats + ")"
             }
             connection.query(queryString, (err, result) => {
-                if (err) reject(err)
+                // if (err) reject(err)
+                if (err) console.log(err)
                 resolve(result)
             })
         })
@@ -152,6 +155,7 @@ const orm = {
                     burger[0].ing6, burger[0].ing7,
                     burger[0].ing8, burger[0].ing9
                 ]
+                console.log(burger)
 
                 console.log(burgerItems)
 

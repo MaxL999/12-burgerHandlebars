@@ -5,16 +5,7 @@ USE burger_db;
 CREATE TABLE burger (
     id INT NOT NULL AUTO_INCREMENT,
     name VARCHAR(35),
-    bun VARCHAR(35),
-    ing1 VARCHAR(35),
-    ing2 VARCHAR(35),
-    ing3 VARCHAR(35),
-    ing4 VARCHAR(35),
-    ing5 VARCHAR(35),
-    ing6 VARCHAR(35),
-    ing7 VARCHAR(35),
-    ing8 VARCHAR(35),
-    ing9 VARCHAR(35),
+    ingArr INT,
     PRIMARY KEY (id)
 );
 
