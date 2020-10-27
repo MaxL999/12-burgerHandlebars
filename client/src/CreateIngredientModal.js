@@ -10,6 +10,23 @@ function CreateIngredientModal(props) {
     const fats = useRef(null)
     const carbs = useRef(null)
 
+    function submitInformation() {
+        // alert if there is no name
+        if(!name.current.value){
+            console.log("click")
+        }
+        props.createItem({
+            table: "ingredients",
+            Type: type.current.value,
+            Name: name.current.value ? name.current.value : "Placeholder Ingredient",
+            Calories: calories.current.value,
+            Protein: protein.current.value,
+            Carbs: carbs.current.value,
+            Fats: fats.current.value
+        })
+        props.onHide()
+    }
+
     return (
         <Modal
             {...props}
@@ -20,8 +37,6 @@ function CreateIngredientModal(props) {
             <Modal.Header>
                 <Modal.Title>
                     <label className="p-2">Name: <input ref={name} type="text"></input></label>
-
-
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
@@ -58,15 +73,7 @@ function CreateIngredientModal(props) {
             </Modal.Body>
             <Modal.Footer>
                 <button onClick={props.onHide}>Close</button>
-                <button onClick={() => props.createItem({
-                    table: "ingredients",
-                    Type: type.current.value,
-                    Name: name.current.value ? name.current.value : "Placeholder Ingredient",
-                    Calories: calories.current.value,
-                    Protein: protein.current.value,
-                    Carbs: carbs.current.value,
-                    Fats: fats.current.value
-                })}>Create</button>
+                <button onClick={submitInformation}>Create</button>
             </Modal.Footer>
         </Modal>
     );

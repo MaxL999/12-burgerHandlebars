@@ -9,6 +9,20 @@ function EditIngredientModal(props) {
     const fats = useRef(null)
     const carbs = useRef(null)
 
+    function submitInformation() {
+        props.editItem({
+            table: "ingredients",
+            id: props.data.id,
+            Type: props.data.type,
+            Name: name.current.value,
+            Calories: calories.current.value,
+            Protein: protein.current.value,
+            Carbs: carbs.current.value,
+            Fats: fats.current.value
+        });
+        props.onHide()
+    }
+
     return (
         <Modal
             {...props}
@@ -43,16 +57,7 @@ function EditIngredientModal(props) {
             </Modal.Body>
             <Modal.Footer>
                 <button onClick={props.onHide}>Close</button>
-                <button onClick={() => props.editItem({
-                    table: "ingredients",
-                    id: props.data.id,
-                    Type: props.data.type,
-                    Name: name.current.value,
-                    Calories: calories.current.value,
-                    Protein: protein.current.value,
-                    Carbs: carbs.current.value,
-                    Fats: fats.current.value
-                })}>Edit</button>
+                <button onClick={submitInformation}>Update</button>
             </Modal.Footer>
         </Modal >
     );
