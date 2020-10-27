@@ -5,7 +5,7 @@ USE burger_db;
 CREATE TABLE burger (
     id INT NOT NULL AUTO_INCREMENT,
     name VARCHAR(35),
-    ingArr INT,
+    ingArr JSON,
     PRIMARY KEY (id)
 );
 
@@ -20,5 +20,8 @@ CREATE TABLE ingredients (
     PRIMARY KEY (id)
 );
 
-SELECT * FROM burger
-SELECT * FROM ingredients
+CREATE TABLE burger_ingredients (
+    burger_id INT NOT NULL,
+    ingredient_id INT NOT NULL,
+    PRIMARY KEY (burger_id, ingredient_id)
+);
