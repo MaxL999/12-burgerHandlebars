@@ -15,10 +15,10 @@ function EditIngredientModal(props) {
             id: props.data.id,
             Type: props.data.type,
             Name: name.current.value,
-            Calories: calories.current.value,
-            Protein: protein.current.value,
-            Carbs: carbs.current.value,
-            Fats: fats.current.value
+            Calories: parseInt(calories.current.value),
+            Protein: parseInt(protein.current.value),
+            Carbs: parseInt(carbs.current.value),
+            Fats: parseInt(fats.current.value)
         });
         props.onHide()
     }
@@ -39,18 +39,18 @@ function EditIngredientModal(props) {
                 <div className="container-fluid">
                     <div className="row">
                         <div className="col-6 d-flex justify-content-center p-2">
-                            <label>Calories:<input ref={calories} type="number" defaultValue={props.data.Calories}></input></label>
+                            <label>Calories:<input ref={calories} type="number" defaultValue={props.data.calories}></input></label>
                         </div>
                         <div className="col-6 d-flex justify-content-center p-2">
-                            <label>Protein:<input ref={protein} type="number" defaultValue={props.data.Protein}></input></label>
+                            <label>Protein:<input ref={protein} type="number" defaultValue={props.data.protein}></input></label>
                         </div>
                     </div>
                     <div className="row">
                         <div className="col-6 d-flex justify-content-center p-2">
-                            <label>Carbs:<input ref={carbs} type="number" defaultValue={props.data.Carbs}></input></label>
+                            <label>Carbs:<input ref={carbs} type="number" defaultValue={props.data.carbs}></input></label>
                         </div>
                         <div className="col-6 d-flex justify-content-center p-2">
-                            <label>Fats:<input ref={fats} type="number" defaultValue={props.data.Fats}></input></label>
+                            <label>Fats:<input ref={fats} type="number" defaultValue={props.data.fats}></input></label>
                         </div>
                     </div>
                 </div>

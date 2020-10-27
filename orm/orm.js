@@ -118,10 +118,10 @@ const orm = {
                 }
                 queryString += objToSql(values)
             }
-            queryString += " WHERE ID = " + data.id
-
+            queryString += " WHERE 'ID' = " + data.id
+            console.log(queryString)
             connection.query(queryString, (err, result) => {
-                if (err) return reject(err);
+                if (err) return console.log(err);
                 resolve(result)
             })
         })

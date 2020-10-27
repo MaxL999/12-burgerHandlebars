@@ -11,7 +11,7 @@ function CreateIngredientModal(props) {
     const carbs = useRef(null)
 
     function submitInformation() {
-        // alert if there is no name
+        // alert if there is no name, needs expansion
         if(!name.current.value){
             console.log("click")
         }

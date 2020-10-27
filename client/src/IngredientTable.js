@@ -23,10 +23,10 @@ function IngredientTable(props) {
                         <tr key={item.id}>
                             <th scope="row">{item.id}</th>
                             <td><span>{item.name}</span></td>
-                            <td><span>{item.Calories}</span></td>
-                            <td><span>{item.Carbs}</span></td>
-                            <td><span>{item.Fats}</span></td>
-                            <td><span>{item.Protein}</span></td>
+                            <td><span>{item.calories}</span></td>
+                            <td><span>{item.carbs}</span></td>
+                            <td><span>{item.fats}</span></td>
+                            <td><span>{item.protein}</span></td>
                             <td><button type="button" className="btn btn-primary" onClick={() => props.viewModals("EditIngredient", item)}>Edit</button></td>
                             <td><button type="button" className="btn btn-danger" onClick={() => props.deleteItem("ingredients", item.id)}>X</button></td>
                         </tr>

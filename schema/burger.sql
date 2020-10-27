@@ -13,10 +13,10 @@ CREATE TABLE ingredients (
     id INT NOT NULL AUTO_INCREMENT,
     name VARCHAR(35),
     type VARCHAR(35),
-    Calories INT,
-    Carbs INT,
-    Protein INT,
-    Fats Int,
+    calories INT,
+    carbs INT,
+    protein INT,
+    fats Int,
     PRIMARY KEY (id)
 );
 

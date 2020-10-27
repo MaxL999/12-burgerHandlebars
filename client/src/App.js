@@ -51,14 +51,8 @@ class App extends Component {
   }
 
   async editItem(values) {
-    console.log(values)
     await API.update(values)
-    if (values.table === "burger") {
-      this.setState({ EditBurger: false })
-    } else {
-      this.setState({ EditIngredient: false })
-    }
-    this.searchMYSQL()
+    // this.searchMYSQL()
   }
 
   async createItem(values) {
