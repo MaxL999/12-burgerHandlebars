@@ -30,7 +30,6 @@ const API = {
 
     update: (values) => {
         return new Promise((resolve, reject) => {
-            console.log(values)
             let axiosString = "http://localhost:3001/api/update"
             axios.post(axiosString, values)
                 .catch((err) => console.log(err))

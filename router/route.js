@@ -27,7 +27,6 @@ router.delete("/api/:table/:id", async (req, res, next) => {
 
 router.post("/api/update", async (req, res, next) => {
   try {
-    console.log(req.body)
     await orm.update(req.body)
     // let data = await orm.all(req.params.table)
     // res.json(data)

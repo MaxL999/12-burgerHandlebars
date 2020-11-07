@@ -1,110 +1,139 @@
-import React, { useRef } from 'react';
+import React, { Component } from 'react';
 
 import Modal from 'react-bootstrap/modal'
 
-function CreateBurgerModal(props) {
-    const name = useRef(null)
-    const bun = useRef(null)
-    const ing1 = useRef(null)
-    const ing2 = useRef(null)
-    const ing3 = useRef(null)
-    const ing4 = useRef(null)
-    const ing5 = useRef(null)
-    const ing6 = useRef(null)
-    const ing7 = useRef(null)
-    const ing8 = useRef(null)
-    const ing9 = useRef(null)
+class CreateBurgerModal extends Component {
+    constructor() {
+        super();
+        this.state = {
+            burgerArr: [0],
+        }
 
-    const bunOptions = (refName) => <select ref={refName}>
-        {props.ingredients.map((ingredient, i) => {
-            if (ingredient.type !== "Bun") return null
-            else return <option key={i} value={ingredient.name}>{ingredient.name}</option>
-        })}
-    </select>
+        this.editBurgerArr = this.editBurgerArr.bind(this);
+        this.createBurgeri = this.createBurgeri.bind(this);
+        this.deleteBurgeri = this.deleteBurgeri.bind(this);
+    }
 
-    const ingredientOptions = (refName) => <select ref={refName}>
-        <option value={null}>None</option>
-        {props.ingredients.map((ingredient, i) => {
-            if (ingredient.type === "Bun") return null
-            else return <option key={i} value={ingredient.name}>{ingredient.name}</option>
-        })}
-    </select>
 
-    return (
-        <Modal
-            {...props}
-            size="lg"
-            aria-labelledby="contained-modal-title-vcenter"
-            centered
-        >
-            <Modal.Header>
-                <Modal.Title>
-                    <label>Name: <input ref={name} type="text"></input></label>
-                </Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-                <div className="container-fluid">
-                    <div className="row">
-                        <div className="col-6">
-                            <label>Bun:{bunOptions(bun)}</label>
-                        </div>
-                        <div className="col-6">
-                            <label>Layer 1:{ingredientOptions(ing1)}</label>
-                        </div>
-                    </div>
-                    <div className="row">
-                        <div className="col-6">
-                            <label>Layer 2:{ingredientOptions(ing2)}</label>
-                        </div>
-                        <div className="col-6">
-                            <label>Layer 3:{ingredientOptions(ing3)}</label>
-                        </div>
-                    </div>
-                    <div className="row">
-                        <div className="col-6">
-                            <label>Layer 4:{ingredientOptions(ing4)}</label>
-                        </div>
-                        <div className="col-6">
-                            <label>Layer 5:{ingredientOptions(ing5)}</label>
-                        </div>
-                    </div>
-                    <div className="row">
-                        <div className="col-6">
-                            <label>Layer 6:{ingredientOptions(ing6)}</label>
-                        </div>
-                        <div className="col-6">
-                            <label>Layer 7:{ingredientOptions(ing7)}</label>
-                        </div>
-                    </div>
-                    <div className="row">
-                        <div className="col-6">
-                            <label>Layer 8:{ingredientOptions(ing8)}</label>
-                        </div>
-                        <div className="col-6">
-                            <label>Layer 9:{ingredientOptions(ing9)}</label>
-                        </div>
-                    </div>
-                </div>
-            </Modal.Body>
-            <Modal.Footer>
-                <button onClick={props.onHide}>Close</button>
-                <button onClick={() => props.createItem({
-                    table: "burger",
-                    Name: name.current.value ? name.current.value : "Placeholder Name",
-                    Bun: bun.current.value,
-                    Ing1: ing1.current.value !== "None" ? ing1.current.value : null,
-                    Ing2: ing2.current.value !== "None" ? ing2.current.value : null,
-                    Ing3: ing3.current.value !== "None" ? ing3.current.value : null,
-                    Ing4: ing4.current.value !== "None" ? ing4.current.value : null,
-                    Ing5: ing5.current.value !== "None" ? ing5.current.value : null,
-                    Ing6: ing6.current.value !== "None" ? ing6.current.value : null,
-                    Ing7: ing7.current.value !== "None" ? ing7.current.value : null,
-                    Ing8: ing8.current.value !== "None" ? ing8.current.value : null,
-                    Ing9: ing9.current.value !== "None" ? ing9.current.value : null,
-                })}>Create</button>
-            </Modal.Footer>
-        </Modal>
-    );
+    editBurgerArr(event) {
+        console.log(this.state.burgerArr)
+
+        var i = event.target.name
+        var value = event.target.value
+        var tempVal = this.state.burgerArr
+        tempVal.splice(i, 1, value)
+        this.setState({ burgerArr: tempVal })
+
+        console.log(this.state.burgerArr)
+    }
+
+    createBurgeri(i) {
+        console.log(this.state.burgerArr)
+
+        var tempVal = this.state.burgerArr
+        tempVal.splice(i + 1, 0, 0)
+        this.setState({ burgerArr: tempVal })
+
+        console.log(this.state.burgerArr)
+    }
+
+    deleteBurgeri(i) {
+        console.log(this.state.burgerArr)
+
+        var tempVal = this.state.burgerArr
+        tempVal.splice(i, 1)
+        this.setState({ burgerArr: tempVal })
+
+        console.log(this.state.burgerArr)
+    }
+
+    submitInformation() {
+        console.log(this.state.burgerArr)
+        console.log(this.props.ingredients)
+
+        var i
+        for (i = 0; i < this.props.ingredients.length; i++) {
+            console.log(this.props.ingredients[i])
+        }
+        // this.props.onHide()
+    }
+
+    ingType() {
+        // var value = ""
+        // switch (expression) {
+        //     case x:
+
+        //         break;
+        //     case y:
+        //         break;
+        //     default:
+        //         return value
+        // }
+    }
+
+    render() {
+        return (
+            <Modal
+                {...this.props}
+                size="lg"
+                aria-labelledby="contained-modal-title-vcenter"
+                centered
+            >
+                <Modal.Header>
+                    <Modal.Title>
+                        {/* <label>Name: <input ref={name} type="text"></input></label> */}
+                    </Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <table className="table table-dark">
+                        <thead>
+                            <tr>
+                                <th scope="col">Layer</th>
+                                <th scope="col">Type</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Insert</th>
+                                <th scope="col">Delete</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {this.state.burgerArr.map((ingID, i) =>
+                                <tr key={i}>
+                                    <th scope="row">{i}</th>
+                                    <th>
+                                        {this.ingType()}
+                                    </th>
+                                    <th>
+                                        <select value={this.state.burgerArr[i]} name={i} onChange={this.editBurgerArr}>
+                                            <option value="0">Empty</option>
+                                            {this.props.ingredients.map((ing) => {
+                                                if (i === 0) {
+                                                    if (ing.type !== "Bun") return false
+                                                    else return <option key={ing.id} value={ing.id}>{ing.name}</option>
+                                                } else {
+                                                    if (ing.type === "Bun") return false
+                                                    else return <option key={ing.id} value={ing.id}>{ing.name}</option>
+                                                }
+                                            })}
+                                        </select>
+                                    </th>
+                                    <td><button type="button" className="btn btn-primary" onClick={() => this.createBurgeri(i)}>Insert</button></td>
+                                    {i === 0 ?
+                                        <td><button type="button" className="btn btn-danger" disabled>X</button></td>
+                                        :
+                                        <td><button type="button" className="btn btn-danger" onClick={() => this.deleteBurgeri(i)}>X</button></td>
+                                    }
+                                </tr>
+                            )}
+                        </tbody>
+                    </table>
+                </Modal.Body>
+                <Modal.Footer>
+                    <button onClick={this.props.onHide}>Close</button>
+                    <button onClick={() => this.submitInformation()}>Create</button>
+                </Modal.Footer>
+            </Modal>
+        )
+    }
 }
 
 export default CreateBurgerModal

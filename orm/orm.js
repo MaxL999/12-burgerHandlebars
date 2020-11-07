@@ -18,7 +18,7 @@ function objToSql(ob) {
             if (typeof value === "string") {
                 value = "'" + value + "'";
             }
-            key = "'" + key + "'"
+            // key = "'" + key + "'"
 
             // e.g. {name: 'Lana Del Grey'} => ["name='Lana Del Grey'"]
             // e.g. {sleepy: true} => ["sleepy=true"]
@@ -92,6 +92,7 @@ const orm = {
     update: (data) => {
         return new Promise((resolve, reject) => {
             var queryString = "UPDATE " + data.table + " SET "
+            
             if (data.table === "burger") {
                 let values = {
                     name: data.Name,
@@ -118,8 +119,8 @@ const orm = {
                 }
                 queryString += objToSql(values)
             }
-            queryString += " WHERE 'ID' = " + data.id
-            console.log(queryString)
+            queryString += " WHERE id = " + data.id
+
             connection.query(queryString, (err, result) => {
                 if (err) return console.log(err);
                 resolve(result)
