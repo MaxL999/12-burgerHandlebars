@@ -17,10 +17,12 @@ class CreateBurgerModal extends Component {
 
     editBurgerArr(event) {
         var i = event.target.name
-        var value = event.target.value
+        var value = parseInt(event.target.value)
         var tempVal = this.state.burgerArr
         tempVal.splice(i, 1, value)
         this.setState({ burgerArr: tempVal })
+
+        console.log(this.state.burgerArr)
     }
 
     createBurgeri(i) {
@@ -36,21 +38,17 @@ class CreateBurgerModal extends Component {
         this.setState({ burgerArr: tempVal })
     }
 
-    submitInformation(ingID) {
+    submitInformation(event) {
         console.log(this.state.burgerArr)
         console.log(this.props.ingredients)
 
-        console.log(ingID)
-        console.log(this.props.ingredients[2])
-
+        console.log(event.target)
 
         // this.props.onHide()
     }
 
-    ingType(ingID) {
-
-        // return <span>{value}</span>
-
+    ingType(ingredients) {
+        console.log(ingredients[1].id)
     }
 
     render() {
@@ -63,7 +61,7 @@ class CreateBurgerModal extends Component {
             >
                 <Modal.Header>
                     <Modal.Title>
-                        {/* <label>Name: <input ref={name} type="text"></input></label> */}
+                        <label>Name: <input type="text"></input></label>
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
@@ -78,22 +76,23 @@ class CreateBurgerModal extends Component {
                             </tr>
                         </thead>
                         <tbody>
-                            {this.state.burgerArr.map((ingID, i) =>
-                                <tr key={i}>
-                                    <th scope="row">{i}</th>
+                            {this.state.burgerArr.map((ingID, index) => {
+                                var i
+                                var ingType
+                                for (var i = 0; i < this.props.ingredients.length; i++) {
+                                    if (ingID === 0) var ingType = "Empty";
+                                    if (ingID === this.props.ingredients[i].id) var ingType = this.props.ingredients[i].type;
+                                }
+                                return <tr key={index}>
+                                    <th scope="row">{index}</th>
                                     <th>
-                                        {/* {this.ingType(ingID)} */}
-                                        {this.props.ingredients.map((ing, index) => {
-                                            var value = ""
-                                            if (ingID === 0) value = "empty";
-                                            if (ing.id === this.state.burgerArr[index]) value = ing.type;
-                                        })}
+                                        <span>{ingType}</span>
                                     </th>
                                     <th>
-                                        <select value={ingID} name={i} onChange={this.editBurgerArr}>
-                                            <option value="0">Empty</option>
+                                        <select value={ingID} name={index} onChange={this.editBurgerArr}>
+                                            <option value={0}>Empty</option>
                                             {this.props.ingredients.map((ing) => {
-                                                if (i === 0) {
+                                                if (index === 0) {
                                                     if (ing.type !== "Bun") return false
                                                     else return <option key={ing.id} value={ing.id}>{ing.name}</option>
                                                 } else {
@@ -103,20 +102,20 @@ class CreateBurgerModal extends Component {
                                             })}
                                         </select>
                                     </th>
-                                    <td><button type="button" className="btn btn-primary" onClick={() => this.createBurgeri(i)}>Insert</button></td>
-                                    {i === 0 ?
+                                    <td><button type="button" className="btn btn-primary" onClick={() => this.createBurgeri(index)}>Insert</button></td>
+                                    {index === 0 ?
                                         <td><button type="button" className="btn btn-danger" disabled>X</button></td>
                                         :
-                                        <td><button type="button" className="btn btn-danger" onClick={() => this.deleteBurgeri(i)}>X</button></td>
+                                        <td><button type="button" className="btn btn-danger" onClick={() => this.deleteBurgeri(index)}>X</button></td>
                                     }
                                 </tr>
-                            )}
+                            })}
                         </tbody>
                     </table>
                 </Modal.Body>
                 <Modal.Footer>
                     <button onClick={this.props.onHide}>Close</button>
-                    <button onClick={() => this.submitInformation(5)}>Create</button>
+                    <button onClick={() => this.submitInformation}>Create</button>
                 </Modal.Footer>
             </Modal>
         )
