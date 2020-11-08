@@ -7,13 +7,19 @@ class CreateBurgerModal extends Component {
         super();
         this.state = {
             burgerArr: [0],
+            name: "Pick a name!"
         }
 
+        this.changeName = this.changeName.bind(this)
         this.editBurgerArr = this.editBurgerArr.bind(this);
         this.createBurgeri = this.createBurgeri.bind(this);
         this.deleteBurgeri = this.deleteBurgeri.bind(this);
     }
 
+    changeName(event) {
+        var newName = event.target.value
+        this.setState({ name: newName })
+    }
 
     editBurgerArr(event) {
         var i = event.target.name
@@ -21,8 +27,6 @@ class CreateBurgerModal extends Component {
         var tempVal = this.state.burgerArr
         tempVal.splice(i, 1, value)
         this.setState({ burgerArr: tempVal })
-
-        console.log(this.state.burgerArr)
     }
 
     createBurgeri(i) {
@@ -38,17 +42,11 @@ class CreateBurgerModal extends Component {
         this.setState({ burgerArr: tempVal })
     }
 
-    submitInformation(event) {
+    submitInformation() {
+        console.log(this.state.name)
         console.log(this.state.burgerArr)
-        console.log(this.props.ingredients)
-
-        console.log(event.target)
 
         // this.props.onHide()
-    }
-
-    ingType(ingredients) {
-        console.log(ingredients[1].id)
     }
 
     render() {
@@ -61,7 +59,7 @@ class CreateBurgerModal extends Component {
             >
                 <Modal.Header>
                     <Modal.Title>
-                        <label>Name: <input type="text"></input></label>
+                        <label>Name: <input type="text" value={this.state.name} onChange={this.changeName}></input></label>
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
@@ -79,9 +77,10 @@ class CreateBurgerModal extends Component {
                             {this.state.burgerArr.map((ingID, index) => {
                                 var i
                                 var ingType
-                                for (var i = 0; i < this.props.ingredients.length; i++) {
+                                var ingArr = this.props.ingredients
+                                for (var i = 0; i < ingArr.length; i++) {
                                     if (ingID === 0) var ingType = "Empty";
-                                    if (ingID === this.props.ingredients[i].id) var ingType = this.props.ingredients[i].type;
+                                    if (ingID === ingArr[i].id) var ingType = ingArr[i].type;
                                 }
                                 return <tr key={index}>
                                     <th scope="row">{index}</th>
@@ -115,7 +114,7 @@ class CreateBurgerModal extends Component {
                 </Modal.Body>
                 <Modal.Footer>
                     <button onClick={this.props.onHide}>Close</button>
-                    <button onClick={() => this.submitInformation}>Create</button>
+                    <button onClick={() => this.submitInformation()}>Create</button>
                 </Modal.Footer>
             </Modal>
         )
