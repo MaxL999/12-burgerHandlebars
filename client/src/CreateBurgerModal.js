@@ -4,17 +4,21 @@ import Modal from 'react-bootstrap/modal'
 
 class CreateBurgerModal extends Component {
     constructor(props) {
-        super();
+        super(props);
         this.state = {
             burgerArr: [0],
-            name: "Pick a name!"
+            name: "Pick a name!",
+            // ingredients: this.sortIngredients(this.props.ingredients)
+            // ingredients: []
         }
 
+        // this.sortIngredients = this.sortIngredients.bind(this)
         this.changeName = this.changeName.bind(this)
         this.editBurgerArr = this.editBurgerArr.bind(this);
         this.createBurgeri = this.createBurgeri.bind(this);
         this.deleteBurgeri = this.deleteBurgeri.bind(this);
     }
+
 
     changeName(event) {
         var newName = event.target.value
@@ -46,10 +50,25 @@ class CreateBurgerModal extends Component {
         console.log(this.state.name)
         console.log(this.state.burgerArr)
 
+        // this.props.createItem()
+
         // this.props.onHide()
     }
 
     render() {
+
+        var oldIngArr = this.props.ingredients
+        var sortIngArr = []
+        var sortOrder = ["Bun", "Meat", "Cheese", "Vegetable", "Condiment"]
+
+        for (var i = 0; i < sortOrder.length; i++) {
+            for (var t = 0; t < oldIngArr.length; t++) {
+                if (sortOrder[i] === oldIngArr[t].type) {
+                    sortIngArr.push(oldIngArr[t])
+                }
+            }
+        }
+
         return (
             <Modal
                 {...this.props}
@@ -75,12 +94,11 @@ class CreateBurgerModal extends Component {
                         </thead>
                         <tbody>
                             {this.state.burgerArr.map((ingID, index) => {
-                                var i
                                 var ingType
                                 var ingArr = this.props.ingredients
                                 for (var i = 0; i < ingArr.length; i++) {
-                                    if (ingID === 0) var ingType = "Empty";
-                                    if (ingID === ingArr[i].id) var ingType = ingArr[i].type;
+                                    if (ingID === 0) ingType = "Empty";
+                                    if (ingID === ingArr[i].id) ingType = ingArr[i].type;
                                 }
                                 return <tr key={index}>
                                     <th scope="row">{index}</th>
@@ -90,7 +108,7 @@ class CreateBurgerModal extends Component {
                                     <th>
                                         <select value={ingID} name={index} onChange={this.editBurgerArr}>
                                             <option value={0}>Empty</option>
-                                            {this.props.ingredients.map((ing) => {
+                                            {sortIngArr.map((ing) => {
                                                 if (index === 0) {
                                                     if (ing.type !== "Bun") return false
                                                     else return <option key={ing.id} value={ing.id}>{ing.name}</option>
