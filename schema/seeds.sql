@@ -1,5 +1,3 @@
-use burger_db;
-
 
 INSERT INTO burger (name, ingArr)
 VALUES ("Big Kahuna", JSON_ARRAY(1, 10, 9, 8, 5, 2, 5, 2));

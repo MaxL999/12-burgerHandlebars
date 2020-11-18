@@ -3,20 +3,15 @@ import React, { Component } from 'react';
 import Modal from 'react-bootstrap/modal'
 
 class CreateBurgerModal extends Component {
-    constructor(props) {
-        super(props);
+    constructor() {
+        super();
         this.state = {
             burgerArr: [0],
             name: "Pick a name!",
-            // ingredients: this.sortIngredients(this.props.ingredients)
-            // ingredients: []
         }
 
-        // this.sortIngredients = this.sortIngredients.bind(this)
         this.changeName = this.changeName.bind(this)
         this.editBurgerArr = this.editBurgerArr.bind(this);
-        this.createBurgeri = this.createBurgeri.bind(this);
-        this.deleteBurgeri = this.deleteBurgeri.bind(this);
     }
 
 
@@ -47,12 +42,13 @@ class CreateBurgerModal extends Component {
     }
 
     submitInformation() {
-        console.log(this.state.name)
-        console.log(this.state.burgerArr)
 
-        // this.props.createItem()
+        var name = this.state.name
+        var burgerArr = this.state.burgerArr
 
-        // this.props.onHide()
+        this.props.createItem("burger", { name, burgerArr })
+
+        this.props.onHide()
     }
 
     render() {
@@ -88,7 +84,7 @@ class CreateBurgerModal extends Component {
                                 <th scope="col">Layer</th>
                                 <th scope="col">Type</th>
                                 <th scope="col">Name</th>
-                                <th scope="col">Insert</th>
+                                <th scope="col">Insert New</th>
                                 <th scope="col">Delete</th>
                             </tr>
                         </thead>
@@ -109,6 +105,7 @@ class CreateBurgerModal extends Component {
                                         <select value={ingID} name={index} onChange={this.editBurgerArr}>
                                             <option value={0}>Empty</option>
                                             {sortIngArr.map((ing) => {
+                                                // the bun layer can only select buns
                                                 if (index === 0) {
                                                     if (ing.type !== "Bun") return false
                                                     else return <option key={ing.id} value={ing.id}>{ing.name}</option>
@@ -120,6 +117,7 @@ class CreateBurgerModal extends Component {
                                         </select>
                                     </th>
                                     <td><button type="button" className="btn btn-primary" onClick={() => this.createBurgeri(index)}>Insert</button></td>
+                                    {/* the bun option is un-deletable, a burger needs a wrapper of some kind! */}
                                     {index === 0 ?
                                         <td><button type="button" className="btn btn-danger" disabled>X</button></td>
                                         :

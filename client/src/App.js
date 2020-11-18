@@ -37,6 +37,7 @@ class App extends Component {
 
   componentDidMount() {
     this.searchMYSQL()
+
   };
 
   async searchMYSQL() {
@@ -45,9 +46,18 @@ class App extends Component {
     this.setState({ burgers: burger.data, ingredients: ingredient.data })
   }
 
+  async restoreSQL() {
+    let newData = await API.restoreSQL()
+    console.log(newData)
+  }
+
   async deleteItem(table, id) {
-    await API.delete(table, id)
-    this.searchMYSQL()
+    let newData = await API.delete(table, id)
+    if (table === "burger") {
+      this.setState({ burgers: newData.data })
+    } else {
+      this.setState({ ingredients: newData.data })
+    }
   }
 
   async editItem(values) {
@@ -55,15 +65,14 @@ class App extends Component {
     // this.searchMYSQL()
   }
 
-  async createItem(values) {
-    console.log(values)
-    await API.create(values)
-    if (values.table === "burger") {
-      this.setState({ CreateBurger: false })
+  async createItem(table, values) {
+    var newData = await API.create(table, values)
+    if (table === "burger") {
+      console.log("updating burger")
+      this.setState({ burgers: newData.data })
     } else {
-      this.setState({ CreateIngredient: false })
+      this.setState({ ingredients: newData.data })
     }
-    this.searchMYSQL()
   }
 
   async nutritionValue(id) {
@@ -123,11 +132,12 @@ class App extends Component {
       <div className="App">
         <header className="App-header">
 
+          <button onClick={() => this.restoreSQL()}>Restore SQL Seeds</button>
           <button onClick={() => this.nutritionValue(1)}>Click</button>
           <button onClick={() => this.createItem({
             table: "burger",
             Name: "Placeholder Name",
-            ingArr: [1,3,5,3,2]
+            ingArr: [1, 3, 5, 3, 2]
           })}>Click</button>
 
           <div className="d-flex justify-content-around p-2">

@@ -19,6 +19,15 @@ const API = {
         })
     },
 
+    restoreSQL: () => {
+        return new Promise((resolve, reject) => {
+            let axiosString = "http://localhost:3001/api/restore/"
+            axios.post(axiosString)
+                .catch((err) => reject(err))
+                .then((data) => resolve(data))
+        })
+    },
+
     delete: (table, id) => {
         return new Promise((resolve, reject) => {
             let axiosString = "http://localhost:3001/api/" + table + "/" + id
@@ -38,10 +47,10 @@ const API = {
         })
     },
 
-    create: (values) => {
+    create: (table, values) => {
         return new Promise((resolve, reject) => {
             let axiosString = "http://localhost:3001/api/create"
-            axios.post(axiosString, values)
+            axios.post(axiosString, [table, values])
                 .catch((err) => reject(err))
                 .then((data) => resolve(data))
         })
@@ -49,7 +58,7 @@ const API = {
 
     nutrition: (id) => {
         return new Promise((resolve, reject) => {
-            let axiosString = "http://localhost:3001/api/nutrition/" + id  
+            let axiosString = "http://localhost:3001/api/nutrition/" + id
             axios.get(axiosString)
                 .catch((err) => reject(err))
                 .then((data) => resolve(data))

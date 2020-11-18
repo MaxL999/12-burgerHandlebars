@@ -12,18 +12,20 @@ function CreateIngredientModal(props) {
 
     function submitInformation() {
         // alert if there is no name, needs expansion
-        if(!name.current.value){
+        if (!name.current.value) {
             console.log("click")
         }
-        props.createItem({
-            table: "ingredients",
-            Type: type.current.value,
-            Name: name.current.value ? name.current.value : "Placeholder Ingredient",
-            Calories: calories.current.value,
-            Protein: protein.current.value,
-            Carbs: carbs.current.value,
-            Fats: fats.current.value
-        })
+        props.createItem(
+            "ingredients",
+            {
+                Type: type.current.value,
+                Name: name.current.value,
+                Calories: calories.current.value,
+                Protein: protein.current.value,
+                Carbs: carbs.current.value,
+                Fats: fats.current.value
+            }
+        )
         props.onHide()
     }
 
@@ -36,7 +38,7 @@ function CreateIngredientModal(props) {
         >
             <Modal.Header>
                 <Modal.Title>
-                    <label className="p-2">Name: <input ref={name} type="text"></input></label>
+                    <label className="p-2">Name: <input ref={name} defaultValue="Create a name" type="text"></input></label>
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>

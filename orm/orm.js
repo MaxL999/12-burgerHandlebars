@@ -1,6 +1,9 @@
 // Import MySQL connection.
-var connection = require("../config/connection.js");
+var connection = require('../config/connection.js');
 
+var fs = require('fs');
+// var burgerSeeds = require('../schema/seeds.sql')
+// var sql = fs.readFileSync(burgerSeeds).toString();
 
 // Helper function to convert object key/value pairs to SQL syntax
 function objToSql(ob) {
@@ -68,7 +71,7 @@ function sortArray(array, pattern) {
 }
 
 
-// Object for all our SQL statement functions.
+// Object for all SQL statement functions.
 const orm = {
     all: (tableInput) => {
         return new Promise((resolve, reject) => {
@@ -79,12 +82,28 @@ const orm = {
             });
         })
     },
+    // in progress
+    restore: () => {
+        return new Promise((resolve, reject) => {
+            var deleteString = "DELETE * FROM burger; "
+            deleteString += "DELETE * FROM ingredients; "
+            deleteString += "DELETE * FROM burger_ingredients; "
+            connection.query(deleteString, (err, result) => {
+                // if (err) return reject (err)
+                if (err) console.log(err)
+                console.log(result)
+                resolve()
+            })
+
+        })
+    },
     delete: (table, id) => {
         return new Promise((resolve, reject) => {
             var queryString = "DELETE FROM " + table + " WHERE ID = " + id
             connection.query(queryString, (err, result) => {
                 if (err) return reject(err);
-                resolve(result)
+                var returnData = orm.all(table)
+                resolve(returnData)
             });
         })
     },
@@ -92,7 +111,7 @@ const orm = {
     update: (data) => {
         return new Promise((resolve, reject) => {
             var queryString = "UPDATE " + data.table + " SET "
-            
+
             if (data.table === "burger") {
                 let values = {
                     name: data.Name,
@@ -123,25 +142,25 @@ const orm = {
 
             connection.query(queryString, (err, result) => {
                 if (err) return console.log(err);
-                resolve(result)
+                var returnData = orm.all(data.table)
+                resolve(returnData)
             })
         })
     },
     create: (data) => {
-        console.log(data)
         return new Promise((resolve, reject) => {
-            var queryString = "INSERT INTO " + data.table
-            if (data.table === "burger") {
-                queryString += " (name, ingArr) VALUES ('" + data.Name + "', JSON_ARRAY(" + data.ingArr + "));"
+            var queryString = "INSERT INTO " + data[0]
+            if (data[0] === "burger") {
+                queryString += " (name, ingArr) VALUES ('" + data[1].name + "', JSON_ARRAY(" + data[1].burgerArr + "));"
             } else {
                 queryString += " (name, type, Calories, Carbs, Protein, Fats) VALUES ('"
-                queryString += data.Name + "','" + data.Type + "'," + data.Calories + ","
-                queryString += data.Carbs + "," + data.Protein + "," + data.Fats + ")"
+                queryString += data[1].Name + "','" + data[1].Type + "'," + data[1].Calories + ","
+                queryString += data[1].Carbs + "," + data[1].Protein + "," + data[1].Fats + ")"
             }
             connection.query(queryString, (err, result) => {
                 if (err) reject(err)
-                // if (err) console.log(err)
-                resolve(result)
+                var returnData = orm.all(data[0])
+                resolve(returnData)
             })
         })
     },
