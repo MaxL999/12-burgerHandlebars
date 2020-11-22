@@ -64,40 +64,47 @@ class EditIngredientModal extends Component {
             type: ""
         }
 
-        // this.changeName = this.changeName.bind(this)
+        this.handleInputChange = this.handleInputChange.bind(this);
     }
 
     componentDidUpdate(prevProps) {
         // this triggers during EditburgerModal interactions and crashes so the extra condition is needed
         if (this.props.data !== prevProps.data && this.props.show) {
             this.setState({
+                id: this.props.data.id,
+                name: this.props.data.name,
+                type: this.props.data.type,
                 calories: this.props.data.calories,
                 carbs: this.props.data.carbs,
                 fats: this.props.data.fats,
-                id: this.props.data.id,
-                name: this.props.data.name,
                 protein: this.props.data.protein,
-                type: this.props.data.type,
             });
         }
     }
 
-    changeName(event) {
-        var newName = event.target.value
-        this.setState({ name: newName })
+    handleInputChange(event) {
+        const name = event.target.name;
+        const value = event.target.type === "text"
+            ? event.target.value
+            : parseInt(event.target.value);
+
+        this.setState({
+            [name]: value
+        });
     }
 
     submitInformation() {
+        console.log(this.state.name)
 
         // var name = this.state.name
         // var ingArr = this.state.burgerArr
         // var id = this.state.id
 
-        this.props.editItem("ingredients", {
-            // name, ingArr, id
-        })
+        // this.props.editItem("ingredients", {
+        //     // name, ingArr, id
+        // })
 
-        this.props.onHide()
+        // this.props.onHide()
     }
 
     render() {
@@ -111,25 +118,60 @@ class EditIngredientModal extends Component {
             >
                 <Modal.Header>
                     <Modal.Title>
-                        {/* <label>Name: <input type="text" value={this.state.name} onChange={this.changeName}></input></label> */}
+                        <label> Name:
+                            <input
+                                type="text"
+                                name="name"
+                                value={this.state.name}
+                                onChange={this.handleInputChange}
+                            />
+                        </label>
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <div className="container-fluid">
                         <div className="row">
                             <div className="col-6 d-flex justify-content-center p-2">
-                                <label>Calories:<input ref={calories} type="number"></input></label>
+                                <label> Calories:
+                                    <input
+                                        type="number"
+                                        name="calories"
+                                        value={this.state.calories}
+                                        onChange={this.handleInputChange}
+                                    />
+                                </label>
                             </div>
                             <div className="col-6 d-flex justify-content-center p-2">
-                                <label>Protein:<input ref={protein} type="number"></input></label>
+                                <label> Protein:
+                                    <input
+                                        type="number"
+                                        name="protein"
+                                        value={this.state.protein}
+                                        onChange={this.handleInputChange}
+                                    />
+                                </label>
                             </div>
                         </div>
                         <div className="row">
                             <div className="col-6 d-flex justify-content-center p-2">
-                                <label>Carbs:<input ref={carbs} type="number"></input></label>
+                                <label> Fats:
+                                    <input
+                                        type="number"
+                                        name="fats"
+                                        value={this.state.fats}
+                                        onChange={this.handleInputChange}
+                                    />
+                                </label>
                             </div>
                             <div className="col-6 d-flex justify-content-center p-2">
-                                <label>Fats:<input ref={fats} type="number"></input></label>
+                                <label> Carbohydrates:
+                                    <input
+                                        type="number"
+                                        name="carbs"
+                                        value={this.state.carbs}
+                                        onChange={this.handleInputChange}
+                                    />
+                                </label>
                             </div>
                         </div>
                     </div>
