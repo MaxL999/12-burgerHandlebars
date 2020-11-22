@@ -18,12 +18,12 @@ function CreateIngredientModal(props) {
         props.createItem(
             "ingredients",
             {
-                Type: type.current.value,
-                Name: name.current.value,
-                Calories: calories.current.value,
-                Protein: protein.current.value,
-                Carbs: carbs.current.value,
-                Fats: fats.current.value
+                type: type.current.value,
+                name: name.current.value,
+                calories: calories.current.value,
+                protein: protein.current.value,
+                carbs: carbs.current.value,
+                fats: fats.current.value
             }
         )
         props.onHide()

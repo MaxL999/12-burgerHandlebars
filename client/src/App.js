@@ -53,7 +53,7 @@ class App extends Component {
   }
 
   // fix seeds
-  async restoreSQL() {
+  async restoreSQLseeds() {
     let newData = await API.restoreSQL()
     console.log(newData)
   }
@@ -70,14 +70,18 @@ class App extends Component {
   async editItem(table, values) {
     console.log(table)
     console.log(values)
-    // await API.update(values)
+    let newData = await API.update(values)
+    if (table === "burger") {
+      this.setState({ burgers: newData.data })
+    } else {
+      this.setState({ ingredients: newData.data })
+    }
     // this.searchMYSQL()
   }
 
   async createItem(table, values) {
     var newData = await API.create(table, values)
     if (table === "burger") {
-      console.log("updating burger")
       this.setState({ burgers: newData.data })
     } else {
       this.setState({ ingredients: newData.data })
@@ -141,7 +145,7 @@ class App extends Component {
       <div className="App">
         <header className="App-header">
 
-          <button onClick={() => this.restoreSQL()}>Restore SQL Seeds</button>
+          <button onClick={() => this.restoreSQLseeds()}>Restore SQL Seeds</button>
           <button onClick={() => this.nutritionValue(1)}>Click</button>
           <button onClick={() => this.createItem({
             table: "burger",

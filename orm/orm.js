@@ -110,39 +110,30 @@ const orm = {
 
     update: (data) => {
         return new Promise((resolve, reject) => {
-            var queryString = "UPDATE " + data.table + " SET "
-
-            if (data.table === "burger") {
-                let values = {
-                    name: data.Name,
-                    bun: data.Bun,
-                    ing1: ((data.Ing1) ? data.Ing1 : null),
-                    ing2: ((data.Ing2) ? data.Ing2 : null),
-                    ing3: ((data.Ing3) ? data.Ing3 : null),
-                    ing4: ((data.Ing4) ? data.Ing4 : null),
-                    ing5: ((data.Ing5) ? data.Ing5 : null),
-                    ing6: ((data.Ing6) ? data.Ing6 : null),
-                    ing7: ((data.Ing7) ? data.Ing7 : null),
-                    ing8: ((data.Ing8) ? data.Ing8 : null),
-                    ing9: ((data.Ing9) ? data.Ing9 : null),
+            
+            var queryString = "UPDATE " + data[0] + " SET "
+            if (data[0] === "burger") {
+                var values = {
+                    name: data[1].name,
+                    ingArr: data[1].ingArr,
                 }
-                queryString += objToSql(values)
             } else {
-                let values = {
-                    name: data.Name,
-                    type: data.Type,
-                    calories: data.Calories,
-                    fats: data.Fats,
-                    protein: data.Protein,
-                    carbs: data.Carbs
+                var values = {
+                    name: data.name,
+                    type: data.type,
+                    calories: data.calories,
+                    fats: data.fats,
+                    protein: data.protein,
+                    carbs: data.carbs
                 }
-                queryString += objToSql(values)
             }
-            queryString += " WHERE id = " + data.id
+            queryString += objToSql(values)
+            queryString += " WHERE id = " + data[1].id
 
+            console.log(queryString)
             connection.query(queryString, (err, result) => {
                 if (err) return console.log(err);
-                var returnData = orm.all(data.table)
+                var returnData = orm.all(data[0])
                 resolve(returnData)
             })
         })
@@ -154,8 +145,8 @@ const orm = {
                 queryString += " (name, ingArr) VALUES ('" + data[1].name + "', JSON_ARRAY(" + data[1].burgerArr + "));"
             } else {
                 queryString += " (name, type, Calories, Carbs, Protein, Fats) VALUES ('"
-                queryString += data[1].Name + "','" + data[1].Type + "'," + data[1].Calories + ","
-                queryString += data[1].Carbs + "," + data[1].Protein + "," + data[1].Fats + ")"
+                queryString += data[1].name + "','" + data[1].type + "'," + data[1].calories + ","
+                queryString += data[1].carbs + "," + data[1].protein + "," + data[1].fats + ")"
             }
             connection.query(queryString, (err, result) => {
                 if (err) reject(err)

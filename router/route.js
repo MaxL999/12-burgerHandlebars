@@ -37,6 +37,7 @@ router.delete("/api/:table/:id", async (req, res, next) => {
 // edit item
 router.post("/api/update", async (req, res, next) => {
   try {
+    console.log(req.body)
     var data = await orm.update(req.body)
     res.json(data)
   } catch (err) {
@@ -57,8 +58,8 @@ router.post("/api/create", async (req, res, next) => {
 // join call for nutrition
 router.get("/api/nutrition/:id", async (req, res, next) => {
   try {
-    console.log(req.params.id)
-    await orm.join(req.params.id)
+    var data = await orm.join(req.params.id)
+    res.json(data)
   } catch (err) {
     console.log(err)
     req.sendStatus(500)
