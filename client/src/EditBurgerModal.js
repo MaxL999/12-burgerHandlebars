@@ -3,8 +3,8 @@ import React, { Component } from 'react';
 import Modal from 'react-bootstrap/modal'
 
 class EditBurgerModal extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             burgerArr: [0],
             name: "",
@@ -16,7 +16,8 @@ class EditBurgerModal extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        if (this.props.burger !== prevProps.burger) {
+        // this triggers during EditIngredientModal interactions and crashes so the extra condition is needed
+        if (this.props.burger !== prevProps.burger && this.props.show) {
             this.setState({
                 burgerArr: JSON.parse(this.props.burger.ingArr),
                 name: this.props.burger.name,
