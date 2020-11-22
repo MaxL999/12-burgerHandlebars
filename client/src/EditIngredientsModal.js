@@ -3,23 +3,24 @@ import React, { useRef } from 'react';
 import Modal from 'react-bootstrap/modal'
 
 function EditIngredientModal(props) {
-    const name = useRef(null)
-    const calories = useRef(null)
+    const name = useRef(props.data.name)
+    const calories = useRef(props.data.Calories)
     const protein = useRef(null)
     const fats = useRef(null)
     const carbs = useRef(null)
 
     function submitInformation() {
-        props.editItem({
-            table: "ingredients",
-            id: props.data.id,
-            Type: props.data.type,
-            Name: name.current.value,
-            Calories: parseInt(calories.current.value),
-            Protein: parseInt(protein.current.value),
-            Carbs: parseInt(carbs.current.value),
-            Fats: parseInt(fats.current.value)
-        });
+        props.editItem(
+            "ingredients",
+            {
+                id: props.data.id,
+                Type: props.data.type,
+                Name: name.current.value,
+                Calories: parseInt(calories.current.value),
+                Protein: parseInt(protein.current.value),
+                Carbs: parseInt(carbs.current.value),
+                Fats: parseInt(fats.current.value)
+            });
         props.onHide()
     }
 

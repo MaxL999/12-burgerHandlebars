@@ -7,13 +7,23 @@ class EditBurgerModal extends Component {
         super();
         this.state = {
             burgerArr: [0],
-            name: "Pick a name!",
+            name: "",
+            id: 0
         }
 
         this.changeName = this.changeName.bind(this)
         this.editBurgerArr = this.editBurgerArr.bind(this);
     }
 
+    componentDidUpdate(prevProps) {
+        if (this.props.burger !== prevProps.burger) {
+            this.setState({
+                burgerArr: JSON.parse(this.props.burger.ingArr),
+                name: this.props.burger.name,
+                id: this.props.burger.id
+            });
+        }
+    }
 
     changeName(event) {
         var newName = event.target.value
@@ -43,10 +53,13 @@ class EditBurgerModal extends Component {
 
     submitInformation() {
 
-        var newBurgerName = this.state.name
-        var newBurgerIngredients = this.state.burgerArr
+        var name = this.state.name
+        var ingArr = this.state.burgerArr
+        var id = this.state.id
 
-        this.props.createItem(["burger", { newBurgerName, newBurgerIngredients }])
+        this.props.editItem("burger", {
+            name, ingArr, id
+        })
 
         this.props.onHide()
     }
@@ -64,6 +77,7 @@ class EditBurgerModal extends Component {
                 }
             }
         }
+
 
         return (
             <Modal

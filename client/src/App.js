@@ -27,6 +27,7 @@ class App extends Component {
     table: 'burger',
     burgers: [],
     ingredients: [],
+    relationTable: [],
     objectValues: {},
     ViewNutrition: false,
     EditBurger: false,
@@ -43,7 +44,13 @@ class App extends Component {
   async searchMYSQL() {
     let burger = await API.table("burger")
     let ingredient = await API.table("ingredients")
-    this.setState({ burgers: burger.data, ingredients: ingredient.data })
+    let relationTable = await API.table("burger_ingredients")
+    this.setState({
+      burgers: burger.data,
+      ingredients: ingredient.data,
+      relationTable: relationTable.data
+    })
+    console.log(this.state)
   }
 
   async restoreSQL() {
@@ -60,8 +67,10 @@ class App extends Component {
     }
   }
 
-  async editItem(values) {
-    await API.update(values)
+  async editItem(table, values) {
+    console.log(table)
+    console.log(values)
+    // await API.update(values)
     // this.searchMYSQL()
   }
 
