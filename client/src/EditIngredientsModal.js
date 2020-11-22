@@ -1,52 +1,3 @@
-// import React, { useRef } from 'react';
-
-// import Modal from 'react-bootstrap/modal'
-
-// function EditIngredientModal(props) {
-//     const name = useRef(null)
-//     const calories = useRef(null)
-//     const protein = useRef(null)
-//     const fats = useRef(null)
-//     const carbs = useRef(null)
-
-//     function submitInformation() {
-//         // props.editItem(
-//         //     "ingredients",
-//         //     {
-//         //         id: props.data.id,
-//         //         Type: props.data.type,
-//         //         Name: name.current.value,
-//         //         Calories: parseInt(calories.current.value),
-//         //         Protein: parseInt(protein.current.value),
-//         //         Carbs: parseInt(carbs.current.value),
-//         //         Fats: parseInt(fats.current.value)
-//         //     });
-//         props.onHide()
-//     }
-
-//     return (
-//         <Modal
-//             {...props}
-//             size="lg"
-//             aria-labelledby="contained-modal-title-vcenter"
-//             centered
-//         >
-//             <Modal.Header>
-//                 <Modal.Title>
-//                     <label className="p-2">Name: <input ref={name} type="text"></input></label>
-//                 </Modal.Title>
-//             </Modal.Header>
-
-//             <Modal.Footer>
-//                 <button onClick={props.onHide}>Close</button>
-//                 <button onClick={submitInformation}>Update</button>
-//             </Modal.Footer>
-//         </Modal >
-//     );
-// }
-
-// export default EditIngredientModal
-
 import React, { Component } from 'react';
 
 import Modal from 'react-bootstrap/modal'
@@ -55,16 +6,17 @@ class EditIngredientModal extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            id: 0,
+            name: "",
+            type: "",
             calories: 0,
             carbs: 0,
             fats: 0,
-            id: 0,
-            name: "",
             protein: 0,
-            type: ""
         }
 
         this.handleInputChange = this.handleInputChange.bind(this);
+        this.submitInformation = this.submitInformation.bind(this);
     }
 
     componentDidUpdate(prevProps) {
@@ -84,9 +36,9 @@ class EditIngredientModal extends Component {
 
     handleInputChange(event) {
         const name = event.target.name;
-        const value = event.target.type === "text"
-            ? event.target.value
-            : parseInt(event.target.value);
+        const value = event.target.type === "number"
+            ? parseInt(event.target.value)
+            : event.target.value
 
         this.setState({
             [name]: value
@@ -94,17 +46,20 @@ class EditIngredientModal extends Component {
     }
 
     submitInformation() {
-        console.log(this.state.name)
 
-        // var name = this.state.name
-        // var ingArr = this.state.burgerArr
-        // var id = this.state.id
+        var ingredientEdit = {
+            id: this.state.id,
+            name: this.state.name,
+            type: this.state.type,
+            calories: this.state.calories,
+            carbs: this.state.carbs,
+            fats: this.state.fats,
+            protein: this.state.protein
+        }
 
-        // this.props.editItem("ingredients", {
-        //     // name, ingArr, id
-        // })
+        this.props.editItem("ingredients", ingredientEdit)
 
-        // this.props.onHide()
+        this.props.onHide()
     }
 
     render() {
@@ -130,6 +85,23 @@ class EditIngredientModal extends Component {
                 </Modal.Header>
                 <Modal.Body>
                     <div className="container-fluid">
+                        <div className="row">
+                            <div className="col-12">
+                                <label>Type:
+                                    <select
+                                        name="type"
+                                        value={this.state.type}
+                                        onChange={this.handleInputChange}
+                                    >
+                                        <option>Bun</option>
+                                        <option>Meat</option>
+                                        <option>Cheese</option>
+                                        <option>Vegetable</option>
+                                        <option>Condiment</option>
+                                    </select>
+                                </label>
+                            </div>
+                        </div>
                         <div className="row">
                             <div className="col-6 d-flex justify-content-center p-2">
                                 <label> Calories:

@@ -38,7 +38,6 @@ class App extends Component {
 
   componentDidMount() {
     this.searchMYSQL()
-
   };
 
   async searchMYSQL() {
@@ -53,6 +52,7 @@ class App extends Component {
     console.log(this.state)
   }
 
+  // fix seeds
   async restoreSQL() {
     let newData = await API.restoreSQL()
     console.log(newData)
