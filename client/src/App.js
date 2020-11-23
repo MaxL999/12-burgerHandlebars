@@ -49,10 +49,9 @@ class App extends Component {
       ingredients: ingredient.data,
       relationTable: relationTable.data
     })
-    console.log(this.state)
   }
 
-  // fix seeds
+  // fix seeds /// under construction ///
   async restoreSQLseeds() {
     let newData = await API.restoreSQL()
     console.log(newData)
@@ -67,21 +66,19 @@ class App extends Component {
     }
   }
 
-  async editItem(table, values) {
-    console.log(table)
-    console.log(values)
-    let newData = await API.update(values)
-    if (table === "burger") {
+  async editItem(data) {
+    console.log(data)
+    let newData = await API.update(data)
+    if (data.table === "burger") {
       this.setState({ burgers: newData.data })
     } else {
       this.setState({ ingredients: newData.data })
     }
-    // this.searchMYSQL()
   }
 
-  async createItem(table, values) {
-    var newData = await API.create(table, values)
-    if (table === "burger") {
+  async createItem(data) {
+    var newData = await API.create(data)
+    if (data.table === "burger") {
       this.setState({ burgers: newData.data })
     } else {
       this.setState({ ingredients: newData.data })

@@ -42,14 +42,13 @@ class CreateBurgerModal extends Component {
     }
 
     submitInformation() {
-
         var newBurger = {
+            table: "burger",
             name: this.state.name,
             burgerArr: this.state.burgerArr
         }
 
-        this.props.createItem("burger", newBurger)
-
+        this.props.createItem(newBurger)
         this.props.onHide()
     }
 

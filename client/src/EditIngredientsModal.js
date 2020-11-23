@@ -48,6 +48,7 @@ class EditIngredientModal extends Component {
     submitInformation() {
 
         var ingredientEdit = {
+            table: "ingredients",
             id: this.state.id,
             name: this.state.name,
             type: this.state.type,
@@ -57,7 +58,7 @@ class EditIngredientModal extends Component {
             protein: this.state.protein
         }
 
-        this.props.editItem("ingredients", ingredientEdit)
+        this.props.editItem(ingredientEdit)
 
         this.props.onHide()
     }

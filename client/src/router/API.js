@@ -37,20 +37,20 @@ const API = {
         })
     },
 
-    update: (table, values) => {
+    update: (data) => {
         return new Promise((resolve, reject) => {
             let axiosString = "http://localhost:3001/api/update"
-            axios.post(axiosString, [table, values])
-                .catch((err) => console.log(err))
+            axios.post(axiosString, data)
+                .catch((err) => reject(err))
                 .then((data) => resolve(data))
 
         })
     },
 
-    create: (table, values) => {
+    create: (data) => {
         return new Promise((resolve, reject) => {
             let axiosString = "http://localhost:3001/api/create"
-            axios.post(axiosString, [table, values])
+            axios.post(axiosString, data)
                 .catch((err) => reject(err))
                 .then((data) => resolve(data))
         })

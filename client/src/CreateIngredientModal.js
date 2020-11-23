@@ -15,17 +15,15 @@ function CreateIngredientModal(props) {
         if (!name.current.value) {
             console.log("click")
         }
-        props.createItem(
-            "ingredients",
-            {
-                type: type.current.value,
-                name: name.current.value,
-                calories: calories.current.value,
-                protein: protein.current.value,
-                carbs: carbs.current.value,
-                fats: fats.current.value
-            }
-        )
+        props.createItem({
+            table: "ingredients",
+            name: name.current.value,
+            type: type.current.value,
+            calories: calories.current.value,
+            protein: protein.current.value,
+            carbs: carbs.current.value,
+            fats: fats.current.value
+        })
         props.onHide()
     }
 

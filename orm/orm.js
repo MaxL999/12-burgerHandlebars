@@ -107,10 +107,9 @@ const orm = {
             });
         })
     },
-
     update: (data) => {
         return new Promise((resolve, reject) => {
-            
+
             var queryString = "UPDATE " + data[0] + " SET "
             if (data[0] === "burger") {
                 var values = {
@@ -140,17 +139,17 @@ const orm = {
     },
     create: (data) => {
         return new Promise((resolve, reject) => {
-            var queryString = "INSERT INTO " + data[0]
-            if (data[0] === "burger") {
-                queryString += " (name, ingArr) VALUES ('" + data[1].name + "', JSON_ARRAY(" + data[1].burgerArr + "));"
+            var queryString = "INSERT INTO " + data.table + " "
+            if (data.table === "burger") {
+                queryString += " (name, ingArr) VALUES ('" + data.name + "', JSON_ARRAY(" + data.burgerArr + "));"
             } else {
                 queryString += " (name, type, Calories, Carbs, Protein, Fats) VALUES ('"
-                queryString += data[1].name + "','" + data[1].type + "'," + data[1].calories + ","
-                queryString += data[1].carbs + "," + data[1].protein + "," + data[1].fats + ")"
+                queryString += data.name + "','" + data.type + "'," + data.calories + ","
+                queryString += data.carbs + "," + data.protein + "," + data.fats + ")"
             }
             connection.query(queryString, (err, result) => {
                 if (err) reject(err)
-                var returnData = orm.all(data[0])
+                var returnData = orm.all(data.table)
                 resolve(returnData)
             })
         })
