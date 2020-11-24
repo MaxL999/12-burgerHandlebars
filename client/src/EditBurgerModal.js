@@ -7,23 +7,42 @@ class EditBurgerModal extends Component {
         super(props);
         this.state = {
             burgerArr: [0],
+            ingArr: [],
             name: "",
             id: 0
         }
 
         this.changeName = this.changeName.bind(this)
         this.editBurgerArr = this.editBurgerArr.bind(this);
+        this.sortIngredientArray = this.sortIngredientArray.bind(this);
     }
 
     componentDidUpdate(prevProps) {
         // this triggers during EditIngredientModal interactions and crashes so the extra condition is needed
         if (this.props.burger !== prevProps.burger && this.props.show) {
+
             this.setState({
                 burgerArr: JSON.parse(this.props.burger.ingArr),
                 name: this.props.burger.name,
-                id: this.props.burger.id
+                id: this.props.burger.id,
+                ingArr: this.sortIngredientArray(this.props.ingredients)
             });
         }
+    }
+
+    sortIngredientArray(oldArr) {
+        var sortIngArr = []
+        var sortOrder = ["Bun", "Meat", "Cheese", "Vegetable", "Condiment"]
+
+        for (var i = 0; i < sortOrder.length; i++) {
+            for (var t = 0; t < oldArr.length; t++) {
+                if (sortOrder[i] === oldArr[t].type) {
+                    sortIngArr.push(oldArr[t])
+                }
+            }
+        }
+
+        return sortIngArr
     }
 
     changeName(event) {
@@ -67,20 +86,6 @@ class EditBurgerModal extends Component {
     }
 
     render() {
-
-        // this should be moved, this.componentDidUpdate is prop best place
-        var oldIngArr = this.props.ingredients
-        var sortIngArr = []
-        var sortOrder = ["Bun", "Meat", "Cheese", "Vegetable", "Condiment"]
-
-        for (var i = 0; i < sortOrder.length; i++) {
-            for (var t = 0; t < oldIngArr.length; t++) {
-                if (sortOrder[i] === oldIngArr[t].type) {
-                    sortIngArr.push(oldIngArr[t])
-                }
-            }
-        }
-
         return (
             <Modal
                 {...this.props}
@@ -120,7 +125,7 @@ class EditBurgerModal extends Component {
                                     <th>
                                         <select value={ingID} name={index} onChange={this.editBurgerArr}>
                                             <option value={0}>Empty</option>
-                                            {sortIngArr.map((ing) => {
+                                            {this.state.ingArr.map((ing) => {
                                                 // the bun layer can only select buns
                                                 if (index === 0) {
                                                     if (ing.type !== "Bun") return false
@@ -147,6 +152,7 @@ class EditBurgerModal extends Component {
                 <Modal.Footer>
                     <button onClick={this.props.onHide}>Close</button>
                     <button onClick={() => this.submitInformation()}>Edit</button>
+                    <button onClick={() => console.log(this.state)}>log</button>
                 </Modal.Footer>
             </Modal>
         )

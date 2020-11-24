@@ -2,7 +2,7 @@
 var connection = require('../config/connection.js');
 
 var fs = require('fs');
-var sqlSeeds = fs.readFileSync("./schema/seeds.sql").toString();
+var sqlSeeds = fs.readFileSync("./schema/burger.sql").toString();
 
 // Helper function to convert object key/value pairs to SQL syntax
 function objToSql(ob) {
@@ -82,7 +82,7 @@ const orm = {
         })
     },
     // in progress
-
+    // tables need to be reset aswell or else the seeds dont align withh eachother
     restore: () => {
         return new Promise((resolve, reject) => {
             var deleteString = "DELETE burger, ingredients, burger_ingredients "
