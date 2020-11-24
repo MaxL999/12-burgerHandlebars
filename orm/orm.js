@@ -1,9 +1,8 @@
 // Import MySQL connection.
 var connection = require('../config/connection.js');
 
-// var fs = require('fs');
-// var burgerSeeds = require('../schema/seeds.sql')
-// var sql = fs.readFileSync(burgerSeeds).toString();
+var fs = require('fs');
+var sqlSeeds = fs.readFileSync("./schema/seeds.sql").toString();
 
 // Helper function to convert object key/value pairs to SQL syntax
 function objToSql(ob) {
@@ -83,18 +82,22 @@ const orm = {
         })
     },
     // in progress
+
     restore: () => {
         return new Promise((resolve, reject) => {
-            var deleteString = "DELETE * FROM burger; "
-            deleteString += "DELETE * FROM ingredients; "
-            deleteString += "DELETE * FROM burger_ingredients; "
+            var deleteString = "DELETE burger, ingredients, burger_ingredients "
+            deleteString += "FROM burger INNER JOIN ingredients INNER JOIN burger_ingredients "
             connection.query(deleteString, (err, result) => {
-                // if (err) return reject (err)
-                if (err) console.log(err)
-                console.log(result)
-                resolve()
-            })
+                if (err) return reject(err)
 
+                connection.query(sqlSeeds, async (err, result) => {
+                    if (err) return reject(err)
+
+                    var burgerData = await orm.all("burger")
+                    var ingData = await orm.all("ingredients")
+                    resolve([burgerData, ingData])
+                })
+            })
         })
     },
     delete: (table, id) => {

@@ -68,6 +68,7 @@ class EditBurgerModal extends Component {
 
     render() {
 
+        // this should be moved, this.componentDidUpdate is prop best place
         var oldIngArr = this.props.ingredients
         var sortIngArr = []
         var sortOrder = ["Bun", "Meat", "Cheese", "Vegetable", "Condiment"]
@@ -79,7 +80,6 @@ class EditBurgerModal extends Component {
                 }
             }
         }
-
 
         return (
             <Modal
@@ -146,7 +146,7 @@ class EditBurgerModal extends Component {
                 </Modal.Body>
                 <Modal.Footer>
                     <button onClick={this.props.onHide}>Close</button>
-                    <button onClick={() => this.submitInformation()}>Create</button>
+                    <button onClick={() => this.submitInformation()}>Edit</button>
                 </Modal.Footer>
             </Modal>
         )

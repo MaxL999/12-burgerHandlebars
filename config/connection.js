@@ -7,13 +7,17 @@ var connection = mysql.createConnection({
   port: 3306,
   user: "root",
   password: "root",
-  database: "burger_db"
+  database: "burger_db",
+  // allows multible calls in one click, its a security risk for DDos
+  // however, the only function that calls multiple time is the reset seeds function
+  multipleStatements: true
 });
 // heroku deploy
 // var connection = mysql.createConnection(process.env.JAWSDB_URL);
 
+
 // Make connection.
-connection.connect(function(err) {
+connection.connect(function (err) {
   if (err) {
     console.error("error connecting: " + err.stack);
     return;
