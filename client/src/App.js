@@ -17,6 +17,7 @@ class App extends Component {
     super()
 
     this.searchMYSQL = this.searchMYSQL.bind(this)
+    this.restoreData = this.restoreData.bind(this)
     this.deleteItem = this.deleteItem.bind(this)
     this.editItem = this.editItem.bind(this)
     this.createItem = this.createItem.bind(this)
@@ -57,8 +58,7 @@ class App extends Component {
     console.log(newData)
   }
 
-  async deleteItem(table, id) {
-    let newData = await API.delete(table, id)
+  restoreData(table, newData) {
     if (table === "burger") {
       this.setState({ burgers: newData.data })
     } else {
@@ -66,23 +66,19 @@ class App extends Component {
     }
   }
 
+  async deleteItem(table, id) {
+    let newData = await API.delete(table, id)
+    this.restoreData(table, newData)
+  }
+
   async editItem(data) {
-    console.log(data)
     let newData = await API.update(data)
-    if (data.table === "burger") {
-      this.setState({ burgers: newData.data })
-    } else {
-      this.setState({ ingredients: newData.data })
-    }
+    this.restoreData(data.table, newData)
   }
 
   async createItem(data) {
     var newData = await API.create(data)
-    if (data.table === "burger") {
-      this.setState({ burgers: newData.data })
-    } else {
-      this.setState({ ingredients: newData.data })
-    }
+    this.restoreData(data.table, newData)
   }
 
   async nutritionValue(id) {

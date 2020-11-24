@@ -1,7 +1,7 @@
 // Import MySQL connection.
 var connection = require('../config/connection.js');
 
-var fs = require('fs');
+// var fs = require('fs');
 // var burgerSeeds = require('../schema/seeds.sql')
 // var sql = fs.readFileSync(burgerSeeds).toString();
 
@@ -110,11 +110,11 @@ const orm = {
     update: (data) => {
         return new Promise((resolve, reject) => {
 
-            var queryString = "UPDATE " + data[0] + " SET "
-            if (data[0] === "burger") {
+            var queryString = "UPDATE " + data.table + " SET "
+            if (data.table === "burger") {
                 var values = {
-                    name: data[1].name,
-                    ingArr: data[1].ingArr,
+                    name: data.name,
+                    ingArr: JSON.stringify(data.ingArr),
                 }
             } else {
                 var values = {
@@ -127,12 +127,12 @@ const orm = {
                 }
             }
             queryString += objToSql(values)
-            queryString += " WHERE id = " + data[1].id
+            queryString += " WHERE id = " + data.id
 
-            console.log(queryString)
             connection.query(queryString, (err, result) => {
-                if (err) return console.log(err);
-                var returnData = orm.all(data[0])
+                // if (err) return console.log(err);
+                if (err) return reject(err)
+                var returnData = orm.all(data.table)
                 resolve(returnData)
             })
         })
@@ -145,10 +145,11 @@ const orm = {
             } else {
                 queryString += " (name, type, Calories, Carbs, Protein, Fats) VALUES ('"
                 queryString += data.name + "','" + data.type + "'," + data.calories + ","
-                queryString += data.carbs + "," + data.protein + "," + data.fats + ")"
+                queryString += data.carbs + "," + data.protein + "," + data.fats + ");"
             }
             connection.query(queryString, (err, result) => {
                 if (err) reject(err)
+                // if (err) console.log(err)
                 var returnData = orm.all(data.table)
                 resolve(returnData)
             })
