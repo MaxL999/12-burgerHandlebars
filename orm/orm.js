@@ -102,9 +102,20 @@ const orm = {
     },
     delete: (table, id) => {
         return new Promise((resolve, reject) => {
-            var queryString = "DELETE FROM " + table + " WHERE ID = " + id
+            var queryString = "DELETE " + table + ", burger_ingredients FROM " + table
+
+            if (table === "burger") {
+                queryString += " INNER JOIN burger_ingredients ON burger.id = burger_ingredients.burger_id"
+            } else {
+                queryString += " INNER JOIN burger_ingredients ON ingredients.id = burger_ingredients.ingredient_id"
+            }
+
+            queryString += " WHERE " + table + ".id = " + id
+
+            console.log(queryString)
             connection.query(queryString, (err, result) => {
-                if (err) return reject(err);
+                // if (err) return reject(err);
+                if (err) return console.log(err);
                 var returnData = orm.all(table)
                 resolve(returnData)
             });

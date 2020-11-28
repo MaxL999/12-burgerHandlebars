@@ -29,6 +29,7 @@ class App extends Component {
     table: 'burger',
     burgers: [],
     ingredients: [],
+    relationTable: [],
     objectValues: {},
     ViewNutrition: false,
     EditBurger: false,
@@ -44,9 +45,11 @@ class App extends Component {
   async searchMYSQL() {
     let burger = await API.table("burger")
     let ingredient = await API.table("ingredients")
+    let relationTable = await API.table("burger_ingredients")
     this.setState({
       burgers: burger.data,
       ingredients: ingredient.data,
+      relationTable: relationTable.data
     })
   }
 
@@ -137,13 +140,14 @@ class App extends Component {
         <header className="App-header">
 
           <button onClick={() => this.restoreSQLseeds()}>Restore SQL Seeds</button>
+          <button onClick={() => this.searchMYSQL()}>search</button>
           <button onClick={() => console.log(this.state)}>log</button>
-          <button onClick={() => this.nutritionValue(1)}>Click</button>
+          <button onClick={() => this.nutritionValue(1)}>nutrition</button>
           <button onClick={() => this.createItem({
             table: "burger",
             Name: "Placeholder Name",
             ingArr: [1, 3, 5, 3, 2]
-          })}>Click</button>
+          })}>create</button>
 
           <div className="d-flex justify-content-around p-2">
             <button onClick={() => this.setState({ table: 'burger' })} >Burger</button>
