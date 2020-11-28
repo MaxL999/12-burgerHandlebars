@@ -8,12 +8,33 @@ class CreateBurgerModal extends Component {
         this.state = {
             burgerArr: [0],
             name: "Pick a name!",
+            ingArr: [],
         }
 
         this.changeName = this.changeName.bind(this)
         this.editBurgerArr = this.editBurgerArr.bind(this);
     }
 
+    componentDidUpdate(prevProps, prevState) {
+        // ingredients array is sorted/organized whenever the props and state length dont match
+        // IE on startup and state.length is empty, or whenever the ingredients are added/removed
+        if (this.state.ingArr.length !== this.props.ingredients.length) {
+
+            var oldIngArr = this.props.ingredients
+            var sortIngArr = []
+            var sortOrder = ["Bun", "Meat", "Cheese", "Vegetable", "Condiment"]
+
+            for (var i = 0; i < sortOrder.length; i++) {
+                for (var t = 0; t < oldIngArr.length; t++) {
+                    if (sortOrder[i] === oldIngArr[t].type) {
+                        sortIngArr.push(oldIngArr[t])
+                    }
+                }
+            }
+
+            this.setState({ ingArr: sortIngArr })
+        }
+    }
 
     changeName(event) {
         var newName = event.target.value
@@ -53,19 +74,6 @@ class CreateBurgerModal extends Component {
     }
 
     render() {
-
-        var oldIngArr = this.props.ingredients
-        var sortIngArr = []
-        var sortOrder = ["Bun", "Meat", "Cheese", "Vegetable", "Condiment"]
-
-        for (var i = 0; i < sortOrder.length; i++) {
-            for (var t = 0; t < oldIngArr.length; t++) {
-                if (sortOrder[i] === oldIngArr[t].type) {
-                    sortIngArr.push(oldIngArr[t])
-                }
-            }
-        }
-
         return (
             <Modal
                 {...this.props}
@@ -91,8 +99,9 @@ class CreateBurgerModal extends Component {
                         </thead>
                         <tbody>
                             {this.state.burgerArr.map((ingID, index) => {
+                                // finds what type of ingredient each option is for printing
                                 var ingType
-                                var ingArr = this.props.ingredients
+                                var ingArr = this.state.ingArr
                                 for (var i = 0; i < ingArr.length; i++) {
                                     if (ingID === 0) ingType = "Empty";
                                     if (ingID === ingArr[i].id) ingType = ingArr[i].type;
@@ -105,7 +114,7 @@ class CreateBurgerModal extends Component {
                                     <th>
                                         <select value={ingID} name={index} onChange={this.editBurgerArr}>
                                             <option value={0}>Empty</option>
-                                            {sortIngArr.map((ing) => {
+                                            {this.state.ingArr.map((ing) => {
                                                 // the bun layer can only select buns
                                                 if (index === 0) {
                                                     if (ing.type !== "Bun") return false
