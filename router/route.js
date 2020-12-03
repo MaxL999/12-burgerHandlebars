@@ -37,11 +37,10 @@ router.delete("/api/:table/:id", async (req, res, next) => {
 // edit items
 router.post("/api/update", async (req, res, next) => {
   try {
-    console.log(req.body)
     if (req.body.table === 'burger') {
-      let data = await orm.updateBurger(req.body)
+      var data = await orm.updateBurger(req.body)
     } else {
-      let data = await orm.updateIng(req.body)
+      var data = await orm.updateIng(req.body)
     }
     res.json(data)
   } catch (err) {

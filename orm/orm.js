@@ -150,21 +150,54 @@ const orm = {
     updateBurger: (data) => {
         return new Promise((resolve, reject) => {
 
-            var queryString = "UPDATE " + data.table + " SET "
-            var values = {
-                name: data.name,
-                ingArr: JSON.stringify(data.ingArr),
-            }
-            queryString += objToSql(values)
-            queryString += " WHERE id = " + data.id
+            // let updateBurgerTable = "UPDATE " + data.table + " SET "
+            // let values = {
+            //     name: data.name,
+            //     ingArr: JSON.stringify(data.ingArr),
+            // }
+            // updateBurgerTable += objToSql(values)
+            // updateBurgerTable += " WHERE id = " + data.id
 
-            connection.query(queryString, (err) => {
-                // if (err) return console.log(err);
-                if (err) return reject(err)
+            // connection.query(updateBurgerTable, (err) => { if (err) return reject(err) })
 
-                var returnData = orm.all(data.table)
-                resolve(returnData)
+            // since the burger table has a array of ings for proper ing sorting,
+            // logic is needed to properly edit the relation table 
+
+            // console.log(data)
+
+            // find current database values
+            let searchSQL = "SELECT * FROM burger WHERE id = " + data.id + ";"
+
+            connection.query(searchSQL, (err, result) => {
+                // if (err) return reject(err)
+                if (err) return console.log(err)
+
+                // console.log(result)
+
+                // organize values
+                let uniqueIngs = [...new Set(JSON.parse(result[0].ingArr))];
+                var oldArr = uniqueIngs.sort((a, b) => { return a - b })
+                var newArr = data.ingArr.sort((a, b) => { return a - b })
+
+                console.log(oldArr)
+                console.log(newArr)
+
+                // compare to desired values
+                for (var i = 0; i < newArr.length; i++) {
+                    console.log(oldArr.includes(newArr[i]))
+                }
+
+                // delete undesired
+
+                // add desired new values
+
             })
+
+
+
+
+            let returnData = orm.all(data.table)
+            resolve(returnData)
         })
     },
     create: (data) => {
@@ -174,6 +207,7 @@ const orm = {
             if (data.table === "burger") {
                 queryString += " (name, ingArr) VALUES ('" + data.name + "', JSON_ARRAY(" + data.burgerArr + "));"
 
+                // need to create second query for the relation table 
             } else {
                 queryString += " (name, type, Calories, Carbs, Protein, Fats) VALUES ('"
                 queryString += data.name + "','" + data.type + "'," + data.calories + ","
