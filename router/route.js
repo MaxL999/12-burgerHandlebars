@@ -34,17 +34,22 @@ router.delete("/api/:table/:id", async (req, res, next) => {
   }
 })
 
-// edit item
+// edit items
 router.post("/api/update", async (req, res, next) => {
   try {
-    var data = await orm.update(req.body)
+    console.log(req.body)
+    if (req.body.table === 'burger') {
+      let data = await orm.updateBurger(req.body)
+    } else {
+      let data = await orm.updateIng(req.body)
+    }
     res.json(data)
   } catch (err) {
     res.sendStatus(500)
   }
 })
 
-// create item
+// create items
 router.post("/api/create", async (req, res, next) => {
   try {
     var data = await orm.create(req.body)

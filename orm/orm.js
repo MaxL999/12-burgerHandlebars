@@ -74,23 +74,27 @@ function sortArray(array, pattern) {
 const orm = {
     all: (tableInput) => {
         return new Promise((resolve, reject) => {
+
             var queryString = "SELECT * FROM " + tableInput + ";";
             connection.query(queryString, (err, result) => {
                 if (err) return reject(err);
+
                 resolve(result)
             });
         })
     },
-    // in progress
-    // tables need to be reset aswell or else the seeds dont align withh eachother
+    // resets the database
+    // tables need to be reset aswell or else the seeds id's dont align withh eachother
     restore: () => {
         return new Promise((resolve, reject) => {
+
             var deleteString = "DELETE burger, ingredients, burger_ingredients "
             deleteString += "FROM burger INNER JOIN ingredients INNER JOIN burger_ingredients "
-            connection.query(deleteString, (err, result) => {
+
+            connection.query(deleteString, (err) => {
                 if (err) return reject(err)
 
-                connection.query(sqlSeeds, async (err, result) => {
+                connection.query(sqlSeeds, async (err) => {
                     if (err) return reject(err)
 
                     var burgerData = await orm.all("burger")
@@ -102,50 +106,62 @@ const orm = {
     },
     delete: (table, id) => {
         return new Promise((resolve, reject) => {
-            var queryString = "DELETE " + table + ", burger_ingredients FROM " + table
 
+            var queryString = "DELETE " + table + ", burger_ingredients FROM " + table
             if (table === "burger") {
                 queryString += " INNER JOIN burger_ingredients ON burger.id = burger_ingredients.burger_id"
             } else {
                 queryString += " INNER JOIN burger_ingredients ON ingredients.id = burger_ingredients.ingredient_id"
             }
-
             queryString += " WHERE " + table + ".id = " + id
 
-            console.log(queryString)
-            connection.query(queryString, (err, result) => {
-                // if (err) return reject(err);
-                if (err) return console.log(err);
+            connection.query(queryString, (err) => {
+                if (err) return reject(err);
+                // if (err) return console.log(err);
                 var returnData = orm.all(table)
                 resolve(returnData)
             });
         })
     },
-    update: (data) => {
+    updateIng: (data) => {
         return new Promise((resolve, reject) => {
 
             var queryString = "UPDATE " + data.table + " SET "
-            if (data.table === "burger") {
-                var values = {
-                    name: data.name,
-                    ingArr: JSON.stringify(data.ingArr),
-                }
-            } else {
-                var values = {
-                    name: data.name,
-                    type: data.type,
-                    calories: data.calories,
-                    fats: data.fats,
-                    protein: data.protein,
-                    carbs: data.carbs
-                }
+            var values = {
+                name: data.name,
+                type: data.type,
+                calories: data.calories,
+                fats: data.fats,
+                protein: data.protein,
+                carbs: data.carbs
             }
             queryString += objToSql(values)
             queryString += " WHERE id = " + data.id
 
-            connection.query(queryString, (err, result) => {
+            connection.query(queryString, (err) => {
                 // if (err) return console.log(err);
                 if (err) return reject(err)
+
+                var returnData = orm.all(data.table)
+                resolve(returnData)
+            })
+        })
+    },
+    updateBurger: (data) => {
+        return new Promise((resolve, reject) => {
+
+            var queryString = "UPDATE " + data.table + " SET "
+            var values = {
+                name: data.name,
+                ingArr: JSON.stringify(data.ingArr),
+            }
+            queryString += objToSql(values)
+            queryString += " WHERE id = " + data.id
+
+            connection.query(queryString, (err) => {
+                // if (err) return console.log(err);
+                if (err) return reject(err)
+
                 var returnData = orm.all(data.table)
                 resolve(returnData)
             })
@@ -153,17 +169,21 @@ const orm = {
     },
     create: (data) => {
         return new Promise((resolve, reject) => {
+
             var queryString = "INSERT INTO " + data.table + " "
             if (data.table === "burger") {
                 queryString += " (name, ingArr) VALUES ('" + data.name + "', JSON_ARRAY(" + data.burgerArr + "));"
+
             } else {
                 queryString += " (name, type, Calories, Carbs, Protein, Fats) VALUES ('"
                 queryString += data.name + "','" + data.type + "'," + data.calories + ","
                 queryString += data.carbs + "," + data.protein + "," + data.fats + ");"
             }
+
             connection.query(queryString, (err, result) => {
                 if (err) reject(err)
                 // if (err) console.log(err)
+
                 var returnData = orm.all(data.table)
                 resolve(returnData)
             })
@@ -178,10 +198,10 @@ const orm = {
                 if (err) throw console.log(err)
                 // if (err) throw reject(err)
 
-                var ingredientArr = JSON.parse(burger[0].ingArr)
+                var ingredientArr = JSON.parse(burger[0].ingArr);
+                ingredientArr.toString().replace(/[\[\]']+/g, '');
 
-                var itemString = "SELECT * FROM ingredients WHERE id IN ("
-                itemString += ingredientArr.toString().replace(/[\[\]']+/g, '') + ")"
+                var itemString = "SELECT * FROM ingredients WHERE id IN (" + ingredientArr + ")"
 
                 connection.query(itemString, (err, ingredients) => {
                     // if (err) throw console.log(err)

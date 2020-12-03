@@ -134,14 +134,24 @@ class App extends Component {
     }
   }
 
+  test() {
+    let chars = ['A', 'B', 'A', 'C', 'B'];
+    let uniqueChars = [...new Set(chars)];
+
+    console.log(uniqueChars);
+  }
+
   render() {
     return (
       <div className="App">
         <header className="App-header">
 
           <button onClick={() => this.restoreSQLseeds()}>Restore SQL Seeds</button>
+
+          {/* /// test buttons /// */}
           <button onClick={() => this.searchMYSQL()}>search</button>
           <button onClick={() => console.log(this.state)}>log</button>
+          <button onClick={() => this.test()}>test</button>
           <button onClick={() => this.nutritionValue(1)}>nutrition</button>
           <button onClick={() => this.createItem({
             table: "burger",
