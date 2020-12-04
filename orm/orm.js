@@ -69,6 +69,16 @@ function sortArray(array, pattern) {
     return newArray
 }
 
+function findDifference(oldArr, newArr) {
+    var insertVal = [];
+    var deleteVal = [];
+
+    insertVal.push(newArr[3])
+    deleteVal.push(oldArr[1])
+
+    return [insertVal, deleteVal]
+}
+
 
 // Object for all SQL statement functions.
 const orm = {
@@ -150,54 +160,46 @@ const orm = {
     updateBurger: (data) => {
         return new Promise((resolve, reject) => {
 
-            // let updateBurgerTable = "UPDATE " + data.table + " SET "
-            // let values = {
-            //     name: data.name,
-            //     ingArr: JSON.stringify(data.ingArr),
-            // }
-            // updateBurgerTable += objToSql(values)
-            // updateBurgerTable += " WHERE id = " + data.id
-
-            // connection.query(updateBurgerTable, (err) => { if (err) return reject(err) })
-
-            // since the burger table has a array of ings for proper ing sorting,
-            // logic is needed to properly edit the relation table 
-
-            // console.log(data)
-
             // find current database values
-            let searchSQL = "SELECT * FROM burger WHERE id = " + data.id + ";"
+            let searchSQL = "SELECT * FROM burger_ingredients WHERE burger_id = " + data.id + ";"
 
             connection.query(searchSQL, (err, result) => {
                 // if (err) return reject(err)
-                if (err) return console.log(err)
+                if (err) return console.log(err);
 
-                // console.log(result)
+                console.log(result);
+                console.log(data);
 
                 // organize values
-                let uniqueIngs = [...new Set(JSON.parse(result[0].ingArr))];
-                var oldArr = uniqueIngs.sort((a, b) => { return a - b })
-                var newArr = data.ingArr.sort((a, b) => { return a - b })
+                let uniqueIngs = [...new Set(data.ingArr)];
+                var newData = uniqueIngs.sort((a, b) => { return a - b });
 
-                console.log(oldArr)
-                console.log(newArr)
-
-                // compare to desired values
-                for (var i = 0; i < newArr.length; i++) {
-                    console.log(oldArr.includes(newArr[i]))
+                let OldArr = [];
+                for (var i = 0; i < result.length; i++) {
+                    OldArr.push(result[i].ingredient_id)
                 }
+                var oldData = OldArr.sort((a, b) => { return a - b });
 
-                // delete undesired
+                console.log(oldData);
+                console.log(newData);
 
-                // add desired new values
+                // // // compare to find desired values
+                // var [insertVal, deleteVal] = findDifference(oldData, newData)
 
+                // console.log(insertVal)
+                // console.log(deleteVal)
+
+                // // delete undesired
+                // connection.query(deleteString, (err, result) => {
+
+                // })
+                // // add desired new values
+                // connection.query(deleteString, (err, result) => {
+
+                // })
+                let returnData = orm.all(data.table)
+                resolve(returnData)
             })
-
-
-
-
-            let returnData = orm.all(data.table)
-            resolve(returnData)
         })
     },
     create: (data) => {
