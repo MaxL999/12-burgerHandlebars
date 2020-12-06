@@ -60,7 +60,7 @@ function dataToNull(data) {
 function sortArray(array, pattern) {
     var newArray = []
 
-    for (var i = 0; i < pattern.length; i++) {
+    for (i in pattern) {
         for (var t = 0; t < array.length; t++) {
             if (pattern[i] === array[t].id) newArray.push(array[t]);
         }
@@ -69,14 +69,13 @@ function sortArray(array, pattern) {
     return newArray
 }
 
-function findDifference(oldArr, newArr) {
-    var insertVal = [];
-    var deleteVal = [];
-
-    insertVal.push(newArr[3])
-    deleteVal.push(oldArr[1])
-
-    return [insertVal, deleteVal]
+// compares 2 arrays and find what is missing from second array
+function arrayDifference(arrOne, arrTwo) {
+    let returnVal = [];
+    for (i in arrOne) {
+        if (!arrTwo.includes(arrOne[i])) returnVal.push(arrOne[i])
+    }
+    return returnVal;
 }
 
 
@@ -136,7 +135,7 @@ const orm = {
     updateIng: (data) => {
         return new Promise((resolve, reject) => {
 
-            var queryString = "UPDATE " + data.table + " SET "
+            var queryString = "UPDATE ingredients SET "
             var values = {
                 name: data.name,
                 type: data.type,
@@ -159,7 +158,18 @@ const orm = {
     },
     updateBurger: (data) => {
         return new Promise((resolve, reject) => {
+            // update burger table
+            let updateBurger = "UPDATE burger SET"
+            updateBurger += " name = '" + data.name + "',"
+            updateBurger += " ingArr = JSON_ARRAY(" + data.ingArr + ")"
+            updateBurger += " WHERE id = " + data.id + ";"
 
+            connection.query(updateBurger, (err) => {
+                // if (err) return console.log(err);
+                if (err) return reject(err)
+            })
+
+            // update burger_ingredients relation table
             // find current database values
             let searchSQL = "SELECT * FROM burger_ingredients WHERE burger_id = " + data.id + ";"
 
@@ -167,27 +177,42 @@ const orm = {
                 // if (err) return reject(err)
                 if (err) return console.log(err);
 
-                console.log(result);
-                console.log(data);
-
                 // organize values
-                let uniqueIngs = [...new Set(data.ingArr)];
-                var newData = uniqueIngs.sort((a, b) => { return a - b });
-
-                let OldArr = [];
-                for (var i = 0; i < result.length; i++) {
-                    OldArr.push(result[i].ingredient_id)
+                let newData = [...new Set(data.ingArr)];
+                let oldData = [];
+                for (i in result) {
+                    oldData.push(result[i].ingredient_id)
                 }
-                var oldData = OldArr.sort((a, b) => { return a - b });
 
-                console.log(oldData);
-                console.log(newData);
+                // compare to find desired values
+                // values missing from newData needed for deletion
+                var deleteVal = arrayDifference(oldData, newData)
+                // values missing from oldData needed for insertion
+                var insertVal = arrayDifference(newData, oldData)
 
-                // // // compare to find desired values
-                // var [insertVal, deleteVal] = findDifference(oldData, newData)
+                console.log("insert")
+                console.log(insertVal)
+                console.log("delete")
+                console.log(deleteVal)
 
-                // console.log(insertVal)
-                // console.log(deleteVal)
+
+                // let deleteString = "DELETE FROM burger_ingredients WHERE (burger_id) IN "
+                // let insertString = ""
+
+                // if both inserts and delete queries are needed
+                if (insertVal.length && deleteVal.length) {
+                    console.log("both")
+
+                } else if (!deleteVal.length) {
+                    console.log("delete")
+
+                } else if (!insertVal.length) {
+                    console.log("insert")
+
+                } else {
+                    console.log("no relation table edits needed")
+                }
+                // multible query statement
 
                 // // delete undesired
                 // connection.query(deleteString, (err, result) => {
