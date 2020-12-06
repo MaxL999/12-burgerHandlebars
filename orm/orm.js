@@ -1,6 +1,7 @@
 // Import MySQL connection.
 var connection = require('../config/connection.js');
 
+// used to reset MYSQL database
 var fs = require('fs');
 var sqlSeeds = fs.readFileSync("./schema/burger.sql").toString();
 
@@ -27,24 +28,23 @@ function objToSql(ob) {
             arr.push(key + "=" + value);
         }
     }
-
     // translate array of strings to a single comma-separated string
     return arr.toString();
 }
 
-
-function arrToSql(arr) {
+// currently used in updateburger gives burger id and ingredient id array
+// and returns a "(burgID, ingID[1]),(burgID, ingID[2]),(burgID, ingID[3])" string val
+// sometimes the string needs a () to wrap everything, this is in the needed functions not the helper
+function arrToSql(id, arr) {
     var stringVal = [];
 
-    for (var key in arr) {
-        var sqlVal = arr[key]
-
-        if (typeof arr[key] === "string") sqlVal = "'" + sqlVal + "'";
-        if (arr[key] === null) break;
-
-        stringVal.push(sqlVal)
+    for (var i in arr) {
+        stringVal.push("(" + id, arr[i] + ")")
+        if (i === arr.length) stringVal.push(",")
     }
-    return stringVal.toString()
+
+    stringVal.toString()
+    return stringVal
 }
 
 function dataToNull(data) {
@@ -57,15 +57,14 @@ function dataToNull(data) {
     }
 }
 
+// simple sort function
 function sortArray(array, pattern) {
     var newArray = []
-
     for (i in pattern) {
         for (var t = 0; t < array.length; t++) {
             if (pattern[i] === array[t].id) newArray.push(array[t]);
         }
     }
-
     return newArray
 }
 
@@ -127,8 +126,7 @@ const orm = {
             connection.query(queryString, (err) => {
                 if (err) return reject(err);
                 // if (err) return console.log(err);
-                var returnData = orm.all(table)
-                resolve(returnData)
+                resolve(orm.all(table))
             });
         })
     },
@@ -151,8 +149,7 @@ const orm = {
                 // if (err) return console.log(err);
                 if (err) return reject(err)
 
-                var returnData = orm.all(data.table)
-                resolve(returnData)
+                resolve(orm.all("ingredients"))
             })
         })
     },
@@ -174,8 +171,8 @@ const orm = {
             let searchSQL = "SELECT * FROM burger_ingredients WHERE burger_id = " + data.id + ";"
 
             connection.query(searchSQL, (err, result) => {
-                // if (err) return reject(err)
-                if (err) return console.log(err);
+                if (err) return reject(err)
+                // if (err) return console.log(err);
 
                 // organize values
                 let newData = [...new Set(data.ingArr)];
@@ -186,44 +183,33 @@ const orm = {
 
                 // compare to find desired values
                 // values missing from newData needed for deletion
-                var deleteVal = arrayDifference(oldData, newData)
+                let deleteVal = arrayDifference(oldData, newData)
                 // values missing from oldData needed for insertion
-                var insertVal = arrayDifference(newData, oldData)
+                let insertVal = arrayDifference(newData, oldData)
 
-                console.log("insert")
-                console.log(insertVal)
-                console.log("delete")
-                console.log(deleteVal)
+                // delete undesired if necessary
+                if (deleteVal.length) {
+                    let deleteString = "DELETE FROM burger_ingredients WHERE (burger_id, ingredient_id) IN ("
+                    deleteString += arrToSql(data.id, deleteVal) + ");"
 
-
-                // let deleteString = "DELETE FROM burger_ingredients WHERE (burger_id) IN "
-                // let insertString = ""
-
-                // if both inserts and delete queries are needed
-                if (insertVal.length && deleteVal.length) {
-                    console.log("both")
-
-                } else if (!deleteVal.length) {
-                    console.log("delete")
-
-                } else if (!insertVal.length) {
-                    console.log("insert")
-
-                } else {
-                    console.log("no relation table edits needed")
+                    connection.query(deleteString, (err) => {
+                        if (err) return reject(err)
+                        // if (err) console.log(err)
+                    })
                 }
-                // multible query statement
 
-                // // delete undesired
-                // connection.query(deleteString, (err, result) => {
+                // insert desired if necessary
+                if (insertVal.length) {
+                    let insertString = "INSERT INTO burger_ingredients (burger_id, ingredient_id) "
+                    insertString += "VALUES " + arrToSql(data.id, insertVal) + ";"
 
-                // })
-                // // add desired new values
-                // connection.query(deleteString, (err, result) => {
+                    connection.query(insertString, (err) => {
+                        if (err) return reject(err)
+                        // if (err) console.log(err)
+                    })
+                }
 
-                // })
-                let returnData = orm.all(data.table)
-                resolve(returnData)
+                resolve(orm.all("burger"))
             })
         })
     },
