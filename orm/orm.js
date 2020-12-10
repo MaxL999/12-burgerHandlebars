@@ -103,11 +103,13 @@ const orm = {
                 if (err) return reject(err)
 
                 connection.query(sqlSeeds, async (err) => {
-                    if (err) return reject(err)
+                    // if (err) return reject(err)
+                    if (err) return console.log(err);
 
-                    var burgerData = await orm.all("burger")
-                    var ingData = await orm.all("ingredients")
-                    resolve([burgerData, ingData])
+                    var burger = await orm.all("burger")
+                    var ingredient = await orm.all("ingredients")
+
+                    resolve([burger, ingredient])
                 })
             })
         })
@@ -213,26 +215,43 @@ const orm = {
             })
         })
     },
-    create: (data) => {
+    createIng: (data) => {
         return new Promise((resolve, reject) => {
 
-            var queryString = "INSERT INTO " + data.table + " "
-            if (data.table === "burger") {
-                queryString += " (name, ingArr) VALUES ('" + data.name + "', JSON_ARRAY(" + data.burgerArr + "));"
+            var insertString = "INSERT INTO ingredients "
+            insertString += " (name, type, Calories, Carbs, Protein, Fats) VALUES ('"
+            insertString += data.name + "','" + data.type + "'," + data.calories + ","
+            insertString += data.carbs + "," + data.protein + "," + data.fats + ");"
 
-                // need to create second query for the relation table 
-            } else {
-                queryString += " (name, type, Calories, Carbs, Protein, Fats) VALUES ('"
-                queryString += data.name + "','" + data.type + "'," + data.calories + ","
-                queryString += data.carbs + "," + data.protein + "," + data.fats + ");"
-            }
-
-            connection.query(queryString, (err, result) => {
+            connection.query(insertString, (err) => {
                 if (err) reject(err)
                 // if (err) console.log(err)
 
                 var returnData = orm.all(data.table)
                 resolve(returnData)
+            })
+
+        })
+    },
+    createBurger: (data) => {
+        return new Promise((resolve, reject) => {
+
+            var insertString = "INSERT INTO burger  (name, ingArr) VALUES ('"
+            insertString += data.name + "', JSON_ARRAY(" + data.burgerArr + "));"
+
+            connection.query(insertString, (err, result) => {
+                // if (err) reject(err)
+                if (err) console.log(err)
+
+                let insertString = "INSERT INTO burger_ingredients (burger_id, ingredient_id) "
+                insertString += "VALUES " + arrToSql(result.insertId, [...new Set(data.burgerArr)]) + ";"
+
+                connection.query(insertString, (err) => {
+                    // if (err) reject(err)
+                    if (err) console.log(err)
+
+                    resolve(orm.all(data.table))
+                })
             })
         })
     },

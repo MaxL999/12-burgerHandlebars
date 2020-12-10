@@ -56,6 +56,7 @@ class App extends Component {
   // fix seeds
   async restoreSQLseeds() {
     let newData = await API.restoreSQL()
+    console.log(newData)
     this.setState({ burgers: newData.data[0], ingredients: newData.data[1] })
   }
 
@@ -155,8 +156,8 @@ class App extends Component {
           <button onClick={() => this.nutritionValue(1)}>nutrition</button>
           <button onClick={() => this.createItem({
             table: "burger",
-            Name: "Placeholder Name",
-            ingArr: [1, 3, 5, 3, 2]
+            Name: "test button",
+            burgerArr: [1, 3, 5, 3, 2]
           })}>create</button>
 
           <div className="d-flex justify-content-around p-2">

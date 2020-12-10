@@ -51,7 +51,11 @@ router.post("/api/update", async (req, res, next) => {
 // create items
 router.post("/api/create", async (req, res, next) => {
   try {
-    var data = await orm.create(req.body)
+    if (req.body.table === 'burger') {
+      var data = await orm.createBurger(req.body)
+    } else {
+      var data = await orm.createIng(req.body)
+    }
     res.json(data)
   } catch (err) {
     res.sendStatus(500)
