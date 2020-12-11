@@ -29,7 +29,6 @@ class App extends Component {
     table: 'burger',
     burgers: [],
     ingredients: [],
-    relationTable: [],
     objectValues: {},
     ViewNutrition: false,
     EditBurger: false,
@@ -45,11 +44,9 @@ class App extends Component {
   async searchMYSQL() {
     let burger = await API.table("burger")
     let ingredient = await API.table("ingredients")
-    let relationTable = await API.table("burger_ingredients")
     this.setState({
       burgers: burger.data,
       ingredients: ingredient.data,
-      relationTable: relationTable.data
     })
   }
 
@@ -84,9 +81,10 @@ class App extends Component {
   }
 
   async nutritionValue(id) {
-    console.log(id)
-    let data = await API.nutrition(id)
-    console.log(data)
+    // console.log(id)
+    // let data = await API.nutrition(id)
+    // console.log(data)
+    this.setState({ ViewNutrition: true, objectValues: id })
   }
 
   viewModals(modal, props) {
@@ -175,7 +173,9 @@ class App extends Component {
           {/* each individual model */}
           <ViewBurgerModal
             viewNutrition={this.nutritionValue}
-            data={this.state.objectValues}
+            current={this.state.objectValues}
+            burger={this.state.burgers}
+            ingredients={this.state.ingredients}
             show={this.state.ViewNutrition}
             onHide={() => this.setState({ ViewNutrition: false })}
           />
