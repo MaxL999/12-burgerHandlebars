@@ -147,17 +147,6 @@ class App extends Component {
 
           <button onClick={() => this.restoreSQLseeds()}>Restore SQL Seeds</button>
 
-          {/* /// test buttons /// */}
-          <button onClick={() => this.searchMYSQL()}>search</button>
-          <button onClick={() => console.log(this.state)}>log</button>
-          <button onClick={() => this.test()}>test</button>
-          <button onClick={() => this.nutritionValue(1)}>nutrition</button>
-          <button onClick={() => this.createItem({
-            table: "burger",
-            Name: "test button",
-            burgerArr: [1, 3, 5, 3, 2]
-          })}>create</button>
-
           <div className="d-flex justify-content-around p-2">
             <button onClick={() => this.setState({ table: 'burger' })} >Burger</button>
             <button onClick={() => this.setState({ table: 'Meat' })} >Meat</button>
