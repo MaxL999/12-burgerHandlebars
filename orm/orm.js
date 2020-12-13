@@ -93,27 +93,27 @@ const orm = {
     },
     // resets the database
     // tables need to be reset aswell or else the seeds id's dont align withh eachother
-    restore: () => {
-        return new Promise((resolve, reject) => {
+    // restore: () => {
+    //     return new Promise((resolve, reject) => {
 
-            var deleteString = "DELETE burger, ingredients, burger_ingredients "
-            deleteString += "FROM burger INNER JOIN ingredients INNER JOIN burger_ingredients "
+    //         var deleteString = "DELETE burger, ingredients, burger_ingredients "
+    //         deleteString += "FROM burger INNER JOIN ingredients INNER JOIN burger_ingredients "
 
-            connection.query(deleteString, (err) => {
-                if (err) return reject(err)
+    //         connection.query(deleteString, (err) => {
+    //             if (err) return reject(err)
 
-                connection.query(sqlSeeds, async (err) => {
-                    // if (err) return reject(err)
-                    if (err) return console.log(err);
+    //             connection.query(sqlSeeds, async (err) => {
+    //                 // if (err) return reject(err)
+    //                 if (err) return console.log(err);
 
-                    var burger = await orm.all("burger")
-                    var ingredient = await orm.all("ingredients")
+    //                 var burger = await orm.all("burger")
+    //                 var ingredient = await orm.all("ingredients")
 
-                    resolve([burger, ingredient])
-                })
-            })
-        })
-    },
+    //                 resolve([burger, ingredient])
+    //             })
+    //         })
+    //     })
+    // },
     delete: (table, id) => {
         return new Promise((resolve, reject) => {
 
