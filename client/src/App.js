@@ -4,11 +4,11 @@ import './App.css';
 import BurgerTable from './BurgerTable';
 import IngredientTable from './IngredientTable';
 
-import ViewBurgerModal from './ViewBurgerModal';
-import EditBurgerModal from './EditBurgerModal';
-import CreateBurgerModal from './CreateBurgerModal';
-import EditIngredientModal from './EditIngredientsModal';
-import CreateIngredientModal from './CreateIngredientModal';
+// import ViewBurgerModal from './ViewBurgerModal';
+// import EditBurgerModal from './EditBurgerModal';
+// import CreateBurgerModal from './CreateBurgerModal';
+// import EditIngredientModal from './EditIngredientsModal';
+// import CreateIngredientModal from './CreateIngredientModal';
 
 import API from './router/API';
 
@@ -160,7 +160,7 @@ class App extends Component {
           {this.renderTable(this.state.table)}
 
           {/* each individual model */}
-          <ViewBurgerModal
+          {/* <ViewBurgerModal
             viewNutrition={this.nutritionValue}
             current={this.state.objectValues}
             burger={this.state.burgers}
@@ -196,7 +196,7 @@ class App extends Component {
             type={this.state.table}
             show={this.state.CreateIngredient}
             onHide={() => this.setState({ CreateIngredient: false })}
-          />
+          /> */}
 
         </header>
       </div >
