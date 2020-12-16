@@ -12,7 +12,7 @@ const API = {
 
     table: (tableName) => {
         return new Promise((resolve, reject) => {
-            let axiosString = "http://localhost:3001/api/all/" + tableName
+            let axiosString = "/api/all/" + tableName
             axios.get(axiosString)
                 .catch((err) => reject(err))
                 .then((data) => resolve(data))
@@ -21,7 +21,7 @@ const API = {
 
     restoreSQL: () => {
         return new Promise((resolve, reject) => {
-            let axiosString = "http://localhost:3001/api/restore/"
+            let axiosString = "/api/restore/"
             axios.post(axiosString)
                 .catch((err) => reject(err))
                 .then((data) => resolve(data))
@@ -30,7 +30,7 @@ const API = {
 
     delete: (table, id) => {
         return new Promise((resolve, reject) => {
-            let axiosString = "http://localhost:3001/api/" + table + "/" + id
+            let axiosString = "/api/" + table + "/" + id
             axios.delete(axiosString)
                 .catch((err) => reject(err))
                 .then((data) => resolve(data))
@@ -39,7 +39,7 @@ const API = {
 
     update: (data) => {
         return new Promise((resolve, reject) => {
-            let axiosString = "http://localhost:3001/api/update"
+            let axiosString = "/api/update"
             axios.post(axiosString, data)
                 .catch((err) => reject(err))
                 .then((data) => resolve(data))
@@ -49,7 +49,7 @@ const API = {
 
     create: (data) => {
         return new Promise((resolve, reject) => {
-            let axiosString = "http://localhost:3001/api/create"
+            let axiosString = "/api/create"
             axios.post(axiosString, data)
                 .catch((err) => reject(err))
                 .then((data) => resolve(data))
@@ -58,7 +58,7 @@ const API = {
 
     nutrition: (id) => {
         return new Promise((resolve, reject) => {
-            let axiosString = "http://localhost:3001/api/nutrition/" + id
+            let axiosString = "/api/nutrition/" + id
             axios.get(axiosString)
                 .catch((err) => reject(err))
                 .then((data) => resolve(data))
