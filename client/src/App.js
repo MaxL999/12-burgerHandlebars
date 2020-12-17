@@ -133,11 +133,14 @@ class App extends Component {
     }
   }
 
-  test() {
-    let chars = ['A', 'B', 'A', 'C', 'B'];
-    let uniqueChars = [...new Set(chars)];
+  async test() {
+    // let chars = ['A', 'B', 'A', 'C', 'B'];
+    // let uniqueChars = [...new Set(chars)];
 
-    console.log(uniqueChars);
+    // console.log(uniqueChars);
+    let test = await API.table("burger")
+
+    console.log(test)
   }
 
   render() {
@@ -146,6 +149,7 @@ class App extends Component {
         <header className="App-header">
 
           <button onClick={() => this.restoreSQLseeds()}>Restore SQL Seeds</button>
+          <button onClick={() => this.test()}>Test Log</button>
 
           <div className="d-flex justify-content-around p-2">
             <button onClick={() => this.setState({ table: 'burger' })} >Burger</button>

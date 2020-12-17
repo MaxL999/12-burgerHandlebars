@@ -12,9 +12,13 @@ const API = {
 
     table: (tableName) => {
         return new Promise((resolve, reject) => {
-            let axiosString = "/api/all/" + tableName
+            console.log("searching")
+            let axiosString = "http://localhost:3001/api/all/" + tableName
             axios.get(axiosString)
-                .catch((err) => reject(err))
+                .catch((err) => {
+                    console.log(err)
+                    reject(err)
+                })
                 .then((data) => resolve(data))
         })
     },
