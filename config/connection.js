@@ -1,7 +1,8 @@
 // Set up MySQL connection.
 var mysql = require("mysql");
 
-var orm = require("../orm/orm")
+var fs = require('fs');
+var sqlSeeds = fs.readFileSync("./schema/reset.sql").toString();
 
 // localhost testing
 // var connection = mysql.createConnection({
@@ -24,8 +25,11 @@ connection.connect((err) => {
   if (err) return console.error("error connecting: " + err.stack);
   console.log("connected as id " + connection.threadId);
 
-  var returnVal = orm.restore()
-  console.log(returnVal)
+
+
+  connection.query(sqlSeeds, (err, results, fields) => {
+    if (err) console.log(err);
+  });
 });
 
 // export for MYSQL ORM
