@@ -87,7 +87,8 @@ const orm = {
             var queryString = "SELECT * FROM " + tableInput + ";";
             console.log(queryString)
             connection.query(queryString, (err, result) => {
-                if (err) return reject(err);
+                // if (err) return reject(err);
+                if (err) return console.log(err);
 
                 resolve(result)
             });
