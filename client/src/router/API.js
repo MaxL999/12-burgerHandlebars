@@ -13,12 +13,10 @@ const API = {
     table: (tableName) => {
         return new Promise((resolve, reject) => {
             console.log("searching")
-            let axiosString = "http://localhost:3001/api/all/" + tableName
+            // let axiosString = "http://localhost:3001/api/all/" + tableName
+            let axiosString = "https://burger-break-down.herokuapp.com/api/all/" + tableName
             axios.get(axiosString)
-                .catch((err) => {
-                    console.log(err)
-                    reject(err)
-                })
+                .catch((err) => reject(err))
                 .then((data) => resolve(data))
         })
     },
