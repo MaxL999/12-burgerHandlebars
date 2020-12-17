@@ -5,9 +5,12 @@ var orm = require("../orm/orm");
 // search all
 router.get("/api/all/:table", async (req, res, next) => {
   try {
+    console.log("PING")
     var data = await orm.all(req.params.table)
+    console.log(data)
     res.json(data)
   } catch (err) {
+    console.log(err)
     res.sendStatus(500)
   }
 })
