@@ -3,6 +3,7 @@ var connection = require('../config/connection.js');
 
 // used to reset MYSQL database
 var fs = require('fs');
+const { table } = require('console');
 var sqlSeeds = fs.readFileSync("./schema/burger.sql").toString();
 
 // Helper function to convert object key/value pairs to SQL syntax
@@ -82,8 +83,9 @@ function arrayDifference(arrOne, arrTwo) {
 const orm = {
     all: (tableInput) => {
         return new Promise((resolve, reject) => {
-
+            console.log(tableInput)
             var queryString = "SELECT * FROM " + tableInput + ";";
+            console.log(queryString)
             connection.query(queryString, (err, result) => {
                 if (err) return reject(err);
 
