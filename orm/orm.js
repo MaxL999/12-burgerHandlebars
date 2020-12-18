@@ -1,9 +1,11 @@
 // Import MySQL connection.
 var connection = require('../config/connection.js');
 
+
 // used to reset MYSQL database
 var fs = require('fs');
 var sqlSeeds = fs.readFileSync("./schema/reset.sql").toString();
+
 
 // Helper function to convert object key/value pairs to SQL syntax
 function objToSql(ob) {
