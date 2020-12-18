@@ -23,6 +23,7 @@ class App extends Component {
     this.editItem = this.editItem.bind(this)
     this.createItem = this.createItem.bind(this)
     this.viewModals = this.viewModals.bind(this)
+    this.test = this.test.bind(this)
   }
 
   state = {
@@ -81,9 +82,6 @@ class App extends Component {
   }
 
   async nutritionValue(id) {
-    // console.log(id)
-    // let data = await API.nutrition(id)
-    // console.log(data)
     this.setState({ ViewNutrition: true, objectValues: id })
   }
 
@@ -138,9 +136,10 @@ class App extends Component {
     // let uniqueChars = [...new Set(chars)];
 
     // console.log(uniqueChars);
-    let test = await API.table("burger")
+    let testData = await API.table("burger")
 
-    console.log(test)
+    console.log(this.state)
+    console.log(testData)
   }
 
   render() {
@@ -148,8 +147,8 @@ class App extends Component {
       <div className="App">
         <header className="App-header">
 
-          <button onClick={() => this.restoreSQLseeds()}>Restore SQL Seeds</button>
-          <button onClick={() => this.test()}>Test Log</button>
+          {/* <button onClick={() => this.restoreSQLseeds()}>Restore SQL Seeds</button> */}
+          {/* <button onClick={() => this.test()}>Test Log</button> */}
 
           <div className="d-flex justify-content-around p-2">
             <button onClick={() => this.setState({ table: 'burger' })} >Burger</button>

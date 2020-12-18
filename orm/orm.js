@@ -1,11 +1,9 @@
 // Import MySQL connection.
 var connection = require('../config/connection.js');
 
-
 // used to reset MYSQL database
-var fs = require('fs');
-var sqlSeeds = fs.readFileSync("./schema/reset.sql").toString();
-
+// var fs = require('fs');
+// var sqlSeeds = fs.readFileSync("./schema/reset.sql").toString();
 
 // Helper function to convert object key/value pairs to SQL syntax
 function objToSql(ob) {
@@ -49,16 +47,6 @@ function arrToSql(id, arr) {
     return stringVal
 }
 
-function dataToNull(data) {
-    if (data !== null) {
-        var word = ", '" + data + "'"
-        return word
-    } else {
-        var word = ", NULL"
-        return word
-    }
-}
-
 // simple sort function
 function sortArray(array, pattern) {
     var newArray = []
@@ -84,40 +72,38 @@ function arrayDifference(arrOne, arrTwo) {
 const orm = {
     all: (tableInput) => {
         return new Promise((resolve, reject) => {
-            console.log(tableInput)
             var queryString = "SELECT * FROM " + tableInput + ";";
-            console.log(queryString)
             connection.query(queryString, (err, result) => {
                 // if (err) return reject(err);
                 if (err) return console.log(err);
-
+                console.log(result)
                 resolve(result)
             });
         })
     },
     // resets the database
     // tables need to be reset aswell or else the seeds id's dont align withh eachother
-    restore: () => {
-        return new Promise((resolve, reject) => {
+    // restore: () => {
+    //     return new Promise((resolve, reject) => {
 
-            var deleteString = "DELETE burger, ingredients, burger_ingredients "
-            deleteString += "FROM burger INNER JOIN ingredients INNER JOIN burger_ingredients "
+    //         var deleteString = "DELETE burger, ingredients, burger_ingredients "
+    //         deleteString += "FROM burger INNER JOIN ingredients INNER JOIN burger_ingredients "
 
-            connection.query(deleteString, (err) => {
-                if (err) return reject(err)
+    //         connection.query(deleteString, (err) => {
+    //             if (err) return reject(err)
 
-                connection.query(sqlSeeds, async (err) => {
-                    // if (err) return reject(err)
-                    if (err) return console.log(err);
+    //             connection.query(sqlSeeds, async (err) => {
+    //                 // if (err) return reject(err)
+    //                 if (err) return console.log(err);
 
-                    var burger = await orm.all("burger")
-                    var ingredient = await orm.all("ingredients")
+    //                 var burger = await orm.all("burger")
+    //                 var ingredient = await orm.all("ingredients")
 
-                    resolve([burger, ingredient])
-                })
-            })
-        })
-    },
+    //                 resolve([burger, ingredient])
+    //             })
+    //         })
+    //     })
+    // },
     delete: (table, id) => {
         return new Promise((resolve, reject) => {
 
@@ -259,33 +245,33 @@ const orm = {
             })
         })
     },
-    join: (id) => {
-        return new Promise((resolve, reject) => {
-            var burgerString = "SELECT * FROM burger "
-            burgerString += "WHERE burger.id = " + id + " "
+    // old/unused
+    // join: (id) => {
+    //     return new Promise((resolve, reject) => {
+    //         var burgerString = "SELECT * FROM burger "
+    //         burgerString += "WHERE burger.id = " + id + " "
 
-            connection.query(burgerString, (err, burger) => {
-                if (err) throw console.log(err)
-                // if (err) throw reject(err)
+    //         connection.query(burgerString, (err, burger) => {
+    //             if (err) throw console.log(err)
+    //             // if (err) throw reject(err)
 
-                var ingredientArr = JSON.parse(burger[0].ingArr);
-                ingredientArr.toString().replace(/[\[\]']+/g, '');
+    //             var ingredientArr = JSON.parse(burger[0].ingArr);
+    //             ingredientArr.toString().replace(/[\[\]']+/g, '');
 
-                var itemString = "SELECT * FROM ingredients WHERE id IN (" + ingredientArr + ")"
+    //             var itemString = "SELECT * FROM ingredients WHERE id IN (" + ingredientArr + ")"
 
-                connection.query(itemString, (err, ingredients) => {
-                    // if (err) throw console.log(err)
-                    if (err) throw reject(err)
+    //             connection.query(itemString, (err, ingredients) => {
+    //                 // if (err) throw console.log(err)
+    //                 if (err) throw reject(err)
 
-                    var result = sortArray(ingredients, ingredientArr)
-                    console.log(result)
+    //                 var result = sortArray(ingredients, ingredientArr)
+    //                 console.log(result)
 
-                    resolve(result)
-                })
-            })
-
-        })
-    }
+    //                 resolve(result)
+    //             })
+    //         })
+    //     })
+    // }
 };
 
 module.exports = orm;

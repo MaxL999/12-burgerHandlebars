@@ -5,11 +5,7 @@ var orm = require("../orm/orm");
 // search all
 router.get("/api/all/:table", async (req, res, next) => {
   try {
-    console.log("START")
-    console.log(req.params)
     var data = await orm.all(req.params.table)
-    console.log("DATA")
-    console.log(data)
     res.json(data)
   } catch (err) {
     console.log(err)
@@ -66,14 +62,14 @@ router.post("/api/create", async (req, res, next) => {
 })
 
 // join call for nutrition
-router.get("/api/nutrition/:id", async (req, res, next) => {
-  try {
-    var data = await orm.join(req.params.id)
-    res.json(data)
-  } catch (err) {
-    console.log(err)
-    res.sendStatus(500)
-  }
-})
+// router.get("/api/nutrition/:id", async (req, res, next) => {
+//   try {
+//     var data = await orm.join(req.params.id)
+//     res.json(data)
+//   } catch (err) {
+//     console.log(err)
+//     res.sendStatus(500)
+//   }
+// })
 
 module.exports = router;
