@@ -13,7 +13,7 @@ const API = {
     // used to easily change link name for testing, 
     // needs real logic so it changes automatically
     hostName: () => {
-        let host = false;
+        let host = true;
         if (host) {
             return "https://burger-break-down.herokuapp.com"
         } else {
