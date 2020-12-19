@@ -53,20 +53,20 @@ class EditBurgerModal extends Component {
     editBurgerArr(event) {
         var i = event.target.name
         var value = parseInt(event.target.value)
-        var tempVal = this.state.burgerArr
+        let tempVal = this.state.burgerArr
         tempVal.splice(i, 1, value)
         this.setState({ burgerArr: tempVal })
     }
 
     createBurgeri(i) {
         i = i + 1
-        var tempVal = this.state.burgerArr
+        let tempVal = this.state.burgerArr
         tempVal.splice(i, 0, 0)
         this.setState({ burgerArr: tempVal })
     }
 
     deleteBurgeri(i) {
-        var tempVal = this.state.burgerArr
+        let tempVal = this.state.burgerArr
         tempVal.splice(i, 1)
         this.setState({ burgerArr: tempVal })
     }
@@ -116,14 +116,12 @@ class EditBurgerModal extends Component {
                                 }
                                 return <tr key={index}>
                                     <th scope="row">{index}</th>
-                                    <th>
-                                        <span>{ingType}</span>
-                                    </th>
+                                    <th><span>{ingType}</span></th>
                                     <th>
                                         <select value={ingID} name={index} onChange={this.editBurgerArr}>
                                             <option value={0}>Empty</option>
                                             {this.state.ingArr.map((ing) => {
-                                                // the bun layer can only select buns
+                                                // the bun layer can only select buns the opposite with ing layers
                                                 if (index === 0) {
                                                     if (ing.type !== "Bun") return false
                                                     else return <option key={ing.id} value={ing.id}>{ing.name}</option>
@@ -149,7 +147,6 @@ class EditBurgerModal extends Component {
                 <Modal.Footer>
                     <button onClick={this.props.onHide}>Close</button>
                     <button onClick={() => this.submitInformation()}>Edit</button>
-                    <button onClick={() => console.log(this.state)}>log</button>
                 </Modal.Footer>
             </Modal>
         )
