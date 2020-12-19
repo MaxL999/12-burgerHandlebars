@@ -2,7 +2,6 @@ import React from 'react';
 
 function IngredientTable(props) {
 
-
     return (
         <div>
             <table className="table table-dark">
@@ -28,7 +27,7 @@ function IngredientTable(props) {
                             <td><span>{item.fats}</span></td>
                             <td><span>{item.protein}</span></td>
                             <td><button type="button" className="btn btn-primary" onClick={() => props.viewModals("EditIngredient", item)}>Edit</button></td>
-                            <td><button type="button" className="btn btn-danger" onClick={() => props.deleteItem("ingredients", item.id)}>X</button></td>
+                            <td><button type="button" className="btn btn-danger" onClick={() => props.deleteIngredient(item.id)}>X</button></td>
                         </tr>
                     )}
                     <tr>

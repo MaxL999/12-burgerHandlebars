@@ -17,9 +17,10 @@ class App extends Component {
     super()
 
     this.searchMYSQL = this.searchMYSQL.bind(this)
-    this.restoreData = this.restoreData.bind(this)
+    // this.restoreData = this.restoreData.bind(this)
     // this.restoreSQLseeds = this.restoreSQLseeds.bind(this)
-    // this.deleteItem = this.deleteItem.bind(this)
+    this.deleteBurger = this.deleteBurger.bind(this)
+    this.deleteIngredient = this.deleteIngredient.bind(this)
     this.editItem = this.editItem.bind(this)
     this.createItem = this.createItem.bind(this)
     this.viewModals = this.viewModals.bind(this)
@@ -42,18 +43,14 @@ class App extends Component {
     this.searchMYSQL()
   };
 
-  async searchMYSQL() {
-    try {
-      let burger = await API.table("burger")
-      let ingredient = await API.table("ingredients")
-      this.setState({
-        burgers: burger.data,
-        ingredients: ingredient.data,
-      })
-    } catch (err) {
-      console.log(err)
-    }
-
+  searchMYSQL() {
+    API.search()
+      .then(res =>
+        this.setState({
+          burgers: res.data.burgers,
+          ingredients: res.data.ingredients
+        })
+      )
   }
 
   // fix seeds unused rn
@@ -63,16 +60,16 @@ class App extends Component {
   //   this.setState({ burgers: newData.data[0], ingredients: newData.data[1] })
   // }
 
-  restoreData(table, newData) {
-    if (table === "burger") {
-      this.setState({ burgers: newData.data })
-    } else {
-      this.setState({ ingredients: newData.data })
-    }
-  }
+  // restoreData(table, newData) {
+  //   if (table === "burger") {
+  //     this.setState({ burgers: newData.data })
+  //   } else {
+  //     this.setState({ ingredients: newData.data })
+  //   }
+  // }
 
   deleteIngredient(id) {
-    API.delete(id)
+    API.delete("ingredients", id)
       .catch((err) => {
         console.log(err)
       })
@@ -82,7 +79,7 @@ class App extends Component {
   }
 
   deleteBurger(id) {
-    API.delete(id)
+    API.delete("burger", id)
       .catch((err) => {
         console.log(err)
       })
@@ -141,7 +138,7 @@ class App extends Component {
     if (table === "burger") {
       return <BurgerTable
         table={this.state.burgers}
-        deleteItem={this.deleteItem}
+        deleteBurger={this.deleteBurger}
         editItem={this.editItem}
         viewModals={this.viewModals}
       />
@@ -155,28 +152,21 @@ class App extends Component {
       }
       return <IngredientTable
         table={list}
-        deleteItem={this.deleteItem}
+        deleteIngredient={this.deleteIngredient}
         viewModals={this.viewModals}
       />;
     }
   }
 
   async test() {
-    // let chars = ['A', 'B', 'A', 'C', 'B'];
-    // let uniqueChars = [...new Set(chars)];
 
-    // console.log(uniqueChars);
-    // let testData = await API.table("burger")
-
-    // console.log(this.state)
-    // console.log(testData)
-    API.table("burger")
-      .catch((err) => {
-        console.log(err)
-      })
-      .then((res) => {
-        console.log(res)
-      })
+    // API.table("burger")
+    //   .catch((err) => {
+    //     console.log(err)
+    //   })
+    //   .then((res) => {
+    //     console.log(res)
+    //   })
   }
 
   render() {

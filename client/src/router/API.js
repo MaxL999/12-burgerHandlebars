@@ -21,9 +21,9 @@ const API = {
         }
     },
 
-    table: (tableName) => {
+    search: () => {
         return new Promise((resolve, reject) => {
-            let axiosString = API.hostName() + "/api/search/" + tableName
+            let axiosString = API.hostName() + "/api/search"
             axios.get(axiosString)
                 .catch((err) => reject(err))
                 .then((data) => resolve(data))
@@ -32,7 +32,7 @@ const API = {
 
     restoreSQL: () => {
         return new Promise((resolve, reject) => {
-            let axiosString = API.hostName() + "/api/restore/"
+            let axiosString = API.hostName() + "/api/restore"
             axios.post(axiosString)
                 .catch((err) => reject(err))
                 .then((data) => resolve(data))
@@ -48,13 +48,21 @@ const API = {
         })
     },
 
-    update: (data) => {
+    updateIngredient: (data) => {
         return new Promise((resolve, reject) => {
             let axiosString = API.hostName() + "/api/update"
             axios.post(axiosString, data)
                 .catch((err) => reject(err))
                 .then((data) => resolve(data))
+        })
+    },
 
+    updateBurger: (data) => {
+        return new Promise((resolve, reject) => {
+            let axiosString = API.hostName() + "/api/update/burger"
+            axios.post(axiosString, data)
+                .catch((err) => reject(err))
+                .then((data) => resolve(data))
         })
     },
 
