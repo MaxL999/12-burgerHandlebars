@@ -6,9 +6,9 @@ import IngredientTable from './IngredientTable';
 
 // import ViewBurgerModal from './ViewBurgerModal';
 // import EditBurgerModal from './EditBurgerModal';
-// import CreateBurgerModal from './CreateBurgerModal';
+import CreateBurgerModal from './CreateBurgerModal';
 // import EditIngredientModal from './EditIngredientsModal';
-// import CreateIngredientModal from './CreateIngredientModal';
+import CreateIngredientModal from './CreateIngredientModal';
 
 import API from './router/API';
 
@@ -86,14 +86,15 @@ class App extends Component {
       })
   }
 
-  createItem(data) {
-    API.create(data)
-      .catch((err) => {
-        console.log(err)
-      })
-      .then((res) => {
-        // this.restoreData(table, res)
-      })
+  createItem(table, data) {
+    try {
+      console.log(table)
+      console.log(data)
+      API.create(table, data)
+        .then((res) => this.setState({ [table]: res.data }))
+    } catch (err) {
+      console.log(err)
+    }
   }
 
   async nutritionValue(id) {
@@ -193,7 +194,7 @@ class App extends Component {
             ingredients={this.state.ingredients}
             show={this.state.EditBurger}
             onHide={() => this.setState({ EditBurger: false })}
-          />
+          /> */}
 
           <CreateBurgerModal
             createItem={this.createItem}
@@ -202,19 +203,19 @@ class App extends Component {
             onHide={() => this.setState({ CreateBurger: false })}
           />
 
-          <EditIngredientModal
+          {/* <EditIngredientModal
             editItem={this.editItem}
             data={this.state.objectValues}
             show={this.state.EditIngredient}
             onHide={() => this.setState({ EditIngredient: false })}
-          />
+          /> */}
 
           <CreateIngredientModal
             createItem={this.createItem}
             type={this.state.table}
             show={this.state.CreateIngredient}
             onHide={() => this.setState({ CreateIngredient: false })}
-          /> */}
+          />
 
         </header>
       </div >

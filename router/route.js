@@ -3,11 +3,15 @@ var router = require("express").Router();
 var orm = require("../orm/orm");
 
 // search all
-router.get("/api/search", async (req, res, next) => {
+router.get("/api/search", (req, res, next) => {
   try {
-    var burgers = await orm.table("burgers")
-    var ingredients = await orm.table("ingredients")
-    res.json({ burgers, ingredients })
+    orm.selectBurger()
+      .then(burgers =>
+        orm.selectIng()
+          .then(ingredients =>
+            res.json({ burgers, ingredients })
+          )
+      )
   } catch (err) {
     console.log(err)
     res.sendStatus(500)
@@ -15,16 +19,16 @@ router.get("/api/search", async (req, res, next) => {
 })
 
 // delete item
-router.delete("/api/:table/:id", async (req, res, next) => {
+router.delete("/api/:table/:id", (req, res, next) => {
   try {
     if (req.params.table === "burgers") {
       orm.deleteBurger(req.params.id)
-        .then(orm.table("burgers")
+        .then(orm.selectBurger()
           .then(response => res.json(response))
         )
     } else {
       orm.deleteIngredient(req.params.id)
-        .then(orm.table("ingredients")
+        .then(orm.selectIng()
           .then(response => res.json(response))
         )
     }
@@ -44,20 +48,24 @@ router.post("/api/update", async (req, res, next) => {
     }
     res.json(data)
   } catch (err) {
+    console.log(err)
     res.sendStatus(500)
   }
 })
 
 // create items
-router.post("/api/create", async (req, res, next) => {
+router.post("/api/create/:table", async (req, res, next) => {
   try {
-    if (req.body.table === 'burger') {
-      var data = await orm.createBurger(req.body)
+    if (req.params.table === 'burgers') {
+      orm.createBurger(req.body)
     } else {
-      var data = await orm.createIng(req.body)
+      orm.createIng(req.body)
+        .then(orm.selectIng()
+          .then(response => res.json(response))
+        )
     }
-    res.json(data)
   } catch (err) {
+    console.log(err)
     res.sendStatus(500)
   }
 })

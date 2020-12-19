@@ -66,9 +66,9 @@ const API = {
         })
     },
 
-    create: (data) => {
+    create: (table, data) => {
         return new Promise((resolve, reject) => {
-            let axiosString = API.hostName() + "/api/create"
+            let axiosString = API.hostName() + "/api/create/" + table
             axios.post(axiosString, data)
                 .catch((err) => reject(err))
                 .then((data) => resolve(data))

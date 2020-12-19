@@ -70,9 +70,18 @@ function arrayDifference(arrOne, arrTwo) {
 
 // Object for all SQL statement functions.
 const orm = {
-    table: (tableInput) => {
+    selectBurger: () => {
         return new Promise((resolve, reject) => {
-            var queryString = "SELECT * FROM " + tableInput + ";";
+            var queryString = "SELECT * FROM burgers;";
+            connection.query(queryString, (err, result) => {
+                if (err) return reject(err);
+                resolve(result)
+            });
+        })
+    },
+    selectIng: () => {
+        return new Promise((resolve, reject) => {
+            var queryString = "SELECT * FROM ingredients;";
             connection.query(queryString, (err, result) => {
                 if (err) return reject(err);
                 resolve(result)
@@ -167,7 +176,6 @@ const orm = {
 
                     connection.query(deleteString, (err) => {
                         if (err) return reject(err)
-                        // if (err) console.log(err)
                     })
                 }
 
@@ -178,11 +186,10 @@ const orm = {
 
                     connection.query(insertString, (err) => {
                         if (err) return reject(err)
-                        // if (err) console.log(err)
                     })
                 }
 
-                resolve(orm.all("burger"))
+                resolve()
             })
         })
     },
@@ -196,12 +203,8 @@ const orm = {
 
             connection.query(insertString, (err) => {
                 if (err) reject(err)
-                // if (err) console.log(err)
-
-                var returnData = orm.all(data.table)
-                resolve(returnData)
+                resolve()
             })
-
         })
     },
     createBurger: (data) => {
@@ -211,21 +214,24 @@ const orm = {
             insertString += data.name + "', JSON_ARRAY(" + data.burgerArr + "));"
 
             connection.query(insertString, (err, result) => {
-                // if (err) reject(err)
-                if (err) console.log(err)
-
-                let insertString = "INSERT INTO burger_ingredients (burger_id, ingredient_id) "
-                insertString += "VALUES " + arrToSql(result.insertId, [...new Set(data.burgerArr)]) + ";"
-
-                connection.query(insertString, (err) => {
-                    // if (err) reject(err)
-                    if (err) console.log(err)
-
-                    resolve(orm.all(data.table))
-                })
+                if (err) reject(err)
+                resolve()
             })
         })
     },
+    createBurgerIngredients: () => {
+        return new Promise((resolve, reject) => {
+
+            let insertString = "INSERT INTO burger_ingredients (burger_id, ingredient_id) "
+            insertString += "VALUES " + arrToSql(result.insertId, [...new Set(data.burgerArr)]) + ";"
+
+            connection.query(insertString, (err) => {
+                if (err) reject(err)
+                resolve()
+            })
+
+        })
+    }
     // old/unused
 
     // resets the database
