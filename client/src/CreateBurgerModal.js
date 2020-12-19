@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import Modal from 'react-bootstrap/modal'
+import { Modal } from 'react-bootstrap';
 
 class CreateBurgerModal extends Component {
     constructor() {

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import Modal from 'react-bootstrap/modal'
+import { Modal } from 'react-bootstrap';
 
 class EditIngredientModal extends Component {
     constructor(props) {

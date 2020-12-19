@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { Modal } from 'react-bootstrap'
+import { Modal } from 'react-bootstrap';
 
 class ViewBurgerModal extends Component {
     constructor(props) {

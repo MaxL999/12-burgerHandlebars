@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 
-import Modal from 'react-bootstrap/modal'
+import { Modal } from 'react-bootstrap';
 
 function CreateIngredientModal(props) {
     const name = useRef(null)
