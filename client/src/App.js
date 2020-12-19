@@ -19,8 +19,7 @@ class App extends Component {
     this.searchMYSQL = this.searchMYSQL.bind(this)
     // this.restoreData = this.restoreData.bind(this)
     // this.restoreSQLseeds = this.restoreSQLseeds.bind(this)
-    this.deleteBurger = this.deleteBurger.bind(this)
-    this.deleteIngredient = this.deleteIngredient.bind(this)
+    this.deleteItem = this.deleteItem.bind(this)
     this.editItem = this.editItem.bind(this)
     this.createItem = this.createItem.bind(this)
     this.viewModals = this.viewModals.bind(this)
@@ -68,24 +67,13 @@ class App extends Component {
   //   }
   // }
 
-  deleteIngredient(id) {
-    API.delete("ingredients", id)
-      .catch((err) => {
-        console.log(err)
-      })
-      .then((res) => {
-        this.setState({ ingredients: res.data })
-      })
-  }
-
-  deleteBurger(id) {
-    API.delete("burger", id)
-      .catch((err) => {
-        console.log(err)
-      })
-      .then((res) => {
-        this.setState({ burgers: res.data })
-      })
+  deleteItem(table, id) {
+    try {
+      API.delete(table, id)
+        .then((res) => this.setState({ [table]: res.data }))
+    } catch (err) {
+      console.log(err)
+    }
   }
 
   editItem(data) {
@@ -138,7 +126,7 @@ class App extends Component {
     if (table === "burger") {
       return <BurgerTable
         table={this.state.burgers}
-        deleteBurger={this.deleteBurger}
+        deleteItem={this.deleteItem}
         editItem={this.editItem}
         viewModals={this.viewModals}
       />
@@ -152,7 +140,7 @@ class App extends Component {
       }
       return <IngredientTable
         table={list}
-        deleteIngredient={this.deleteIngredient}
+        deleteItem={this.deleteItem}
         viewModals={this.viewModals}
       />;
     }

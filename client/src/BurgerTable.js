@@ -20,7 +20,7 @@ function BurgerTable(props) {
                             <td><span className="flex-grow-1">{item.name}</span></td>
                             <td><button type="button" className="btn btn-primary" onClick={() => props.viewModals("Nutrition", item.id)} >View</button></td>
                             <td><button type="button" className="btn btn-primary" onClick={() => props.viewModals("EditBurger", item)}>Edit</button></td>
-                            <td><button type="button" className="btn btn-danger" onClick={() => props.deleteBurger(item.id)}>X</button></td>
+                            <td><button type="button" className="btn btn-danger" onClick={() => props.deleteItem("burgers", item.id)}>X</button></td>
                         </tr>
                     )}
                     <tr>

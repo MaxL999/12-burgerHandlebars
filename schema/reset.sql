@@ -1,4 +1,4 @@
-CREATE TABLE burger (
+CREATE TABLE burgers (
     id INT NOT NULL AUTO_INCREMENT,
     name VARCHAR(35),
     ingArr JSON,

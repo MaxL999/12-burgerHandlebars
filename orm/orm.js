@@ -79,19 +79,12 @@ const orm = {
             });
         })
     },
-    // all: async (tableInput) => {
-    //     var queryString = "SELECT * FROM " + tableInput + ";";
-    //     connection.query(queryString, (err, result) => {
-    //         if (err) return err;
-    //         return result;
-    //     });
-    // },
     deleteIngredient: (id) => {
         return new Promise((resolve, reject) => {
 
             var queryString = "DELETE FROM ingredients WHERE id = " + id
 
-            connection.query(queryString, (err, result, field) => {
+            connection.query(queryString, (err) => {
                 if (err) return reject(err);
                 resolve()
             });
@@ -100,9 +93,9 @@ const orm = {
     deleteBurger: (id) => {
         return new Promise((resolve, reject) => {
 
-            var queryString = "DELETE burger, burger_ingredients FROM burger"
-            queryString += " INNER JOIN burger_ingredients ON burger.id = burger_ingredients.burger_id"
-            queryString += " WHERE burger.id = " + id
+            var queryString = "DELETE burgers, burger_ingredients FROM burgers"
+            queryString += " INNER JOIN burger_ingredients ON burgers.id = burger_ingredients.burger_id"
+            queryString += " WHERE burgers.id = " + id
 
             connection.query(queryString, (err) => {
                 if (err) return reject(err);
