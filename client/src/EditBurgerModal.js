@@ -73,14 +73,11 @@ class EditBurgerModal extends Component {
 
     submitInformation() {
 
-        var burgerEdit = {
-            table: "burger",
+        this.props.editItem("burgers", {
             id: this.state.id,
             name: this.state.name,
             ingArr: this.state.burgerArr,
-        }
-
-        this.props.editItem(burgerEdit)
+        })
 
         this.props.onHide()
     }

@@ -4,10 +4,10 @@ import './App.css';
 import BurgerTable from './BurgerTable';
 import IngredientTable from './IngredientTable';
 
-// import ViewBurgerModal from './ViewBurgerModal';
-// import EditBurgerModal from './EditBurgerModal';
+import ViewBurgerModal from './ViewBurgerModal';
+import EditBurgerModal from './EditBurgerModal';
 import CreateBurgerModal from './CreateBurgerModal';
-// import EditIngredientModal from './EditIngredientsModal';
+import EditIngredientModal from './EditIngredientsModal';
 import CreateIngredientModal from './CreateIngredientModal';
 
 import API from './router/API';
@@ -42,14 +42,17 @@ class App extends Component {
     this.searchMYSQL()
   };
 
-  searchMYSQL() {
-    API.search()
-      .then(res =>
+  async searchMYSQL() {
+    try {
+      API.search().then(res =>
         this.setState({
           burgers: res.data.burgers,
           ingredients: res.data.ingredients
         })
       )
+    } catch (err) {
+      console.log(err)
+    }
   }
 
   // fix seeds unused rn
@@ -57,14 +60,6 @@ class App extends Component {
   //   let newData = await API.restoreSQL()
   //   console.log(newData)
   //   this.setState({ burgers: newData.data[0], ingredients: newData.data[1] })
-  // }
-
-  // restoreData(table, newData) {
-  //   if (table === "burger") {
-  //     this.setState({ burgers: newData.data })
-  //   } else {
-  //     this.setState({ ingredients: newData.data })
-  //   }
   // }
 
   deleteItem(table, id) {
@@ -76,20 +71,20 @@ class App extends Component {
     }
   }
 
-  editItem(data) {
-    API.update(data)
-      .catch((err) => {
-        console.log(err)
-      })
-      .then((res) => {
-        // this.restoreData(table, res)
-      })
+  editItem(table, data) {
+    try {
+      console.log(data)
+      API.update(table, data)
+        .then(res => this.setState({ [table]: res.data }))
+    } catch (err) {
+      console.log(err)
+    }
   }
 
   createItem(table, data) {
     try {
       API.create(table, data)
-        .then((res) => this.setState({ [table]: res.data }))
+        .then(res => this.setState({ [table]: res.data }))
     } catch (err) {
       console.log(err)
     }
@@ -177,7 +172,7 @@ class App extends Component {
           {this.renderTable(this.state.table)}
 
           {/* each individual model */}
-          {/* <ViewBurgerModal
+          <ViewBurgerModal
             viewNutrition={this.nutritionValue}
             current={this.state.objectValues}
             burger={this.state.burgers}
@@ -192,7 +187,7 @@ class App extends Component {
             ingredients={this.state.ingredients}
             show={this.state.EditBurger}
             onHide={() => this.setState({ EditBurger: false })}
-          /> */}
+          />
 
           <CreateBurgerModal
             createItem={this.createItem}
@@ -201,12 +196,12 @@ class App extends Component {
             onHide={() => this.setState({ CreateBurger: false })}
           />
 
-          {/* <EditIngredientModal
+          <EditIngredientModal
             editItem={this.editItem}
             data={this.state.objectValues}
             show={this.state.EditIngredient}
             onHide={() => this.setState({ EditIngredient: false })}
-          /> */}
+          />
 
           <CreateIngredientModal
             createItem={this.createItem}

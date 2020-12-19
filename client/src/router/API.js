@@ -48,18 +48,9 @@ const API = {
         })
     },
 
-    updateIngredient: (data) => {
+    update: (table, data) => {
         return new Promise((resolve, reject) => {
-            let axiosString = API.hostName() + "/api/update"
-            axios.post(axiosString, data)
-                .catch((err) => reject(err))
-                .then((data) => resolve(data))
-        })
-    },
-
-    updateBurger: (data) => {
-        return new Promise((resolve, reject) => {
-            let axiosString = API.hostName() + "/api/update/burger"
+            let axiosString = API.hostName() + "/api/update/" + table
             axios.post(axiosString, data)
                 .catch((err) => reject(err))
                 .then((data) => resolve(data))

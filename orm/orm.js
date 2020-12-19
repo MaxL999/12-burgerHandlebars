@@ -58,30 +58,33 @@ function sortArray(array, pattern) {
     return newArray
 }
 
-// compares 2 arrays and find what is missing from second array
-function arrayDifference(arrOne, arrTwo) {
-    let returnVal = [];
-    for (i in arrOne) {
-        if (!arrTwo.includes(arrOne[i])) returnVal.push(arrOne[i])
-    }
-    return returnVal;
-}
-
 
 // Object for all SQL statement functions.
 const orm = {
-    selectBurger: () => {
+    selectBurger: (id) => {
         return new Promise((resolve, reject) => {
-            var queryString = "SELECT * FROM burgers;";
+            var queryString = "SELECT * FROM burgers";
+            if (id) queryString += " WHERE id = " + id;
             connection.query(queryString, (err, result) => {
                 if (err) return reject(err);
                 resolve(result)
             });
         })
     },
-    selectIng: () => {
+    selectIng: (id) => {
         return new Promise((resolve, reject) => {
-            var queryString = "SELECT * FROM ingredients;";
+            var queryString = "SELECT * FROM ingredients";
+            if (id) queryString += " WHERE id = " + id;
+            connection.query(queryString, (err, result) => {
+                if (err) return reject(err);
+                resolve(result)
+            });
+        })
+    },
+    selectBurgerIng: (id) => {
+        return new Promise((resolve, reject) => {
+            var queryString = "SELECT * FROM burger_ingredients";
+            if (id) queryString += " WHERE burger_id = " + id;
             connection.query(queryString, (err, result) => {
                 if (err) return reject(err);
                 resolve(result)
@@ -128,67 +131,21 @@ const orm = {
             queryString += " WHERE id = " + data.id
 
             connection.query(queryString, (err) => {
-                // if (err) return console.log(err);
                 if (err) return reject(err)
-
-                resolve(orm.all("ingredients"))
+                resolve()
             })
         })
     },
     updateBurger: (data) => {
         return new Promise((resolve, reject) => {
-            // update burger table
-            let updateBurger = "UPDATE burger SET"
+            let updateBurger = "UPDATE burgers SET"
             updateBurger += " name = '" + data.name + "',"
             updateBurger += " ingArr = JSON_ARRAY(" + data.ingArr + ")"
             updateBurger += " WHERE id = " + data.id + ";"
 
-            connection.query(updateBurger, (err) => {
-                // if (err) return console.log(err);
+            connection.query(updateBurger, (err, result) => {
                 if (err) return reject(err)
-            })
-
-            // update burger_ingredients relation table
-            // find current database values
-            let searchSQL = "SELECT * FROM burger_ingredients WHERE burger_id = " + data.id + ";"
-
-            connection.query(searchSQL, (err, result) => {
-                if (err) return reject(err)
-                // if (err) return console.log(err);
-
-                // organize values
-                let newData = [...new Set(data.ingArr)];
-                let oldData = [];
-                for (i in result) {
-                    oldData.push(result[i].ingredient_id)
-                }
-
-                // compare to find desired values
-                // values missing from newData needed for deletion
-                let deleteVal = arrayDifference(oldData, newData)
-                // values missing from oldData needed for insertion
-                let insertVal = arrayDifference(newData, oldData)
-
-                // delete undesired if necessary
-                if (deleteVal.length) {
-                    let deleteString = "DELETE FROM burger_ingredients WHERE (burger_id, ingredient_id) IN ("
-                    deleteString += arrToSql(data.id, deleteVal) + ");"
-
-                    connection.query(deleteString, (err) => {
-                        if (err) return reject(err)
-                    })
-                }
-
-                // insert desired if necessary
-                if (insertVal.length) {
-                    let insertString = "INSERT INTO burger_ingredients (burger_id, ingredient_id) "
-                    insertString += "VALUES " + arrToSql(data.id, insertVal) + ";"
-
-                    connection.query(insertString, (err) => {
-                        if (err) return reject(err)
-                    })
-                }
-
+                console.log(result)
                 resolve()
             })
         })
@@ -219,14 +176,26 @@ const orm = {
             })
         })
     },
-    createBurgerIngredients: (burgerID, burgerArr) => {
+    createBurgerIngredients: (burgerID, ingredientIdArr) => {
         return new Promise((resolve, reject) => {
 
             let insertString = "INSERT INTO burger_ingredients (burger_id, ingredient_id) "
-            insertString += "VALUES " + arrToSql(burgerID, [...new Set(burgerArr)]) + ";"
+            insertString += "VALUES " + arrToSql(burgerID, [...new Set(ingredientIdArr)]) + ";"
 
             connection.query(insertString, (err) => {
                 if (err) reject(err)
+                resolve()
+            })
+        })
+    },
+    deleteBurgerIngredients: (burgerID, ingredientIdArr) => {
+        return new Promise((resolve, reject) => {
+
+            let deleteString = "DELETE FROM burger_ingredients WHERE (burger_id, ingredient_id) IN ("
+            deleteString += arrToSql(burgerID, ingredientIdArr) + ");"
+
+            connection.query(deleteString, (err) => {
+                if (err) return reject(err)
                 resolve()
             })
         })
