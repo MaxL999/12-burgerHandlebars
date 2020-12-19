@@ -62,7 +62,7 @@ class App extends Component {
   //   this.setState({ burgers: newData.data[0], ingredients: newData.data[1] })
   // }
 
-  deleteItem(table, id) {
+  async deleteItem(table, id) {
     try {
       API.delete(table, id)
         .then((res) => this.setState({ [table]: res.data }))
@@ -71,7 +71,7 @@ class App extends Component {
     }
   }
 
-  editItem(table, data) {
+  async editItem(table, data) {
     try {
       console.log(data)
       API.update(table, data)
@@ -81,7 +81,7 @@ class App extends Component {
     }
   }
 
-  createItem(table, data) {
+  async createItem(table, data) {
     try {
       API.create(table, data)
         .then(res => this.setState({ [table]: res.data }))
@@ -141,14 +141,14 @@ class App extends Component {
   }
 
   async test() {
-
-    // API.table("burger")
-    //   .catch((err) => {
-    //     console.log(err)
-    //   })
-    //   .then((res) => {
-    //     console.log(res)
-    //   })
+    console.log(this.state)
+    API.search()
+      .catch((err) => {
+        console.log(err)
+      })
+      .then((res) => {
+        console.log(res)
+      })
   }
 
   render() {

@@ -83,7 +83,7 @@ router.post("/api/update/:table", async (req, res) => {
       })
     } else {
       orm.updateIng(req.body).then(
-        orm.selectIng(response =>
+        orm.selectIng().then(response =>
           res.json(response)
         )
       )
