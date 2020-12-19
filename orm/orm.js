@@ -210,26 +210,25 @@ const orm = {
     createBurger: (data) => {
         return new Promise((resolve, reject) => {
 
-            var insertString = "INSERT INTO burger  (name, ingArr) VALUES ('"
+            var insertString = "INSERT INTO burgers (name, ingArr) VALUES ('"
             insertString += data.name + "', JSON_ARRAY(" + data.burgerArr + "));"
 
             connection.query(insertString, (err, result) => {
                 if (err) reject(err)
-                resolve()
+                resolve(result.insertId)
             })
         })
     },
-    createBurgerIngredients: () => {
+    createBurgerIngredients: (burgerID, burgerArr) => {
         return new Promise((resolve, reject) => {
 
             let insertString = "INSERT INTO burger_ingredients (burger_id, ingredient_id) "
-            insertString += "VALUES " + arrToSql(result.insertId, [...new Set(data.burgerArr)]) + ";"
+            insertString += "VALUES " + arrToSql(burgerID, [...new Set(burgerArr)]) + ";"
 
             connection.query(insertString, (err) => {
                 if (err) reject(err)
                 resolve()
             })
-
         })
     }
     // old/unused
@@ -257,33 +256,6 @@ const orm = {
     //         })
     //     })
     // },
-
-    // join: (id) => {
-    //     return new Promise((resolve, reject) => {
-    //         var burgerString = "SELECT * FROM burger "
-    //         burgerString += "WHERE burger.id = " + id + " "
-
-    //         connection.query(burgerString, (err, burger) => {
-    //             if (err) throw console.log(err)
-    //             // if (err) throw reject(err)
-
-    //             var ingredientArr = JSON.parse(burger[0].ingArr);
-    //             ingredientArr.toString().replace(/[\[\]']+/g, '');
-
-    //             var itemString = "SELECT * FROM ingredients WHERE id IN (" + ingredientArr + ")"
-
-    //             connection.query(itemString, (err, ingredients) => {
-    //                 // if (err) throw console.log(err)
-    //                 if (err) throw reject(err)
-
-    //                 var result = sortArray(ingredients, ingredientArr)
-    //                 console.log(result)
-
-    //                 resolve(result)
-    //             })
-    //         })
-    //     })
-    // }
 };
 
 module.exports = orm;

@@ -5,13 +5,11 @@ var orm = require("../orm/orm");
 // search all
 router.get("/api/search", (req, res, next) => {
   try {
-    orm.selectBurger()
-      .then(burgers =>
-        orm.selectIng()
-          .then(ingredients =>
-            res.json({ burgers, ingredients })
-          )
+    orm.selectBurger().then(burgers =>
+      orm.selectIng().then(ingredients =>
+        res.json({ burgers, ingredients })
       )
+    )
   } catch (err) {
     console.log(err)
     res.sendStatus(500)
@@ -22,15 +20,17 @@ router.get("/api/search", (req, res, next) => {
 router.delete("/api/:table/:id", (req, res, next) => {
   try {
     if (req.params.table === "burgers") {
-      orm.deleteBurger(req.params.id)
-        .then(orm.selectBurger()
-          .then(response => res.json(response))
+      orm.deleteBurger(req.params.id).then(
+        orm.selectBurger().then(
+          response => res.json(response)
         )
+      )
     } else {
-      orm.deleteIngredient(req.params.id)
-        .then(orm.selectIng()
-          .then(response => res.json(response))
+      orm.deleteIngredient(req.params.id).then(
+        orm.selectIng().then(
+          response => res.json(response)
         )
+      )
     }
   } catch (err) {
     console.log(err)
@@ -57,12 +57,18 @@ router.post("/api/update", async (req, res, next) => {
 router.post("/api/create/:table", async (req, res, next) => {
   try {
     if (req.params.table === 'burgers') {
-      orm.createBurger(req.body)
-    } else {
-      orm.createIng(req.body)
-        .then(orm.selectIng()
-          .then(response => res.json(response))
+      orm.createBurger(req.body).then(id =>
+        orm.createBurgerIngredients(id, req.body.burgerArr)).then(
+          orm.selectBurger().then(
+            response => res.json(response)
+          )
         )
+    } else {
+      orm.createIng(req.body).then(
+        orm.selectIng().then(
+          response => res.json(response)
+        )
+      )
     }
   } catch (err) {
     console.log(err)

@@ -88,8 +88,6 @@ class App extends Component {
 
   createItem(table, data) {
     try {
-      console.log(table)
-      console.log(data)
       API.create(table, data)
         .then((res) => this.setState({ [table]: res.data }))
     } catch (err) {
