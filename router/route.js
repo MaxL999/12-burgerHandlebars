@@ -3,25 +3,39 @@ var router = require("express").Router();
 var orm = require("../orm/orm");
 
 // search all
-router.get("/api/all/:table", async (req, res, next) => {
+router.get("/api/search/:table", async (req, res, next) => {
   try {
-    var data = await orm.all(req.params.table)
+    // switch (req.params.table) {
+    //   case "all":
+    //     var burger = await orm.table(req.params.table)
+    //     var data = await orm.table(req.params.table)
+    //     break;
+    //   case "burger":
+    //     var data = await orm.table(req.params.table)
+    //     break;
+    //   case "ingredients":
+    //     var data = await orm.table(req.params.table)
+    //     break;
+    // }
+    var data = await orm.table(req.params.table)
     res.json(data)
   } catch (err) {
+    console.log("router error ping")
     console.log(err)
     res.sendStatus(500)
   }
 })
 
+// unused//old
 // restore website data
-router.post("/api/restore", async (req, res, next) => {
-  try {
-    var data = await orm.restore()
-    res.json(data)
-  } catch (err) {
-    res.sendStatus(500)
-  }
-})
+// router.post("/api/restore", async (req, res, next) => {
+//   try {
+//     var data = await orm.restore()
+//     res.json(data)
+//   } catch (err) {
+//     res.sendStatus(500)
+//   }
+// })
 
 // delete item
 router.delete("/api/:table/:id", async (req, res, next) => {

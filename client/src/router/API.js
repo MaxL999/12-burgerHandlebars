@@ -13,7 +13,7 @@ const API = {
     // used to easily change link name for testing, 
     // needs real logic so it changes automatically
     hostName: () => {
-        let host = true;
+        let host = false;
         if (host) {
             return "https://burger-break-down.herokuapp.com"
         } else {
@@ -23,7 +23,7 @@ const API = {
 
     table: (tableName) => {
         return new Promise((resolve, reject) => {
-            let axiosString = API.hostName() + "/api/all/" + tableName
+            let axiosString = API.hostName() + "/api/search/" + tableName
             axios.get(axiosString)
                 .catch((err) => reject(err))
                 .then((data) => resolve(data))

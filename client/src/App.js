@@ -18,8 +18,8 @@ class App extends Component {
 
     this.searchMYSQL = this.searchMYSQL.bind(this)
     this.restoreData = this.restoreData.bind(this)
-    this.restoreSQLseeds = this.restoreSQLseeds.bind(this)
-    this.deleteItem = this.deleteItem.bind(this)
+    // this.restoreSQLseeds = this.restoreSQLseeds.bind(this)
+    // this.deleteItem = this.deleteItem.bind(this)
     this.editItem = this.editItem.bind(this)
     this.createItem = this.createItem.bind(this)
     this.viewModals = this.viewModals.bind(this)
@@ -43,20 +43,25 @@ class App extends Component {
   };
 
   async searchMYSQL() {
-    let burger = await API.table("burger")
-    let ingredient = await API.table("ingredients")
-    this.setState({
-      burgers: burger.data,
-      ingredients: ingredient.data,
-    })
+    try {
+      let burger = await API.table("burger")
+      let ingredient = await API.table("ingredients")
+      this.setState({
+        burgers: burger.data,
+        ingredients: ingredient.data,
+      })
+    } catch (err) {
+      console.log(err)
+    }
+
   }
 
-  // fix seeds
-  async restoreSQLseeds() {
-    let newData = await API.restoreSQL()
-    console.log(newData)
-    this.setState({ burgers: newData.data[0], ingredients: newData.data[1] })
-  }
+  // fix seeds unused rn
+  // async restoreSQLseeds() {
+  //   let newData = await API.restoreSQL()
+  //   console.log(newData)
+  //   this.setState({ burgers: newData.data[0], ingredients: newData.data[1] })
+  // }
 
   restoreData(table, newData) {
     if (table === "burger") {
@@ -66,19 +71,44 @@ class App extends Component {
     }
   }
 
-  async deleteItem(table, id) {
-    let newData = await API.delete(table, id)
-    this.restoreData(table, newData)
+  deleteIngredient(id) {
+    API.delete(id)
+      .catch((err) => {
+        console.log(err)
+      })
+      .then((res) => {
+        this.setState({ ingredients: res.data })
+      })
   }
 
-  async editItem(data) {
-    let newData = await API.update(data)
-    this.restoreData(data.table, newData)
+  deleteBurger(id) {
+    API.delete(id)
+      .catch((err) => {
+        console.log(err)
+      })
+      .then((res) => {
+        this.setState({ burgers: res.data })
+      })
   }
 
-  async createItem(data) {
-    var newData = await API.create(data)
-    this.restoreData(data.table, newData)
+  editItem(data) {
+    API.update(data)
+      .catch((err) => {
+        console.log(err)
+      })
+      .then((res) => {
+        // this.restoreData(table, res)
+      })
+  }
+
+  createItem(data) {
+    API.create(data)
+      .catch((err) => {
+        console.log(err)
+      })
+      .then((res) => {
+        // this.restoreData(table, res)
+      })
   }
 
   async nutritionValue(id) {
@@ -136,10 +166,17 @@ class App extends Component {
     // let uniqueChars = [...new Set(chars)];
 
     // console.log(uniqueChars);
-    let testData = await API.table("burger")
+    // let testData = await API.table("burger")
 
-    console.log(this.state)
-    console.log(testData)
+    // console.log(this.state)
+    // console.log(testData)
+    API.table("burger")
+      .catch((err) => {
+        console.log(err)
+      })
+      .then((res) => {
+        console.log(res)
+      })
   }
 
   render() {
@@ -148,7 +185,7 @@ class App extends Component {
         <header className="App-header">
 
           {/* <button onClick={() => this.restoreSQLseeds()}>Restore SQL Seeds</button> */}
-          {/* <button onClick={() => this.test()}>Test Log</button> */}
+          <button onClick={() => this.test()}>Test Log</button>
 
           <div className="d-flex justify-content-around p-2">
             <button onClick={() => this.setState({ table: 'burger' })} >Burger</button>

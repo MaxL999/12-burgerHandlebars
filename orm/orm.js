@@ -70,39 +70,21 @@ function arrayDifference(arrOne, arrTwo) {
 
 // Object for all SQL statement functions.
 const orm = {
-    all: (tableInput) => {
+    table: (tableInput) => {
         return new Promise((resolve, reject) => {
             var queryString = "SELECT * FROM " + tableInput + ";";
             connection.query(queryString, (err, result) => {
-                // if (err) return reject(err);
-                if (err) return console.log(err);
-                console.log(result)
+                if (err) return reject(err);
                 resolve(result)
             });
         })
     },
-    // resets the database
-    // tables need to be reset aswell or else the seeds id's dont align withh eachother
-    // restore: () => {
-    //     return new Promise((resolve, reject) => {
-
-    //         var deleteString = "DELETE burger, ingredients, burger_ingredients "
-    //         deleteString += "FROM burger INNER JOIN ingredients INNER JOIN burger_ingredients "
-
-    //         connection.query(deleteString, (err) => {
-    //             if (err) return reject(err)
-
-    //             connection.query(sqlSeeds, async (err) => {
-    //                 // if (err) return reject(err)
-    //                 if (err) return console.log(err);
-
-    //                 var burger = await orm.all("burger")
-    //                 var ingredient = await orm.all("ingredients")
-
-    //                 resolve([burger, ingredient])
-    //             })
-    //         })
-    //     })
+    // all: async (tableInput) => {
+    //     var queryString = "SELECT * FROM " + tableInput + ";";
+    //     connection.query(queryString, (err, result) => {
+    //         if (err) return err;
+    //         return result;
+    //     });
     // },
     delete: (table, id) => {
         return new Promise((resolve, reject) => {
@@ -116,8 +98,8 @@ const orm = {
             queryString += " WHERE " + table + ".id = " + id
 
             connection.query(queryString, (err) => {
-                if (err) return reject(err);
-                // if (err) return console.log(err);
+                // if (err) return reject(err);
+                if (err) return console.log(err);
                 resolve(orm.all(table))
             });
         })
@@ -246,6 +228,31 @@ const orm = {
         })
     },
     // old/unused
+
+    // resets the database
+    // tables need to be reset aswell or else the seeds id's dont align withh eachother
+    // restore: () => {
+    //     return new Promise((resolve, reject) => {
+
+    //         var deleteString = "DELETE burger, ingredients, burger_ingredients "
+    //         deleteString += "FROM burger INNER JOIN ingredients INNER JOIN burger_ingredients "
+
+    //         connection.query(deleteString, (err) => {
+    //             if (err) return reject(err)
+
+    //             connection.query(sqlSeeds, async (err) => {
+    //                 // if (err) return reject(err)
+    //                 if (err) return console.log(err);
+
+    //                 var burger = await orm.all("burger")
+    //                 var ingredient = await orm.all("ingredients")
+
+    //                 resolve([burger, ingredient])
+    //             })
+    //         })
+    //     })
+    // },
+
     // join: (id) => {
     //     return new Promise((resolve, reject) => {
     //         var burgerString = "SELECT * FROM burger "
