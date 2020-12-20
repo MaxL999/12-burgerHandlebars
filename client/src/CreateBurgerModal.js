@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import Modal from 'react-bootstrap/modal'
+import { Modal } from 'react-bootstrap';
 
 class CreateBurgerModal extends Component {
     constructor() {
@@ -63,13 +63,10 @@ class CreateBurgerModal extends Component {
     }
 
     submitInformation() {
-        var newBurger = {
-            table: "burger",
+        this.props.createItem("burgers", {
             name: this.state.name,
             burgerArr: this.state.burgerArr
-        }
-
-        this.props.createItem(newBurger)
+        })
         this.props.onHide()
     }
 
@@ -80,6 +77,7 @@ class CreateBurgerModal extends Component {
                 size="lg"
                 aria-labelledby="contained-modal-title-vcenter"
                 centered
+                animation={false}
             >
                 <Modal.Header>
                     <Modal.Title>

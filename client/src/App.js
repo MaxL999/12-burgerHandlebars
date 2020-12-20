@@ -17,12 +17,13 @@ class App extends Component {
     super()
 
     this.searchMYSQL = this.searchMYSQL.bind(this)
-    this.restoreData = this.restoreData.bind(this)
-    this.restoreSQLseeds = this.restoreSQLseeds.bind(this)
+    // this.restoreData = this.restoreData.bind(this)
+    // this.restoreSQLseeds = this.restoreSQLseeds.bind(this)
     this.deleteItem = this.deleteItem.bind(this)
     this.editItem = this.editItem.bind(this)
     this.createItem = this.createItem.bind(this)
     this.viewModals = this.viewModals.bind(this)
+    this.test = this.test.bind(this)
   }
 
   state = {
@@ -42,48 +43,54 @@ class App extends Component {
   };
 
   async searchMYSQL() {
-    let burger = await API.table("burger")
-    let ingredient = await API.table("ingredients")
-    this.setState({
-      burgers: burger.data,
-      ingredients: ingredient.data,
-    })
-  }
-
-  // fix seeds
-  async restoreSQLseeds() {
-    let newData = await API.restoreSQL()
-    console.log(newData)
-    this.setState({ burgers: newData.data[0], ingredients: newData.data[1] })
-  }
-
-  restoreData(table, newData) {
-    if (table === "burger") {
-      this.setState({ burgers: newData.data })
-    } else {
-      this.setState({ ingredients: newData.data })
+    try {
+      API.search().then(res =>
+        this.setState({
+          burgers: res.data.burgers,
+          ingredients: res.data.ingredients
+        })
+      )
+    } catch (err) {
+      console.log(err)
     }
   }
 
+  // fix seeds unused rn
+  // async restoreSQLseeds() {
+  //   let newData = await API.restoreSQL()
+  //   console.log(newData)
+  //   this.setState({ burgers: newData.data[0], ingredients: newData.data[1] })
+  // }
+
   async deleteItem(table, id) {
-    let newData = await API.delete(table, id)
-    this.restoreData(table, newData)
+    try {
+      API.delete(table, id)
+        .then((res) => this.setState({ [table]: res.data }))
+    } catch (err) {
+      console.log(err)
+    }
   }
 
-  async editItem(data) {
-    let newData = await API.update(data)
-    this.restoreData(data.table, newData)
+  async editItem(table, data) {
+    try {
+      console.log(data)
+      API.update(table, data)
+        .then(res => this.setState({ [table]: res.data }))
+    } catch (err) {
+      console.log(err)
+    }
   }
 
-  async createItem(data) {
-    var newData = await API.create(data)
-    this.restoreData(data.table, newData)
+  async createItem(table, data) {
+    try {
+      API.create(table, data)
+        .then(res => this.setState({ [table]: res.data }))
+    } catch (err) {
+      console.log(err)
+    }
   }
 
   async nutritionValue(id) {
-    // console.log(id)
-    // let data = await API.nutrition(id)
-    // console.log(data)
     this.setState({ ViewNutrition: true, objectValues: id })
   }
 
@@ -133,11 +140,15 @@ class App extends Component {
     }
   }
 
-  test() {
-    let chars = ['A', 'B', 'A', 'C', 'B'];
-    let uniqueChars = [...new Set(chars)];
-
-    console.log(uniqueChars);
+  async test() {
+    console.log(this.state)
+    API.search()
+      .catch((err) => {
+        console.log(err)
+      })
+      .then((res) => {
+        console.log(res)
+      })
   }
 
   render() {
@@ -145,7 +156,8 @@ class App extends Component {
       <div className="App">
         <header className="App-header">
 
-          <button onClick={() => this.restoreSQLseeds()}>Restore SQL Seeds</button>
+          {/* <button onClick={() => this.restoreSQLseeds()}>Restore SQL Seeds</button> */}
+          <button onClick={() => this.test()}>Test Log</button>
 
           <div className="d-flex justify-content-around p-2">
             <button onClick={() => this.setState({ table: 'burger' })} >Burger</button>

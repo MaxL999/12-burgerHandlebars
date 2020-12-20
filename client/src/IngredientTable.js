@@ -2,7 +2,6 @@ import React from 'react';
 
 function IngredientTable(props) {
 
-
     return (
         <div>
             <table className="table table-dark">

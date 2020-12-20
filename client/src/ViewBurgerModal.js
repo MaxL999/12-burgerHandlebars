@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import Modal from 'react-bootstrap/modal'
+import { Modal } from 'react-bootstrap';
 
 class ViewBurgerModal extends Component {
     constructor(props) {
@@ -23,30 +23,33 @@ class ViewBurgerModal extends Component {
             var nutritionData = [];
 
             var array = JSON.parse(burger.ingArr);
-            for (var i in array) {
-                const ing = this.props.ingredients.find(T => T.id === array[i]);
+            for (let i in array) {
 
-                if (!ing) return this.setState({ nutritionTable: false, name: burger.name })
+                let findIng = this.props.ingredients.find(T => T.id === array[i])
+                if (!findIng) return this.setState({ nutritionTable: false, name: burger.name })
+                let ing = Object.create(findIng)
 
                 totalCal = totalCal + ing.calories;
                 totalCarb = totalCarb + ing.carbs;
                 totalProtein = totalProtein + ing.protein;
                 totalFat = totalFat + ing.fats;
+
+                ing.key = i;
                 nutritionData.push(ing)
             }
 
             nutritionData.push({
+                key: "omega",
                 name: "Total",
                 calories: totalCal,
                 carbs: totalCarb,
-                fats: totalProtein,
+                fats: totalFat,
                 protein: totalProtein,
             })
 
             this.setState({ nutritionTable: nutritionData, name: burger.name })
         }
     }
-
 
     render() {
         return (
@@ -75,9 +78,9 @@ class ViewBurgerModal extends Component {
                                 </tr>
                             </thead>
                             <tbody>
-                                {this.state.nutritionTable.map((data, i) => {
+                                {this.state.nutritionTable.map((data) => {
 
-                                    return <tr key={i}>
+                                    return <tr key={data.key}>
                                         <td scope="row"><span>{data.name}</span></td>
                                         <td><span>{data.calories}</span></td>
                                         <td><span>{data.carbs}</span></td>

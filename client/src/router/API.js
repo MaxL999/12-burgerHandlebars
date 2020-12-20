@@ -10,9 +10,20 @@ import axios from 'axios';
 
 const API = {
 
-    table: (tableName) => {
+    // used to easily change link name for testing, 
+    // needs real logic so it changes automatically
+    hostName: () => {
+        let host = true;
+        if (host) {
+            return "https://burger-break-down.herokuapp.com"
+        } else {
+            return "http://localhost:3001"
+        }
+    },
+
+    search: () => {
         return new Promise((resolve, reject) => {
-            let axiosString = "http://localhost:3001/api/all/" + tableName
+            let axiosString = API.hostName() + "/api/search"
             axios.get(axiosString)
                 .catch((err) => reject(err))
                 .then((data) => resolve(data))
@@ -21,7 +32,7 @@ const API = {
 
     restoreSQL: () => {
         return new Promise((resolve, reject) => {
-            let axiosString = "http://localhost:3001/api/restore/"
+            let axiosString = API.hostName() + "/api/restore"
             axios.post(axiosString)
                 .catch((err) => reject(err))
                 .then((data) => resolve(data))
@@ -30,40 +41,40 @@ const API = {
 
     delete: (table, id) => {
         return new Promise((resolve, reject) => {
-            let axiosString = "http://localhost:3001/api/" + table + "/" + id
+            let axiosString = API.hostName() + "/api/" + table + "/" + id
             axios.delete(axiosString)
                 .catch((err) => reject(err))
                 .then((data) => resolve(data))
         })
     },
 
-    update: (data) => {
+    update: (table, data) => {
         return new Promise((resolve, reject) => {
-            let axiosString = "http://localhost:3001/api/update"
-            axios.post(axiosString, data)
-                .catch((err) => reject(err))
-                .then((data) => resolve(data))
-
-        })
-    },
-
-    create: (data) => {
-        return new Promise((resolve, reject) => {
-            let axiosString = "http://localhost:3001/api/create"
+            let axiosString = API.hostName() + "/api/update/" + table
             axios.post(axiosString, data)
                 .catch((err) => reject(err))
                 .then((data) => resolve(data))
         })
     },
 
-    nutrition: (id) => {
+    create: (table, data) => {
         return new Promise((resolve, reject) => {
-            let axiosString = "http://localhost:3001/api/nutrition/" + id
-            axios.get(axiosString)
+            let axiosString = API.hostName() + "/api/create/" + table
+            axios.post(axiosString, data)
                 .catch((err) => reject(err))
                 .then((data) => resolve(data))
         })
-    }
+    },
+
+    // old/outdated
+    // nutrition: (id) => {
+    //     return new Promise((resolve, reject) => {
+    //         let axiosString = "/api/nutrition/" + id
+    //         axios.get(axiosString)
+    //             .catch((err) => reject(err))
+    //             .then((data) => resolve(data))
+    //     })
+    // }
 }
 
 export default API;

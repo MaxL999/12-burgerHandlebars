@@ -1,8 +1,4 @@
-DROP DATABASE IF EXISTS burger_db;
-CREATE DATABASE burger_db;
-USE burger_db;
-
-CREATE TABLE burger (
+CREATE TABLE burgers (
     id INT NOT NULL AUTO_INCREMENT,
     name VARCHAR(35),
     ingArr JSON,
@@ -25,7 +21,6 @@ CREATE TABLE burger_ingredients (
     ingredient_id INT NOT NULL,
     PRIMARY KEY (burger_id, ingredient_id)
 );
-
 
 INSERT INTO burger (name, ingArr)
 VALUES ("Big Kahuna", JSON_ARRAY(1, 10, 9, 8, 5, 2, 5, 2));
